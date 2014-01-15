@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-use lib '/opt/BaNG/lib';
+use lib '/opt/StorMan/lib';
 
 use Dancer;
 use StorMan::Routes;
