@@ -1,0 +1,22 @@
+<nav>
+    <ul>
+        <li><a href="/" <% IF section == 'dashboard' %>class="activetab"<% END %>>Dashboard</a></li>
+        <li><a href="#" <% IF section == 'tools' %>class="activetab"<% END %>>Tools</a>
+            <ul>
+                <li class="gosubmenu"><a href="#">External Tools</a>
+                    <ul>
+                        <li><a href="https://backup.phys.ethz.ch:444/munin" target="_blank">Munin - Monitoring</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="/docs" <% IF section == 'documentation' %>class="activetab"<% END %>>Documentation</a></li>
+    </ul>
+<!---    <ul class="username">
+        <li class="username">
+          <%- IF session.logged_in_user %>
+            <a href="/logout" title="Click to logout!">Logged in as <% session.logged_in_fullname %></a>
+          <%- END %>
+        </li>
+    </ul> --->
+</nav>

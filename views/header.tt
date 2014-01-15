@@ -1,0 +1,7 @@
+<div id="header">
+    <div id="ethz_logo">
+        <img width="177" height="45" alt="ETH Zurich" src="//www.phys.ethz.ch/phys/design/ETHlogo_177.png">
+    </div>
+    <div id="ethz_logo_background"></div>
+    <h1 id="site_title">ISG D-PHYS <u>Stor</u>age <u>Man</u>ager</h1>
+</div>

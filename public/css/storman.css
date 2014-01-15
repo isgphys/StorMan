@@ -1,0 +1,181 @@
+h2 {
+    font-size: 1.17em;
+    margin: 0px;
+    padding: 10px 0 5px 0;
+}
+h3 {
+    font-size: 1em;
+    margin: 0px;
+    padding: 10px 0 5px 0;
+}
+
+.msg_info, .msg_success, .msg_warning, .msg_error {
+    border: 1px solid;
+    margin: 10px 0px;
+    padding: 5px 5px;
+    width: 400px;
+    background-repeat: no-repeat;
+    background-position: 10px center;-moz-border-radius:.5em;
+    -webkit-border-radius:.5em;
+    border-radius:.5em;
+
+}
+.msg_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.msg_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.msg_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.msg_error {
+    color: #D8000C;
+    background-color: #FFBABA;
+}
+
+.alert_red {
+    background-color: red;
+    font-weight: bold;
+}
+.alert_orange {
+    background-color: orange;
+    font-style: italic;
+}
+.alert_yellow {
+    background-color: yellow;
+}
+.wipe {
+    background-color: #FFEAEA;
+}
+.backup {
+    background-color: #CCFFFF;
+}
+.collapse table tr:nth-child(odd) {
+    background-color: #ddd;
+}
+.collapse table tr:nth-child(even) {
+    background-color: #eee;
+}
+.check_green  {
+    background-color: #BCF5A9;
+}
+.check_yellow {
+    background-color: #F2F5A9;
+}
+.check_red {
+    background-color: #FA5858;
+}
+.groupConfig{
+    background-color: #33bbdd !important;
+}
+.hostConfig{
+    background-color: #66ffdd !important;
+}
+.serverConfig{
+    background-color: #66aadd !important;
+}
+.active {
+    background-color: #99FF99 !important;
+}
+.logError {
+    color: red;
+}
+.logSuccess {
+    color: green;
+}
+
+.zoom {
+    background: url("/images/zoom-3.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 15px 15px;
+}
+.offline {
+    background: url("/images/network-disconnect-2.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 20px 20px;
+}
+.hook {
+    background: url("/images/hook.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 15px 15px;
+}
+.hook3 {
+    background: url("/images/hook3.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 30px 15px;
+}
+.ok {
+    background: url("/images/face-cool.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 20px 20px;
+}
+.bad {
+    background: url("/images/face-angry.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 20px 20px;
+}
+.notok {
+    background: url("/images/important.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 20px 20px;
+}
+.notallow {
+    background: url("/images/not-allow.png") no-repeat transparent;
+    background-position: center center;
+    background-size: 15px 15px;
+}
+.jobrun {
+    background: url("/images/job-run.png") no-repeat  scroll transparent;
+    background-position: center center;
+}
+
+.comment {
+    cursor: pointer;
+    background: url("/images/comment.png") no-repeat transparent;
+    background-position: 20px 4px;
+    padding-left: 45px !important;
+}
+
+#newconfig {
+    width: 450px;
+}
+#newconfig fieldset {
+    background: #efe;
+}
+#newconfig legend {
+    color: black;
+    background: #C1CDE0;
+    padding: 2px 10px;
+}
+#newconfig label {
+    width: 80px;
+    float: left;
+    text-align: left;
+    padding-top: 5px;
+    margin-right: 2px;
+    display: block;
+}
+#newconfig input, select {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#newconfig .submit {
+    margin-left: 0px;
+}
+#newconfig div {
+    margin: 5px 0;
+}
+
+.gosubmenu {
+    border-right: 2px solid blue;
+}
+.cutter {
+    float: none;
+    border-top: 4px solid red;
+    border-left: 2px solid red;
+    position: relative;
+}
