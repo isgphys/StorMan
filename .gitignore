@@ -1,3 +1,5 @@
 /logs
 /var
 *.swp
+debug.pl
+/lib/Dancer*
