@@ -1,0 +1,17 @@
+appname:            'StorMan'
+layout:             'main'
+server:             '0.0.0.0'
+port:               '3003'
+environment:        'development'
+template:           'template_toolkit'
+engines:
+  template_toolkit:
+    encoding:  'utf8'
+    start_tag: '<%'
+    end_tag:   '%>'
+show_errors:        1
+error_template:     'error'
+default_mime_type:  'text/plain'
+logger:             'file'
+logger_format:      '%t [%L] %m'
+auto_reload:        '1'

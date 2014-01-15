@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+    <head>
+        <title>StorMan - 2013</title>
+        <link rel=stylesheet type=text/css href="<% css_url %>">
+    </head>
+    <body>
+        <h1>Storage Manager - 2013</h1>
+        <% IF msg %>
+        <div class=flash> <% msg %> </div>
+        <% END %>
+        <% content %>
+    </body>
+</html>
