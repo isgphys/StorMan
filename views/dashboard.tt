@@ -5,6 +5,12 @@
         Loading Filesystem Usage Report
     </div>
 </div>
+<div id="iscsisessioninfo" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading ISCSI Sessions Report
+    </div>
+</div>
 
 <script>
     $(window).load(function() {
@@ -15,6 +21,15 @@
             },
             error: function() {
                 $('#fsinfo').html('An error occured while loading the Filesystem Usage Report.');
+            }
+        });
+        $.ajax({
+            url: '/iscsi_session_report',
+            success: function(content) {
+                $('#iscsisessioninfo').html(content);
+            },
+            error: function() {
+                $('#iscsisessioninfo').html('An error occured while loading the ISCSI Sessions Report.');
             }
         });
     });

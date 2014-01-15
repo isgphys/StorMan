@@ -6,6 +6,7 @@ use warnings;
 use Dancer ':syntax';
 use StorMan::Common;
 use StorMan::Hosts;
+use StorMan::Iscsi;
 
 prefix undef;
 
@@ -23,4 +24,11 @@ get '/fsinfo_report' => sub {
         layout => 0 };
 };
 
+get '/iscsi_session_report' => sub {
+
+    template 'dashboard-iscsi_sessions' => {
+        sessioninfo => get_iscsi_sessions(),
+        },{
+        layout => 0 };
+};
 
