@@ -9,6 +9,7 @@ use Net::Ping;
 use Exporter 'import';
 our @EXPORT = qw(
     get_fsinfo
+    remotewrapper_command
 );
 
 sub get_fsinfo {

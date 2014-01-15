@@ -3,6 +3,7 @@ package StorMan::Iscsi;
 use 5.010;
 use strict;
 use warnings;
+use StorMan::Hosts;
 
 use Exporter 'import';
 our @EXPORT = qw(
@@ -16,7 +17,9 @@ sub get_iscsi_sessions {
     my %sessioninfo;
     my $server = "phd-bkp-gw";
 
-    @sessions =  `$iscsiadm -m session`;
+#    @sessions =  `$iscsiadm -m session`;
+    @sessions = remotewrapper_command( $server, 'StorMan/iscsi_sessions' );
+
 
     # tcp: [1] 172.31.108.18:3260,1 iqn.2011-05.ch.ethz.phys:bkp18
 
