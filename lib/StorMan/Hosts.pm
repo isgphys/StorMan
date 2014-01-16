@@ -3,6 +3,7 @@ package StorMan::Hosts;
 use 5.010;
 use strict;
 use warnings;
+use StorMan::Config;
 use StorMan::Common;
 use Net::Ping;
 
@@ -14,7 +15,7 @@ our @EXPORT = qw(
 
 sub get_fsinfo {
     my %fsinfo;
-    foreach my $server ( 'phd-bkp-gw','phd-san-gw1','phd-san-gw2' ) {
+    foreach my $server ( keys %servers ) {
         my @mounts;
         @mounts = remotewrapper_command( $server, 'StorMan/bang_df' );
 

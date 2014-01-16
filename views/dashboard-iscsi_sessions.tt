@@ -11,7 +11,8 @@
     <tbody>
       <%- FOREACH server IN sessioninfo.keys.sort %>
         <tr>
-            <td colspan=4><b><% server %></b> (<% sessioninfo.$server.size %>)</td>
+            <td colspan=2><b><% server %></b> (<% sessioninfo.$server.size %>)</td>
+            <td colspan=4><b><% servers.$server.serverconfig.description %></b></td>
         </tr>
         <%- FOREACH session IN sessioninfo.$server.keys.nsort %>
         <tr>

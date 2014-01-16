@@ -3,6 +3,7 @@ package StorMan::Iscsi;
 use 5.010;
 use strict;
 use warnings;
+use StorMan::Config;
 use StorMan::Hosts;
 
 use Exporter 'import';
@@ -10,13 +11,11 @@ our @EXPORT = qw(
     get_iscsi_sessions
 );
 
-my $iscsiadm = '/sbin/iscsiadm';
-
 sub get_iscsi_sessions {
     my @sessions;
     my %sessioninfo;
 
-    foreach my $server ( 'phd-bkp-gw','phd-san-gw1','phd-san-gw2' ) {
+    foreach my $server ( keys %servers ) {
 
         @sessions = remotewrapper_command( $server, 'StorMan/iscsi_sessions' );
 

@@ -10,7 +10,8 @@
     <tbody>
       <%- FOREACH server IN fsinfo.keys.sort %>
         <tr>
-            <td colspan=4><b><% server %></b> (<% fsinfo.$server.size %>)</td>
+            <td colspan=1><b><% server %></b> (<% fsinfo.$server.size %>)</td>
+            <td colspan=4><b><% servers.$server.serverconfig.description %></b></td>
         </tr>
         <%- FOREACH mount IN fsinfo.$server.keys.sort %>
         <tr>

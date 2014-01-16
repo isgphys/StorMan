@@ -4,6 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 use Dancer ':syntax';
+use StorMan::Config;
 use Template::Plugin::Markdown;
 use Text::Markdown;
 
@@ -14,7 +15,7 @@ get '/' => sub {
 };
 
 get '/:file' => sub {
-    my $file = "/opt/StorMan-Dev/docs/" . param('file') . ".markdown";
+    my $file = "$prefix/docs/" . param('file') . ".markdown";
     open my $MARKDOWN, '<', $file;
     my $markdown = do { local $/; <$MARKDOWN> };
     template 'documentation' => {

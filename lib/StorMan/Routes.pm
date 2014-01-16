@@ -6,10 +6,13 @@ use warnings;
 use Dancer ':syntax';
 use Dancer::Plugin::Auth::Extensible;
 use Dancer::Plugin::Auth::Extensible::Provider::LDAPphys;
+use StorMan::Config;
 use StorMan::Common;
 use StorMan::Hosts;
 use StorMan::Iscsi;
 use StorMan::Routes_Docs;
+
+get_globalconfig();
 
 prefix undef;
 
@@ -20,17 +23,21 @@ get '/' => require_role isg=> sub {
 };
 
 get '/fsinfo_report' => require_role isg => sub {
+    get_serverconfig('*');
 
     template 'dashboard-fsinfo' => {
         fsinfo => get_fsinfo(),
+        servers => \%servers,
         },{
         layout => 0 };
 };
 
 get '/iscsi_session_report' => require_role isg => sub {
+    get_serverconfig('*');
 
     template 'dashboard-iscsi_sessions' => {
         sessioninfo => get_iscsi_sessions(),
+        servers => \%servers,
         },{
         layout => 0 };
 };
