@@ -14,9 +14,9 @@ our @EXPORT = qw(
 
 sub get_fsinfo {
     my %fsinfo;
-    foreach my $server ( 'phd-bkp-gw' ) {
+    foreach my $server ( 'phd-bkp-gw','phd-san-gw1','phd-san-gw2' ) {
         my @mounts;
-        @mounts = remotewrapper_command( $server, 'BaNG/bang_df' );
+        @mounts = remotewrapper_command( $server, 'StorMan/bang_df' );
 
         foreach my $mount (@mounts) {
             $mount =~ qr{
@@ -43,7 +43,7 @@ sub get_fsinfo {
         }
 
         if ($server eq "phd-bkp-gw") {
-            @mounts = remotewrapper_command( $server, 'BaNG/bang_di' ) ;
+            @mounts = remotewrapper_command( $server, 'StorMan/bang_di' ) ;
             foreach my $mount (@mounts) {
                 $mount =~ qr{
                 ^(?<filesystem> [\/\w\d-]+)
