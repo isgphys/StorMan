@@ -14,11 +14,11 @@
         </li>
         <li><a href="/docs" <% IF section == 'documentation' %>class="activetab"<% END %>>Documentation</a></li>
     </ul>
-<!---    <ul class="username">
+    <ul class="username">
         <li class="username">
           <%- IF session.logged_in_user %>
             <a href="/logout" title="Click to logout!">Logged in as <% session.logged_in_fullname %></a>
           <%- END %>
         </li>
-    </ul> --->
+    </ul>
 </nav>
