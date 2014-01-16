@@ -5,7 +5,7 @@
         <th>Protocol</th>
         <th>Host IP</th>
         <th>Port</th>
-        <th>Whatever</th>
+        <th>Node</th>
         <th>IQN</th>
     </thead>
     <tbody>
