@@ -7,6 +7,7 @@ use Dancer ':syntax';
 use StorMan::Common;
 use StorMan::Hosts;
 use StorMan::Iscsi;
+use StorMan::Routes_Docs;
 
 prefix undef;
 
