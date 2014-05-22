@@ -19,6 +19,7 @@ prefix undef;
 get '/' => require_role isg=> sub {
 
     template 'dashboard.tt', {
+        section => 'dashboard',
     };
 };
 

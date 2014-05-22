@@ -3,7 +3,7 @@
     <head>
         <title>StorMan - 2013</title>
         <meta charset="utf-8">
-        <% IF section == 'dashboard' %><meta http-equiv="refresh" content="900"><% END %>
+        <% IF section == 'dashboard' %><meta http-equiv="refresh" content="300"><% END %>
         <link rel="icon" type="image/ico" href="/favicon">
         <link rel="stylesheet" href="/css/isg-dancer-common.css">
         <link rel="stylesheet" href="/css/storman.css">
@@ -18,5 +18,18 @@
         </div>
     </body>
 </html>
+
+<script>
+    $(window).load(function() {
+
+        updateTime();
+
+        function updateTime() {
+            document.getElementById("LastUpdate").firstChild.nodeValue =
+            new Date().toTimeString().substring(0, 8);
+        }
+
+    });
+</script>
 
 
