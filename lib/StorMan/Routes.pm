@@ -11,6 +11,7 @@ use StorMan::Common;
 use StorMan::Hosts;
 use StorMan::Iscsi;
 use StorMan::Routes_Docs;
+use StorMan::Routes_Maint;
 
 get_globalconfig();
 
