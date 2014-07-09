@@ -1,6 +1,12 @@
 <nav>
     <ul>
         <li><a href="/" <% IF section == 'dashboard' %>class="activetab"<% END %>>Dashboard</a></li>
+        <li><a href="/#" <% IF section == 'maintenance' %>class="activetab"<% END %>>Maintenance</a>
+            <ul>
+                <li><a href="/maint/iscsi">ISCSI-Tools</a></li>
+                <li><a href="/maint/btrfs">BTRFS-Tools</a></li>
+            </ul>
+        </li>
         <li><a href="#" <% IF section == 'tools' %>class="activetab"<% END %>>Tools</a>
             <ul>
                 <li class="gosubmenu"><a href="#">External Tools</a>
