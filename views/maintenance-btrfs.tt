@@ -6,6 +6,11 @@
     </div>
 </div>
 
+<div class="float-left">
+    <h3>Helper Lines</h3>
+    for i in {0..10}; do echo -n "$i "; btrfs balance start -dusage=$i /export/backup/group/astro/astrodata; done
+</div>
+
 <script>
     $(window).load(function() {
         $.ajax({
