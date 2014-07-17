@@ -6,6 +6,7 @@ use warnings;
 use Dancer ':syntax';
 use Dancer::Plugin::Auth::Extensible;
 use StorMan::Config;
+use StorMan::BTRFS;
 
 prefix '/maint';
 
@@ -19,6 +20,14 @@ get '/btrfs' => require_login sub {
     template 'maintenance-btrfs' => {
         section      => 'maintenance',
     };
+};
+
+get '/balance_status' => require_role isg => sub {
+
+    template 'maintenance-balance_status' => {
+        balancestatus => get_balance_status(),
+        },{
+        layout => 0 };
 };
 
 1;
