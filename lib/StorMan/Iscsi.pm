@@ -4,7 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 use StorMan::Config;
-use StorMan::Hosts;
+use StorMan::Common;
 
 use Exporter 'import';
 our @EXPORT = qw(

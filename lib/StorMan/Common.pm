@@ -11,6 +11,7 @@ use Exporter 'import';
 our @EXPORT = qw(
     num2human
     time2human
+    remotewrapper_command
 );
 
 sub num2human {
@@ -44,6 +45,19 @@ sub time2human {
     } else {
         return sprintf( "\%dh\%02dmin", floor( $minutes / 60 ), $minutes % 60 );
     }
+}
+
+#################################
+# RemoteWrapper
+#
+sub remotewrapper_command {
+    my ($remoteHost, $remoteCommand, $remoteArgument) = @_;
+    $remoteArgument ||= '';
+
+    my $results = `ssh -o IdentitiesOnly=yes -i /var/www/.ssh/remotesshwrapper root\@$remoteHost /usr/local/bin/remotesshwrapper $remoteCommand $remoteArgument 2>/dev/null`;
+    my @results = split( "\n", $results );
+
+    return @results;
 }
 
 1;

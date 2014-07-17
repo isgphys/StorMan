@@ -10,7 +10,6 @@ use Net::Ping;
 use Exporter 'import';
 our @EXPORT = qw(
     get_fsinfo
-    remotewrapper_command
 );
 
 sub get_fsinfo {
@@ -82,19 +81,6 @@ sub check_fill_level {
     }
 
     return $css_class;
-}
-
-#################################
-# RemoteWrapper
-#
-sub remotewrapper_command {
-    my ($remoteHost, $remoteCommand, $remoteArgument) = @_;
-    $remoteArgument ||= '';
-
-    my $results = `ssh -o IdentitiesOnly=yes -i /var/www/.ssh/remotesshwrapper root\@$remoteHost /usr/local/bin/remotesshwrapper $remoteCommand $remoteArgument 2>/dev/null`;
-    my @results = split( "\n", $results );
-
-    return @results;
 }
 
 1;
