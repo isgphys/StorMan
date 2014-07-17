@@ -23,6 +23,7 @@ get '/btrfs' => require_login sub {
 };
 
 get '/balance_status' => require_role isg => sub {
+    get_serverconfig('*');
 
     template 'maintenance-balance_status' => {
         balancestatus => get_balance_status(),
