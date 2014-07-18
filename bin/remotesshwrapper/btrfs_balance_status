@@ -8,18 +8,21 @@ my @mounts = split('#', $mount_arg);
 
 my %balance_status;
 foreach my $mount ( @mounts ) {
-    my $output = `/sbin/btrfs balance status $mount`;
-    my $status = "unknown";
+    my $output    = `/sbin/btrfs balance status $mount`;
+    my $status    = "unknown";
+    my $css_class = "";
 
     if ( $output =~ m/No balance found/) {
         $status = "-";
     } else {
         ( $status ) = $output =~ m/is running(.*)$/s;
         chomp $status;
+        $css_class = "running";
     }
 
     $balance_status{$mount} = {
         'output' => $status,
+        'css_class' => $css_class,
     };
 }
 

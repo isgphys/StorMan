@@ -81,6 +81,9 @@ h3 {
 .active {
     background-color: #99FF99 !important;
 }
+.running  {
+    background-color: #BCF5A9;
+}
 .logError {
     color: red;
 }

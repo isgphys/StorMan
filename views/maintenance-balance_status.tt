@@ -6,7 +6,7 @@
     </thead>
     <tbody>
       <%- FOREACH mount IN balancestatus.keys.sort %>
-        <tr>
+      <tr <% IF balancestatus.$mount.css_class %> class="<% balancestatus.$mount.css_class %>"<% END %>>
             <td><% mount %></td>
             <td class="center"><% balancestatus.$mount.output %></td>
         </tr>
