@@ -9,26 +9,22 @@ my @mounts = split('#', $mount_arg);
 foreach my $mount ( @mounts ) {
     my $output    = `/sbin/btrfs scrub status $mount`;
     my $status    = "unknown";
+    my $stats     = "unknown";
     my $css_class = "";
 
-#    if ( $output =~ m/No balance found/) {
-#        $status = "-";
-#    } elsif ($output =~ m/is running\n(.*)$/s) {
-#        $status  = $1;
-#        $css_class = "running";
-#    } elsif ($output =~ m/is running, (.*)$/s) {
-#        $status  = $1;
-#        $status =~ s/,//;
-#        $css_class = "requested";
-#    } elsif ($output =~ m/is paused\n(.*)$/s) {
-#        $status  = $1 . " (paused)";
-#        $css_class = "paused";
-#    }
-
     my ($status, $stats) = $output =~ m/\n\t(.*)\n\t(.*)$/;
-
     chomp $status;
     chomp $stats;
+
+    if ( $status =~ m/no stats available/) {
+        $status = "-";
+        $stats  = "";
+    } elsif ($output =~ m/finished/s) {
+        $css_class = "finished";
+    } elsif ($output =~ m/aborted/s) {
+        $css_class = "aborted";
+    }
+
 
     $scrub_status{$mount} = {
         'status'    => $status,
