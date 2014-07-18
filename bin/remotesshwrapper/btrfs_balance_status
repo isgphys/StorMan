@@ -14,12 +14,15 @@ foreach my $mount ( @mounts ) {
 
     if ( $output =~ m/No balance found/) {
         $status = "-";
-    } else {
-        ( $status ) = $output =~ m/is running(.*)$/s;
-        chomp $status;
+    } elsif ($output =~ m/is running\n(.*)$/s) {
+        $status  = $1;
         $css_class = "running";
+    } elsif ($output =~ m/is paused\n(.*)$/s) {
+        $status  = $1 . " (paused)";
+        $css_class = "paused";
     }
 
+    chomp $status;
     $balance_status{$mount} = {
         'output' => $status,
         'css_class' => $css_class,
