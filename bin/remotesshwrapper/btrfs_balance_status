@@ -1,12 +1,11 @@
 #!/usr/bin/env perl
-use Data::Dumper;
 use JSON;
 
 my $mount_arg = $ARGV[0];
+my %balance_status;
 
 my @mounts = split('#', $mount_arg);
 
-my %balance_status;
 foreach my $mount ( @mounts ) {
     my $output    = `/sbin/btrfs balance status $mount`;
     my $status    = "unknown";
@@ -17,6 +16,10 @@ foreach my $mount ( @mounts ) {
     } elsif ($output =~ m/is running\n(.*)$/s) {
         $status  = $1;
         $css_class = "running";
+    } elsif ($output =~ m/is running, (.*)$/s) {
+        $status  = $1;
+        $status =~ s/,//;
+        $css_class = "requested";
     } elsif ($output =~ m/is paused\n(.*)$/s) {
         $status  = $1 . " (paused)";
         $css_class = "paused";

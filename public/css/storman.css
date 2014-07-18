@@ -84,6 +84,9 @@ h3 {
 .running  {
     background-color: #BCF5A9;
 }
+.requested  {
+    background-color: #F2F5A9;
+}
 .paused  {
     background-color: #00CCFF;
 }
