@@ -31,4 +31,13 @@ get '/balance_status' => require_role isg => sub {
         layout => 0 };
 };
 
+get '/scrub_status' => require_role isg => sub {
+    get_serverconfig('*');
+
+    template 'maintenance-scrub_status' => {
+        scrubstatus => get_scrub_status(),
+        },{
+        layout => 0 };
+};
+
 1;

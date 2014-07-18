@@ -1,0 +1,15 @@
+<h3>BTRFS Scrub Status</h3>
+<table class="border">
+    <thead>
+        <th>Mount</th>
+        <th>Status</th>
+    </thead>
+    <tbody>
+      <%- FOREACH mount IN scrubstatus.keys.sort %>
+      <tr <% IF scrubstatus.$mount.css_class %> class="<% scrubstatus.$mount.css_class %>"<% END %>>
+            <td><% mount %></td>
+            <td class="center"><% scrubstatus.$mount.status %><br><% scrubstatus.$mount.stats %></td>
+        </tr>
+      <%- END %>
+    </tbody>
+</table>

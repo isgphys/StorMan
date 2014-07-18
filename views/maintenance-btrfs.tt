@@ -6,6 +6,13 @@
     </div>
 </div>
 
+<div id="scrub_status" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading Scrub Status
+    </div>
+</div>
+
 <div class="float-left">
     <h3>Helper Lines</h3>
     for i in {0..10}; do echo -n "$i "; btrfs balance start -dusage=$i /export/backup/group/astro/astrodata; done
@@ -20,6 +27,15 @@
             },
             error: function() {
                 $('#balance_status').html('An error occured while loading the Balance Status.');
+            }
+        });
+        $.ajax({
+            url: '/maint/scrub_status',
+            success: function(content) {
+                $('#scrub_status').html(content);
+            },
+            error: function() {
+                $('#scrub_status').html('An error occured while loading the Scrub Status.');
             }
         });
     });
