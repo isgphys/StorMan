@@ -81,7 +81,10 @@ h3 {
 .active {
     background-color: #99FF99 !important;
 }
-.running, .finished  {
+.running  {
+    background-color: #66FFFF;
+}
+.finished  {
     background-color: #BCF5A9;
 }
 .requested, .aborted  {

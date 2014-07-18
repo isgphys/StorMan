@@ -19,6 +19,8 @@ foreach my $mount ( @mounts ) {
     if ( $status =~ m/no stats available/) {
         $status = "-";
         $stats  = "";
+    } elsif ($output =~ m/running/s) {
+        $css_class = "running";
     } elsif ($output =~ m/finished/s) {
         $css_class = "finished";
     } elsif ($output =~ m/aborted/s) {
