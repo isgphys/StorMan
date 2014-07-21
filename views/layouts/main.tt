@@ -36,7 +36,7 @@
 
     function initializeTablesorter() {
         $('.scrub').tablesorter({
-            sortList: [[1,1]],
+            sortList: [[0,1],[1,1]],
         });
         $(".hiddencolumn").hide();
     };

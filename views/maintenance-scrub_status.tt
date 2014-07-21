@@ -1,16 +1,18 @@
 <h3>BTRFS Scrub Status</h3>
 <table class="scrub border tablesorter">
     <thead>
-        <th>Mount</th>
+        <th class="hiddencolumn">Statusnr</th>
         <th class="hiddencolumn">Starttime</th>
+        <th>Mount</th>
         <th>Status</th>
     </thead>
     <tbody>
       <%- FOREACH mount IN scrubstatus.keys.sort %>
       <tr <% IF scrubstatus.$mount.css_class %> class="<% scrubstatus.$mount.css_class %>"<% END %>>
-          <td valign="top"><% mount %></td>
+          <td valign="top" class="hiddencolumn"><% scrubstatus.$mount.status %></td>
           <td valign="top" class="hiddencolumn"><% scrubstatus.$mount.starttime %></td>
-          <td class="center"><% scrubstatus.$mount.status %><br><% scrubstatus.$mount.stats %></td>
+          <td valign="top"><% mount %></td>
+          <td class="center"><% scrubstatus.$mount.statustext %><br><% scrubstatus.$mount.stats %></td>
       </tr>
       <%- END %>
     </tbody>
