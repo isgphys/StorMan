@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use JSON;
 use Date::Parse;
+use POSIX qw( floor );
 
 my $mount_arg = $ARGV[0];
 my %scrub_status;
@@ -17,12 +18,24 @@ foreach my $mount ( @mounts ) {
     my ($statustext, $stats) = $output =~ m/\n\t(.*)\n\t(.*)$/;
     chomp $statustext;
     chomp $stats;
-    my ($starttime) = $statustext =~ m/at (\w{3} \w{3}\s+\d+ \d+:\d+:\d+ \d{4})/;
-    $starttime = str2time($starttime);
+    my ($starttime, $runtime) = $statustext =~ m/at (\w{3} \w{3}\s+\d+ \d+:\d+:\d+ \d{4}).* (\d+)/;
+    $starttime  = str2time($starttime);
+    my $minutes = $runtime / 60;
+
+    if ( $minutes < 60 ) {
+        if ($minutes < 1 ) {
+            $runtime = sprintf( "< 1 min", $minutes );
+        } else {
+            $runtime = sprintf( "%d min", $minutes );
+        }
+    } else {
+        $runtime = sprintf( "\%dh\%02dmin", floor( $minutes / 60 ), $minutes % 60 );
+    }
 
     if ( $statustext =~ m/no stats available/) {
         $statustext = "-";
         $stats  = "";
+        $runtime = "";
     } elsif ($output =~ m/running/s) {
         $css_class = "running";
         $status    = "3";
@@ -34,11 +47,11 @@ foreach my $mount ( @mounts ) {
         $status    = "2";
     }
 
-
     $scrub_status{$mount} = {
         'statustext' => $statustext,
         'status'     => $status,
         'starttime'  => $starttime,
+        'runtime'    => $runtime,
         'stats'      => $stats,
         'css_class'  => $css_class,
     };
