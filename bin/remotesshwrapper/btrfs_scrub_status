@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 use JSON;
+use Date::Parse;
 
 my $mount_arg = $ARGV[0];
 my %scrub_status;
@@ -15,6 +16,8 @@ foreach my $mount ( @mounts ) {
     my ($status, $stats) = $output =~ m/\n\t(.*)\n\t(.*)$/;
     chomp $status;
     chomp $stats;
+    my ($starttime) = $status =~ m/at (\w{3} \w{3}\s+\d+ \d+:\d+:\d+ \d{4})/;
+    $starttime = str2time($starttime);
 
     if ( $status =~ m/no stats available/) {
         $status = "-";
@@ -30,6 +33,7 @@ foreach my $mount ( @mounts ) {
 
     $scrub_status{$mount} = {
         'status'    => $status,
+        'starttime' => $starttime,
         'stats'     => $stats,
         'css_class' => $css_class,
     };
