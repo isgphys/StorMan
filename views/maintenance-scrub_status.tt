@@ -1,4 +1,4 @@
-<h3>BTRFS Scrub Status</h3>
+<h3>Scrub Status</h3>
 <table class="scrub border tablesorter">
     <thead>
         <th class="hiddencolumn">Statusnr</th>
