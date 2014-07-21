@@ -33,6 +33,7 @@
             url: '/maint/scrub_status',
             success: function(content) {
                 $('#scrub_status').html(content);
+                initializeTablesorter();
             },
             error: function() {
                 $('#scrub_status').html('An error occured while loading the Scrub Status.');
