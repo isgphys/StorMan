@@ -40,4 +40,15 @@ get '/scrub_status' => require_role isg => sub {
         layout => 0 };
 };
 
+post '/events' => require_role isg => sub {
+    get_serverconfig('*');
+    my $tooltype  = param('tooltyp_arg');
+    my $event     = param('event_arg');
+    my $mount     = param('mount_arg');
+    my $updatedby = session('logged_in_user');
+
+    my ($return_code, $return_msg) = btrfs_worker($tooltype, $event, $mount);
+    warning "$return_msg by $updatedby!";
+};
+
 1;

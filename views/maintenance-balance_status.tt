@@ -3,12 +3,19 @@
     <thead>
         <th>Mount</th>
         <th>Status</th>
+        <th>Functions</th>
     </thead>
     <tbody>
       <%- FOREACH mount IN balancestatus.keys.sort %>
       <tr <% IF balancestatus.$mount.css_class %> class="<% balancestatus.$mount.css_class %>"<% END %>>
             <td><% mount %></td>
             <td class="center"><% balancestatus.$mount.output %></td>
+          <% IF balancestatus.$mount.css_class == 'running' %>
+            <td align="center" valign="top" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="pause">PAUSE</td>
+          <%- END %>
+          <% IF balancestatus.$mount.css_class == 'paused' %>
+            <td align="center" valign="top" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="resume">RESUME</td>
+          <%- END %>
         </tr>
       <%- END %>
     </tbody>

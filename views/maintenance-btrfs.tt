@@ -27,6 +27,7 @@
             },
             error: function() {
                 $('#balance_status').html('An error occured while loading the Balance Status.');
+                initializeEvents();
             }
         });
         $.ajax({
@@ -34,6 +35,7 @@
             success: function(content) {
                 $('#scrub_status').html(content);
                 initializeTablesorter();
+                initializeEvents();
             },
             error: function() {
                 $('#scrub_status').html('An error occured while loading the Scrub Status.');

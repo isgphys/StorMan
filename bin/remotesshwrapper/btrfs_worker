@@ -1,0 +1,30 @@
+#!/usr/bin/env perl
+use 5.010;
+use strict;
+use warnings;
+
+use JSON;
+use Date::Parse;
+use POSIX qw( floor );
+use Data::Dumper;
+
+my $data = $ARGV[0];
+my $data_ref = decode_json($data);
+
+my $tooltype = $data_ref->{'tooltype'};
+my $event    = $data_ref->{'event'};
+my $mount    = $data_ref->{'mount'};
+
+my $worker_status;
+my $btrfs_args = "$tooltype $event $mount";
+
+system("nohup /sbin/btrfs $btrfs_args > /dev/null &");
+
+    $worker_status = {
+        'return_code' => 1,
+        'return_msg'  => "$btrfs_args",
+    };
+
+my $json = JSON->new->allow_nonref;
+my $json_text = $json->encode($worker_status);
+print "$json_text";

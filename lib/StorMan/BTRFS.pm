@@ -12,6 +12,7 @@ use Exporter 'import';
 our @EXPORT = qw(
     get_balance_status
     get_scrub_status
+    btrfs_worker
 );
 
 sub get_balance_status {
@@ -44,6 +45,29 @@ sub get_scrub_status {
     my $info_ref     = decode_json( $scrub_info );
 
     return $info_ref;
+}
+
+sub btrfs_worker {
+    my ($tooltype, $event, $mount)= @_;
+    my $server = "phd-bkp-gw";
+
+    my $data = {
+        "tooltype" => $tooltype,
+        "event"    => $event,
+        "mount"    => $mount,
+    };
+
+    my $json   = JSON->new->allow_nonref;
+    my $json_text = $json->encode($data);
+    $json_text =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
+
+    my ( $feedback ) = remotewrapper_command( $server, 'StorMan/btrfs_worker', $json_text );
+
+    my $feedback_ref = decode_json( $feedback );
+    my $return_code = $feedback_ref->{'return_code'};
+    my $return_msg  = $feedback_ref->{'return_msg'};
+
+    return ($return_code, $return_msg);
 }
 
 1;
