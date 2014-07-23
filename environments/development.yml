@@ -1,0 +1,6 @@
+run_env:            'development'
+port:               3000
+log:                'debug'
+daemon:             0
+behind_proxy:       0
+auto_reload:        1
