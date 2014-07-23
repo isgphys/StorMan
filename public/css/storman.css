@@ -93,6 +93,9 @@ h3 {
 .paused  {
     background-color: #00CCFF;
 }
+.click {
+    cursor: pointer;
+}
 .logError {
     color: red;
 }

@@ -17,16 +17,16 @@
           <td class="center"><% scrubstatus.$mount.statustext %><br><% scrubstatus.$mount.stats %></td>
           <td align="center" valign="top"><% scrubstatus.$mount.runtime %></td>
         <% IF scrubstatus.$mount.status == 3 %>
-          <td align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="cancel">CANCEL</td>
+          <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="cancel">CANCEL</td>
         <%- END %>
         <% IF scrubstatus.$mount.status == 2 %>
-          <td align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="resume">RESUME</td>
+          <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="resume">RESUME</td>
         <%- END %>
         <% IF scrubstatus.$mount.status == 1 %>
-          <td align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="start">START</td>
+          <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="start">START</td>
         <%- END %>
         <% IF scrubstatus.$mount.status == 0 %>
-          <td align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="start">Start</td>
+          <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="start">Start</td>
         <%- END %>
       </tr>
       <%- END %>
