@@ -9,7 +9,7 @@
       <%- FOREACH mount IN balancestatus.keys.sort %>
       <tr <% IF balancestatus.$mount.css_class %> class="<% balancestatus.$mount.css_class %>"<% END %>>
             <td><% mount %></td>
-            <td class="click" class="center"><% balancestatus.$mount.output %></td>
+            <td class="center"><% balancestatus.$mount.output %></td>
           <% IF balancestatus.$mount.css_class == 'running' %>
             <td class="click" align="center" valign="top" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="pause">PAUSE</td>
           <%- END %>
