@@ -10,41 +10,28 @@ use JSON;
 
 use Exporter 'import';
 our @EXPORT = qw(
-    get_balance_status
-    get_scrub_status
+    get_btrfs_status
     btrfs_worker
 );
 
-sub get_balance_status {
+sub get_btrfs_status {
+    my ($type) = @_;
     my $fsinfo = get_fsinfo();
     my $server = "phd-bkp-gw";
-    my $mounts;
+    my @mountpts;
 
     foreach my $mountpt ( keys %{$fsinfo->{$server}} ) {
-        $mounts .= "$fsinfo->{$server}->{$mountpt}{mount}#"; #special serialized
+        push (@mountpts, $fsinfo->{$server}->{$mountpt}{mount});
     }
 
-    my ($balance_info) = remotewrapper_command( $server, 'StorMan/btrfs_balance_status', $mounts );
-    my $info_ref       = decode_json( $balance_info );
+    my $json   = JSON->new->allow_nonref;
+    my $json_text = $json->encode(\@mountpts);
+    $json_text =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-#    print $info_ref->{'/export/backup/group/ipp'}->{'output'};
+    my ($status_info) = remotewrapper_command( $server, "StorMan-dev/btrfs_${type}_status", $json_text );
+    my $status_ref       = decode_json( $status_info );
 
-    return $info_ref;
-}
-
-sub get_scrub_status {
-    my $fsinfo = get_fsinfo();
-    my $server = "phd-bkp-gw";
-    my $mounts;
-
-    foreach my $mountpt ( keys %{$fsinfo->{$server}} ) {
-        $mounts .= "$fsinfo->{$server}->{$mountpt}{mount}#"; #special serialized
-    }
-
-    my ($scrub_info) = remotewrapper_command( $server, 'StorMan/btrfs_scrub_status', $mounts );
-    my $info_ref     = decode_json( $scrub_info );
-
-    return $info_ref;
+    return $status_ref;
 }
 
 sub btrfs_worker {

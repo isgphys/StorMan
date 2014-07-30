@@ -3,12 +3,11 @@ use JSON;
 use Date::Parse;
 use POSIX qw( floor );
 
-my $mount_arg = $ARGV[0];
 my %scrub_status;
+my $mountpts_ref = decode_json($ARGV[0]);
+my @mountpts = @{ $mountpts_ref };
 
-my @mounts = split('#', $mount_arg);
-
-foreach my $mount ( @mounts ) {
+foreach my $mount ( @mountpts ) {
     my $output     = `/sbin/btrfs scrub status $mount`;
     my $statustext = "unknown";
     my $status     = "0";
@@ -34,8 +33,8 @@ foreach my $mount ( @mounts ) {
 
     if ( $statustext =~ m/no stats available/) {
         $statustext = "-";
-        $stats  = "";
-        $runtime = "";
+        $stats      = "";
+        $runtime    = "";
     } elsif ($output =~ m/running/s) {
         $css_class = "running";
         $status    = "3";

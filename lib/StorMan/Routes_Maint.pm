@@ -26,7 +26,7 @@ get '/balance_status' => require_role isg => sub {
     get_serverconfig('*');
 
     template 'maintenance-balance_status' => {
-        balancestatus => get_balance_status(),
+        balancestatus => get_btrfs_status("balance"),
         },{
         layout => 0 };
 };
@@ -35,7 +35,7 @@ get '/scrub_status' => require_role isg => sub {
     get_serverconfig('*');
 
     template 'maintenance-scrub_status' => {
-        scrubstatus => get_scrub_status(),
+        scrubstatus => get_btrfs_status("scrub"),
         },{
         layout => 0 };
 };
