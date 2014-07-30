@@ -8,6 +8,7 @@ my $mountpts_ref = decode_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
+    next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
     my $output     = `/sbin/btrfs scrub status $mount`;
     my $statustext = "unknown";
     my $status     = "0";
@@ -35,13 +36,13 @@ foreach my $mount ( @mountpts ) {
         $statustext = "-";
         $stats      = "";
         $runtime    = "";
-    } elsif ($output =~ m/running/s) {
+    } elsif ($output =~ m/running/) {
         $css_class = "running";
         $status    = "3";
-    } elsif ($output =~ m/finished/s) {
+    } elsif ($output =~ m/finished/) {
         $css_class = "finished";
         $status    = "1";
-    } elsif ($output =~ m/aborted/s) {
+    } elsif ($output =~ m/aborted/) {
         $css_class = "aborted";
         $status    = "2";
     }

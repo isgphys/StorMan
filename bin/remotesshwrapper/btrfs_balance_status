@@ -6,6 +6,7 @@ my $mountpts_ref = decode_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
+    next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
     my $output    = `/sbin/btrfs balance status $mount`;
     my $status    = "unknown";
     my $css_class = "";

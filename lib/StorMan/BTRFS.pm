@@ -28,8 +28,8 @@ sub get_btrfs_status {
     my $json_text = $json->encode(\@mountpts);
     $json_text =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-    my ($status_info) = remotewrapper_command( $server, "StorMan-dev/btrfs_${type}_status", $json_text );
-    my $status_ref       = decode_json( $status_info );
+    my ($status_info) = remotewrapper_command( $server, "StorMan/btrfs_${type}_status", $json_text );
+    my $status_ref    = decode_json( $status_info );
 
     return $status_ref;
 }
