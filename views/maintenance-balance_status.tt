@@ -1,7 +1,7 @@
 <h3>Balance Status</h3>
 <table class="border">
     <thead>
-        <th>Mount</th>
+        <th>Mount (<% balancestatus.size %>)</th>
         <th>Status</th>
         <th>Functions</th>
     </thead>

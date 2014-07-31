@@ -3,7 +3,7 @@
     <thead>
         <th class="hiddencolumn">Statusnr</th>
         <th class="hiddencolumn">Starttime</th>
-        <th>Mount</th>
+        <th>Mount (<% scrubstatus.size %>)</th>
         <th>Status</th>
         <th>Runtime</th>
         <th>Functions</th>
