@@ -3,12 +3,12 @@
     ServerAlias storagemanager.phys.ethz.ch
     DocumentRoot /opt/StorMan
 
-    RedirectMatch (.*) https://storman.phys.ethz.ch:444$1
+    RedirectMatch (.*) https://storman.phys.ethz.ch:443$1
 
     ErrorLog  /var/log/apache2/storman_error_log
     CustomLog /var/log/apache2/storman_access_log common
 </VirtualHost>
-<VirtualHost *:444>
+<VirtualHost *:443>
     ServerName storman.phys.ethz.ch
     ServerAlias storagemanager.phys.ethz.ch
     DocumentRoot /opt/StorMan
