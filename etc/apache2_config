@@ -3,6 +3,11 @@
     ServerAlias storagemanager.phys.ethz.ch
     DocumentRoot /opt/StorMan
 
+    <DirectoryMatch "^\.|\/\.">
+        Order allow,deny
+        Deny from all
+    </DirectoryMatch>
+
     RedirectMatch (.*) https://storman.phys.ethz.ch:443$1
 
     ErrorLog  /var/log/apache2/storman_error_log
@@ -12,6 +17,11 @@
     ServerName storman.phys.ethz.ch
     ServerAlias storagemanager.phys.ethz.ch
     DocumentRoot /opt/StorMan
+
+    <DirectoryMatch "^\.|\/\.">
+        Order allow,deny
+        Deny from all
+    </DirectoryMatch>
 
     HostnameLookups On
     ProxyPass / http://localhost:8033/ retry=0
