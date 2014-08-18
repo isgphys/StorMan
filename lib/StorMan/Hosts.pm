@@ -37,9 +37,29 @@ sub get_fsinfo {
                 'used'       => num2human($+{used}*1024,1024),
                 'available'  => num2human($+{available}*1024,1024),
                 'freediff'   => "",
+                'rwstatus'   => "",
                 'used_per'   => $+{usedper},
                 'css_class'  => check_fill_level($+{usedper}),
             };
+
+        }
+
+        @mounts = remotewrapper_command( $server, 'StorMan/procmounts' ) ;
+        foreach my $mount (@mounts) {
+            $mount =~ qr{
+            ^(?<device>[\/\w\d-]+)
+            \s+(?<mountpt>[\/\w\d-]+)
+            \s+(?<fstyp>[\w\d]+)
+            \s+(?<mountopt>[\w\d\,\=]+)
+            \s+(?<dump>[\d]+)
+            \s+(?<pass>[\d]+)$
+            }x;
+
+            my $mountpt  = $+{mountpt};
+            my $mountopt = $+{mountopt};
+            my $rwstatus = "check_red" if $mountopt =~ /ro/;
+
+            $fsinfo{$server}{$mountpt}{rwstatus} = $rwstatus;
         }
 
         if ($server eq "phd-bkp-gw") {
@@ -61,6 +81,7 @@ sub get_fsinfo {
 
                 $fsinfo{$server}{$+{mountpt}}{freediff} = ( $freediffper > 10 ) ? num2human($freediff*1024,1024) : "" ;
             }
+
         }
 
     }
