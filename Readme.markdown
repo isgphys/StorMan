@@ -11,7 +11,7 @@ Main Features
     * Dashboard with most important information
     * Documentation rendering markdown files
     * show ISCSI sessions
-    * show BTRFS status of balanceing and scrubbing
+    * show BTRFS status of balancing and scrubbing
     * BTRFS remote control for balance and scrub
 
 
