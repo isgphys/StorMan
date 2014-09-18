@@ -19,7 +19,7 @@ my $worker_status;
 my $btrfs_args = "$tooltype $event $mount";
 exit unless $btrfs_args =~ m/^[a-zA-Z0-9_\-\/\s]+$/;
 
-system("nohup /sbin/btrfs $btrfs_args > /dev/null &");
+system("nohup /usr/local/bin/btrfs $btrfs_args > /dev/null &");
 
     $worker_status = {
         'return_code' => 1,

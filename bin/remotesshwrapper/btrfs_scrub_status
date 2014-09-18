@@ -9,7 +9,7 @@ my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
-    my $output     = `/sbin/btrfs scrub status $mount`;
+    my $output     = `/usr/local/bin/btrfs scrub status $mount`;
     my $statustext = "unknown";
     my $status     = "0";
     my $stats      = "unknown";
