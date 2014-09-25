@@ -96,6 +96,10 @@ h3 {
 .click {
     cursor: pointer;
 }
+td.click:hover {
+    font-weight: bold;
+    background-color: #C1CDE0;
+}
 .logError {
     color: red;
 }
