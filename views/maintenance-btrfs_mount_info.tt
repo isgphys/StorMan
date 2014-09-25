@@ -1,0 +1,20 @@
+<h3>Filesystem Details</h3>
+<h4><% mount %></h4>
+<table class="border">
+    <thead>
+        <th>Type</th>
+        <th>Profile</th>
+        <th>Total</th>
+        <th>Used</th>
+    </thead>
+    <tbody>
+      <% FOREACH line IN df  %>
+        <tr>
+            <td><% line.type %></td>
+            <td align="center"><% line.profile %></td>
+            <td align="right"><% line.total %></td>
+            <td align="right"><% line.used %></td>
+        </tr>
+      <% END %>
+    </tbody>
+</table>

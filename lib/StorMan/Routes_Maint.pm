@@ -40,6 +40,17 @@ get '/scrub_status' => require_role isg => sub {
         layout => 0 };
 };
 
+get '/btrfs_mount_info' => require_role isg => sub {
+    get_serverconfig('*');
+    my $mount = param('mount');
+    my ($code, $msg) = btrfs_worker("filesystem","df", $mount);
+
+    template 'maintenance-btrfs_mount_info' => {
+        mount => $mount,
+        df    => $msg,
+    };
+};
+
 post '/events' => require_role isg => sub {
     get_serverconfig('*');
     my $tooltype  = param('tooltyp_arg');

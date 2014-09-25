@@ -19,12 +19,35 @@ my $worker_status;
 my $btrfs_args = "$tooltype $event $mount";
 exit unless $btrfs_args =~ m/^[a-zA-Z0-9_\-\/\s]+$/;
 
-system("nohup /usr/local/bin/btrfs $btrfs_args > /dev/null &");
+if ( $tooltype eq "filesystem" ) {
+    my @outputs    = `/usr/local/bin/btrfs $btrfs_args`;
+    my $df;
+    my @df_result;
+
+    foreach my $output ( @outputs ) {
+        my ($type, $profile, $total, $used) = $output =~ m/^([a-zA-Z]+), ([a-zA-Z0-9]+): total=([0-9.a-zA-Z]+), used=([0-9.a-zA-Z]+)$/;
+        $df = {
+            'type'    => $type,
+            'profile' => $profile,
+            'total'   => $total,
+            'used'    => $used,
+        };
+        push ( @df_result, $df );
+    }
+
+    $worker_status = {
+        'return_code' => 1,
+        'return_msg'  => \@df_result,
+    };
+
+} else {
+    system("nohup /usr/local/bin/btrfs $btrfs_args > /dev/null &");
 
     $worker_status = {
         'return_code' => 1,
         'return_msg'  => "$btrfs_args",
     };
+}
 
 my $json = JSON->new->allow_nonref;
 my $json_text = $json->encode($worker_status);
