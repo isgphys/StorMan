@@ -1,5 +1,4 @@
 #!/usr/bin/env perl
-use lib '/opt/StorMan/lib';
 use Cwd qw( abs_path );
 use Dancer;
 use StorMan::Routes;
