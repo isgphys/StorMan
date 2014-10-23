@@ -13,9 +13,11 @@
     </div>
 </div>
 
-<div class="float-left">
-    <h3>Helper Lines</h3>
-    for i in {0..10}; do echo -n "$i "; btrfs balance start -dusage=$i /export/backup/group/astro/astrodata; done
+<div id="snapshot_stats" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading Snapshot Statistics
+    </div>
 </div>
 
 <script>
@@ -39,6 +41,17 @@
             },
             error: function() {
                 $('#scrub_status').html('An error occured while loading the Scrub Status.');
+            }
+        });
+        $.ajax({
+            url: '/maint/snapshot_stats',
+            success: function(content) {
+                $('#snapshot_stats').html(content);
+                initializeTablesorter();
+                initializeEvents();
+            },
+            error: function() {
+                $('#snapshot_stats').html('An error occured while loading the Scrub Status.');
             }
         });
     });

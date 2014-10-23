@@ -1,0 +1,17 @@
+<h3>Snapshot Statistics</h3>
+<table class="border">
+    <thead>
+        <th>Mount (<% snapshotstats.size %>)</th>
+        <th>#</th>
+        <th># deleted, but</br>not yet cleaned</th>
+    </thead>
+    <tbody>
+      <%- FOREACH mount IN snapshotstats.keys.sort %>
+      <tr>
+          <td><% mount %></td>
+            <td class="center"><% snapshotstats.$mount.quantity %></td>
+            <td class="center"><% snapshotstats.$mount.quantity_del %></td>
+        </tr>
+      <%- END %>
+    </tbody>
+</table>

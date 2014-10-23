@@ -40,6 +40,15 @@ get '/scrub_status' => require_role isg => sub {
         layout => 0 };
 };
 
+get '/snapshot_stats' => require_role isg => sub {
+    get_serverconfig('*');
+
+    template 'maintenance-snapshot_stats' => {
+        snapshotstats => get_btrfs_status("snapshot"),
+        },{
+        layout => 0 };
+};
+
 get '/btrfs_mount_info' => require_role isg => sub {
     get_serverconfig('*');
     my $mount = param('mount');
