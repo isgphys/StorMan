@@ -6,12 +6,18 @@
         <th># deleted, but</br>not yet cleaned</th>
     </thead>
     <tbody>
+    <% total = 0 %>
       <%- FOREACH mount IN snapshotstats.keys.sort %>
-      <tr>
-          <td><% mount %></td>
+        <tr>
+            <td><% mount %></td>
             <td class="center"><% snapshotstats.$mount.quantity %></td>
             <td class="center"><% snapshotstats.$mount.quantity_del %></td>
         </tr>
+        <% total = total + snapshotstats.$mount.quantity %>
       <%- END %>
+    <tr height="20px">
+        <td><b>Total Snapshots</b></td>
+        <td><% total %></td>
+    </tr>
     </tbody>
 </table>
