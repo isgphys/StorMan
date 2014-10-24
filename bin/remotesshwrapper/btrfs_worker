@@ -13,32 +13,64 @@ my $data_ref = decode_json($data);
 
 my $tooltype = $data_ref->{'tooltype'};
 my $event    = $data_ref->{'event'};
-my $mount    = $data_ref->{'mount'};
+my $mount    = $data_ref->{'mount'} || "";
 
 my $worker_status;
 my $btrfs_args = "$tooltype $event $mount";
 exit unless $btrfs_args =~ m/^[a-zA-Z0-9_\-\/\s]+$/;
 
 if ( $tooltype eq "filesystem" ) {
-    my @outputs    = `/usr/local/bin/btrfs $btrfs_args`;
-    my $df;
-    my @df_result;
+    if ( $event eq "df" ){
+        my @outputs    = `/usr/local/bin/btrfs $btrfs_args`;
+        my $df;
+        my @df_result;
 
-    foreach my $output ( @outputs ) {
-        my ($type, $profile, $total, $used) = $output =~ m/^([a-zA-Z]+), ([a-zA-Z0-9]+): total=([0-9.a-zA-Z]+), used=([0-9.a-zA-Z]+)$/;
-        $df = {
-            'type'    => $type,
-            'profile' => $profile,
-            'total'   => $total,
-            'used'    => $used,
+        foreach my $output ( @outputs ) {
+            my ($type, $profile, $total, $used) = $output =~ m/^([a-zA-Z]+), ([a-zA-Z0-9]+): total=([0-9.a-zA-Z]+), used=([0-9.a-zA-Z]+)$/;
+            $df = {
+                'type'    => $type,
+                'profile' => $profile,
+                'total'   => $total,
+                'used'    => $used,
+            };
+            push ( @df_result, $df );
+        }
+
+        $worker_status = {
+            'return_code' => 1,
+            'return_msg'  => \@df_result,
         };
-        push ( @df_result, $df );
-    }
+    } elsif ( $event eq "show" ){
+        my @outputs    = `/usr/local/bin/btrfs $btrfs_args`;
+        my %fs;
+        my $label;
 
-    $worker_status = {
-        'return_code' => 1,
-        'return_msg'  => \@df_result,
-    };
+        foreach my $line ( @outputs ) {
+            next if $line =~ m/^#/;     # skip comments
+            next if $line =~ m/Btrfs v/; # skip version tag
+
+            if ( $line =~ qr{^Label:\s'(?<label>[^']*)'\s+ uuid:\s(?<uuid>[0-9a-z-]*)$ }x ) {
+                my $uuid  = $+{uuid};
+                $label = $+{label};
+                $fs{$label}{uuid} = $uuid;
+            } elsif ( $line =~ qr{ devid \s+ (?<devid>[0-9]*) \s+
+                                   size \s (?<devsize>[0-9.]*[a-zA-Z]{0,3}).* \s
+                                   used \s (?<devused>[0-9.]*[a-zA-Z]{0,3}).* \s
+                                   path \s (?<devpath>.*)$
+                                   }x
+                               ){
+                my $devid = $+{devid};
+                $fs{$label}{devices}{$devid}{devsize} = $+{devsize};
+                $fs{$label}{devices}{$devid}{devused} = $+{devused};
+                $fs{$label}{devices}{$devid}{devpath} = $+{devpath};
+            }
+        }
+
+        $worker_status = {
+            'return_code' => 1,
+            'return_msg'  => \%fs,
+        };
+    }
 
 } else {
     system("nohup /usr/local/bin/btrfs $btrfs_args > /dev/null &");

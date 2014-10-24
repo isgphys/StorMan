@@ -48,7 +48,7 @@ sub btrfs_worker {
     my $json_text = $json->encode($data);
     $json_text =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-    my ( $feedback ) = remotewrapper_command( $server, 'StorMan/btrfs_worker', $json_text );
+    my ( $feedback ) = remotewrapper_command( $server, 'Dev-StorMan/btrfs_worker', $json_text );
 
     my $feedback_ref = decode_json( $feedback );
     my $return_code = $feedback_ref->{'return_code'};

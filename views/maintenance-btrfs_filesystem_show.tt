@@ -1,0 +1,27 @@
+<h3>Filesystem Overview</h3>
+<table class="border">
+    <thead>
+        <th>Label / UUID</th>
+        <th>DevID</th>
+        <th>Size</th>
+        <th>Used</th>
+        <th>Path</th>
+    </thead>
+    <tbody>
+        <% FOREACH partition IN fs.keys.sort %>
+        <tr valign="top">
+            <td colspan="1"><b><% partition %></b></td>
+            <td colspan="4"><b><% fs.$partition.uuid %></b></td>
+        </tr>
+        <% FOREACH device IN fs.$partition.devices.keys.nsort  %>
+        <tr>
+            <td></td>
+            <td><% device %></td>
+            <td width="60px"><% fs.$partition.devices.$device.devsize %></td>
+            <td width="60px"><% fs.$partition.devices.$device.devused %></td>
+            <td width="60px"><% fs.$partition.devices.$device.devpath %></td>
+        </tr>
+    <% END %>
+    <% END %>
+</tbody>
+</table>
