@@ -66,8 +66,9 @@ get '/btrfs_device-list' => require_role isg => sub {
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
 
     template 'maintenance-btrfs_device-list' => {
-        mount => $mount,
-        fs    => $msg,
+        section => 'maintenance',
+        mount   => $mount,
+        fs      => $msg,
     };
 };
 

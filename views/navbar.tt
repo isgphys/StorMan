@@ -4,7 +4,11 @@
         <li><a href="/#" <% IF section == 'maintenance' %>class="activetab"<% END %>>Maintenance</a>
             <ul>
                 <li><a href="/maint/iscsi">ISCSI-Tools</a></li>
-                <li><a href="/maint/btrfs">BTRFS-Tools</a></li>
+                <li class="gosubmenu"><a href="/maint/btrfs">BTRFS-Tools</a>
+                    <ul>
+                        <li><a href="/maint/btrfs_device-list">Device List</a>
+                    </ul>
+                </li>
             </ul>
         </li>
         <li><a href="#" <% IF section == 'tools' %>class="activetab"<% END %>>Tools</a>
