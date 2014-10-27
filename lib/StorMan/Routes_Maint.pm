@@ -60,12 +60,12 @@ get '/btrfs_mount_info' => require_role isg => sub {
     };
 };
 
-get '/btrfs_filesystem_show' => require_role isg => sub {
+get '/btrfs_device-list' => require_role isg => sub {
     get_serverconfig('*');
     my $mount = "";
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
 
-    template 'maintenance-btrfs_filesystem_show' => {
+    template 'maintenance-btrfs_device-list' => {
         mount => $mount,
         fs    => $msg,
     };
