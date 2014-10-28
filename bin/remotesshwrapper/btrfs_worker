@@ -6,6 +6,7 @@ use warnings;
 use JSON;
 use Date::Parse;
 use POSIX qw( floor );
+use File::Glob ':glob';
 use Data::Dumper;
 
 my $data = $ARGV[0];
@@ -44,6 +45,14 @@ if ( $tooltype eq "filesystem" ) {
         my @outputs    = `/usr/local/bin/btrfs $btrfs_args`;
         my %fs;
         my $label;
+        my %deviceList;
+        my @deviceList = glob("/dev/iscsi/*");  #get sdXY <-> bkpX-lun-Y mapping
+
+        foreach my $device (@deviceList) {
+            my $link = readlink($device);
+            $link =~ s#\.\./##;
+            $deviceList{$link} = $device;
+        }
 
         foreach my $line ( @outputs ) {
             next if $line =~ m/^#/;     # skip comments
@@ -60,9 +69,13 @@ if ( $tooltype eq "filesystem" ) {
                                    }x
                                ){
                 my $devid = $+{devid};
-                $fs{$label}{devices}{$devid}{devsize} = $+{devsize};
-                $fs{$label}{devices}{$devid}{devused} = $+{devused};
-                $fs{$label}{devices}{$devid}{devpath} = $+{devpath};
+                my $devpath = $+{devpath};
+                $fs{$label}{devices}{$devid}{devsize}   = $+{devsize};
+                $fs{$label}{devices}{$devid}{devused}   = $+{devused};
+                $fs{$label}{devices}{$devid}{devpath}   = $devpath;
+                if (my ($bd) = $devpath =~ m#/dev/(sd\w+)#) {                   #BTRFS shows us /dev/sdX, but we want iSCSI devices
+                    $fs{$label}{devices}{$devid}{iscsipath} = $deviceList{$bd};
+                }
             }
         }
 

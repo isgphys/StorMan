@@ -5,10 +5,10 @@
         <th>DevID</th>
         <th>Size</th>
         <th>Used</th>
-        <th>Path</th>
+        <th colspan="2">Path</th>
     </thead>
     <tbody>
-        <% FOREACH partition IN fs.keys.sort %>
+      <% FOREACH partition IN fs.keys.sort %>
         <tr valign="top">
             <td colspan="1"><b><% partition %></b></td>
             <td colspan="4"><b><% fs.$partition.uuid %></b></td>
@@ -20,8 +20,9 @@
             <td width="60px"><% fs.$partition.devices.$device.devsize %></td>
             <td width="60px"><% fs.$partition.devices.$device.devused %></td>
             <td width="60px"><% fs.$partition.devices.$device.devpath %></td>
+            <td width="120px"><% fs.$partition.devices.$device.iscsipath %></td>
         </tr>
-    <% END %>
-    <% END %>
-</tbody>
+        <% END %>
+      <% END %>
+    </tbody>
 </table>
