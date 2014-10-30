@@ -73,13 +73,14 @@ get '/btrfs_device-list' => require_role isg => sub {
     get_serverconfig('*');
     my $mount = param('mount') || "";
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
+    my $layout = $mount  ? "0" : "main";
 
     template 'maintenance-btrfs_device-list' => {
         section => 'maintenance',
         mount   => $mount,
         fs      => $msg,
         },{
-        layout => 0 };
+        layout => $layout };
 };
 
 post '/events' => require_role isg => sub {
