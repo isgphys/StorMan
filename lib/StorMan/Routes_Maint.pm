@@ -49,7 +49,7 @@ get '/snapshot_stats' => require_role isg => sub {
         layout => 0 };
 };
 
-get '/btrfs_fs-details' => require_login sub {
+get '/btrfs_fs-details' => require_role isg => sub {
     my $mount = param('mount') || "";
     template 'maintenance-btrfs_fs-details' => {
         section      => 'maintenance',
