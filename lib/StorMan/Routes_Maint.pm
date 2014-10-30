@@ -49,6 +49,14 @@ get '/snapshot_stats' => require_role isg => sub {
         layout => 0 };
 };
 
+get '/btrfs_fs-details' => require_login sub {
+    my $mount = param('mount') || "";
+    template 'maintenance-btrfs_fs-details' => {
+        section      => 'maintenance',
+        mount => $mount,
+    };
+};
+
 get '/btrfs_mount_info' => require_role isg => sub {
     get_serverconfig('*');
     my $mount = param('mount');
@@ -57,19 +65,21 @@ get '/btrfs_mount_info' => require_role isg => sub {
     template 'maintenance-btrfs_mount_info' => {
         mount => $mount,
         df    => $msg,
-    };
+        },{
+        layout => 0 };
 };
 
 get '/btrfs_device-list' => require_role isg => sub {
     get_serverconfig('*');
-    my $mount = "";
+    my $mount = param('mount') || "";
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
 
     template 'maintenance-btrfs_device-list' => {
         section => 'maintenance',
         mount   => $mount,
         fs      => $msg,
-    };
+        },{
+        layout => 0 };
 };
 
 post '/events' => require_role isg => sub {

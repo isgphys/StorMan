@@ -1,5 +1,4 @@
-<h3>Filesystem Details</h3>
-<h4><% mount %></h4>
+<h3>Mount Info</h3>
 <table class="border">
     <thead>
         <th>Type</th>

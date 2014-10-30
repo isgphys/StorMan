@@ -8,7 +8,7 @@
     <tbody>
       <%- FOREACH mount IN balancestatus.keys.sort %>
       <tr <% IF balancestatus.$mount.css_class %> class="<% balancestatus.$mount.css_class %>"<% END %>>
-          <td class="click" onClick="window.location='/maint/btrfs_mount_info?mount=<% mount %>';"><% mount %></td>
+          <td class="click" onClick="window.location='/maint/btrfs_fs-details?mount=<% mount %>';"><% mount %></td>
             <td class="center"><% balancestatus.$mount.output %></td>
           <% IF balancestatus.$mount.css_class == 'running' %>
             <td class="click" align="center" valign="top" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="pause">PAUSE</td>
