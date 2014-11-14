@@ -7,6 +7,7 @@ use Dancer ':syntax';
 use Dancer::Plugin::Auth::Extensible;
 use StorMan::Config;
 use StorMan::BTRFS;
+use StorMan::Hosts;
 
 prefix '/maint';
 
@@ -55,6 +56,25 @@ get '/btrfs_fs-details' => require_role isg => sub {
         section      => 'maintenance',
         mount => $mount,
     };
+};
+
+get '/quota' => require_login sub {
+    template 'maintenance-quota' => {
+        section      => 'maintenance',
+    };
+};
+
+get '/quota_report' => require_role isg => sub {
+    get_serverconfig('*');
+    my $mount = param('mount') || "/export/groupdata";
+    my $server = param('server') || "phd-san-gw2";
+    my ($code, $msg) = get_quotareport($server, $mount, "-g");
+
+    template 'maintenance-quota_report' => {
+        mount       => $mount,
+        quotareport => $msg,
+        },{
+        layout => 0 };
 };
 
 get '/btrfs_mount_info' => require_role isg => sub {

@@ -1,0 +1,58 @@
+#!/usr/bin/env perl
+use 5.010;
+use strict;
+use warnings;
+
+use JSON;
+use Data::Dumper;
+
+my $data = $ARGV[0];
+my $data_ref = decode_json($data);
+
+my $mount  = $data_ref->{'mount'} || "";
+my $option = $data_ref->{'option'};
+
+my @outputs    = `/usr/sbin/xfs_quota -x -c "report -N $option" $mount`;
+
+my $worker_status;
+my @quotareport;
+my $quotaline;
+
+foreach my $output ( @outputs ) {
+	my ($id, $used, $soft, $hard, $warn, $grace) = $output =~ m/([a-zA-Z0-9-]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\s+\[(.*)\]$/;
+	$quotaline = {
+		'id'    => $id,
+		'used'  => num2human($used*1024,1024),
+		'soft'  => num2human($soft*1024,1024),
+		'hard'  => num2human($hard*1024,1024),
+		'warn'  => $warn,
+		'grace' => $grace,
+	};
+	push ( @quotareport, $quotaline );
+}
+
+$worker_status = {
+	'return_code' => 0,
+	'return_msg'  => \@quotareport,
+};
+
+my $json = JSON->new->allow_nonref;
+my $json_text = $json->encode($worker_status);
+print "$json_text";
+
+sub num2human {
+    # convert large numbers to K, M, G, T notation
+    my ($num, $base) = @_;
+    $base ||= 1000.;
+
+    foreach my $unit ( '', qw(K M G T P) ) {
+        if ( $num < $base ) {
+            if ( $num < 10 && $num > 0 ) {
+                return sprintf( "\%.1f \%s", $num, $unit );    # print small values with 1 decimal
+            } else {
+                return sprintf( "\%.0f \%s", $num, $unit );    # print larger values without decimals
+            }
+        }
+        $num = $num / $base;
+    }
+}

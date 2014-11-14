@@ -6,10 +6,12 @@ use warnings;
 use StorMan::Config;
 use StorMan::Common;
 use Net::Ping;
+use JSON;
 
 use Exporter 'import';
 our @EXPORT = qw(
     get_fsinfo
+    get_quotareport
 );
 
 sub get_fsinfo {
@@ -87,6 +89,28 @@ sub get_fsinfo {
     }
 
     return \%fsinfo;
+}
+
+sub get_quotareport {
+    my ($server, $mount, $option) = @_;
+
+    my $data = {
+        "mount"  => $mount,
+        "option" => $option,
+    };
+
+    my $json   = JSON->new->allow_nonref;
+    my $json_text = $json->encode($data);
+    $json_text =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
+
+    my ( $feedback ) = remotewrapper_command( $server, 'StorMan/quotareport', $json_text );
+
+    my $feedback_ref = decode_json( $feedback );
+    my $return_code = $feedback_ref->{'return_code'};
+    my $return_msg  = $feedback_ref->{'return_msg'};
+
+    return ($return_code, $return_msg);
+
 }
 
 sub check_fill_level {

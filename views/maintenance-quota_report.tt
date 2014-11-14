@@ -1,0 +1,23 @@
+<h4>Report for <% mount %></h4>
+<table class="quota border tablesorter">
+    <thead>
+        <th>ID</th>
+        <th class="sorter-metric" data-metric-name="$">Used</th>
+        <th class="sorter-metric" data-metric-name="$">Soft</th>
+        <th class="sorter-metric" data-metric-name="$">Hard</th>
+        <th>Warn</th>
+        <th>Grace</th>
+    </thead>
+    <tbody>
+      <%- FOREACH quotaline IN quotareport %>
+        <tr>
+            <td><% quotaline.id %></td>
+            <td><% quotaline.used %></td>
+            <td><% quotaline.soft %></td>
+            <td><% quotaline.hard %></td>
+            <td><% quotaline.warn %></td>
+            <td><% quotaline.grace %></td>
+        </tr>
+      <%- END %>
+    </tbody>
+</table>

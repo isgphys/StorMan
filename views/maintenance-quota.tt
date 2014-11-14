@@ -1,0 +1,23 @@
+<h2>Maintenance - Quota</h2>
+<div id="quota_report" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading Quota Report
+    </div>
+</div>
+
+<script>
+    $(window).load(function() {
+        $.ajax({
+            url: '/maint/quota_report?mount=<% mount %>',
+            success: function(content) {
+                $('#quota_report').html(content);
+                initializeTablesorter();
+            },
+            error: function() {
+                $('#quota_report').html('An error occured while loading the Quota Report.');
+                initializeEvents();
+            }
+        });
+    });
+</script>
