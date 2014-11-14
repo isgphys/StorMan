@@ -20,6 +20,8 @@ my $quotaline;
 
 foreach my $output ( @outputs ) {
 	my ($id, $used, $soft, $hard, $warn, $grace) = $output =~ m/([a-zA-Z0-9-]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\s+\[(.*)\]$/;
+	next if $id eq '';
+
 	$quotaline = {
 		'id'    => $id,
 		'used'  => num2human($used*1024,1024),
