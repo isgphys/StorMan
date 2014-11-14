@@ -59,20 +59,26 @@ if ( $tooltype eq "filesystem" ) {
             next if $line =~ m/Btrfs v/; # skip version tag
 
             if ( $line =~ qr{^Label:\s'(?<label>[^']*)'\s+ uuid:\s(?<uuid>[0-9a-z-]*)$ }x ) {
-                my $uuid  = $+{uuid};
-                $label = $+{label};
+                my $uuid = $+{uuid};
+                $label   = $+{label};
                 $fs{$label}{uuid} = $uuid;
+            } elsif ( $line =~ qr{ Total \s devices \s+ (?<devcount>[0-9]*) \s+
+                                   FS \s bytes \s used \s+ (?<totsize>[0-9.]*[a-zA-Z]{0,3}).* \s
+                                   }x
+                                ){
+                $fs{$label}{devcount} = $+{devcount};
+                $fs{$label}{totsize}  = $+{totsize};
             } elsif ( $line =~ qr{ devid \s+ (?<devid>[0-9]*) \s+
                                    size \s (?<devsize>[0-9.]*[a-zA-Z]{0,3}).* \s
                                    used \s (?<devused>[0-9.]*[a-zA-Z]{0,3}).* \s
                                    path \s (?<devpath>.*)$
                                    }x
                                ){
-                my $devid = $+{devid};
+                my $devid   = $+{devid};
                 my $devpath = $+{devpath};
-                $fs{$label}{devices}{$devid}{devsize}   = $+{devsize};
-                $fs{$label}{devices}{$devid}{devused}   = $+{devused};
-                $fs{$label}{devices}{$devid}{devpath}   = $devpath;
+                $fs{$label}{devices}{$devid}{devsize} = $+{devsize};
+                $fs{$label}{devices}{$devid}{devused} = $+{devused};
+                $fs{$label}{devices}{$devid}{devpath} = $devpath;
                 if (my ($bd) = $devpath =~ m#/dev/(sd\w+)#) {                   #BTRFS shows us /dev/sdX, but we want iSCSI devices
                     $fs{$label}{devices}{$devid}{iscsipath} = $deviceList{$bd};
                 }

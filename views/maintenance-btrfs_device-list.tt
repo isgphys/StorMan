@@ -13,6 +13,10 @@
             <td colspan="1"><b><% partition %></b></td>
             <td colspan="4"><b><% fs.$partition.uuid %></b></td>
         </tr>
+        <tr valign="top">
+            <td></td>
+            <td colspan="4">Total devices <% fs.$partition.devcount %> FS bytes used <% fs.$partition.totsize %></td>
+        </tr>
         <% FOREACH device IN fs.$partition.devices.keys.nsort  %>
         <tr>
             <td></td>
