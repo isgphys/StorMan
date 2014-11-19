@@ -5,7 +5,6 @@ use strict;
 use warnings;
 use Dancer ':syntax';
 use Dancer::Plugin::Auth::Extensible;
-use Dancer::Plugin::Auth::Extensible::Provider::LDAPphys;
 use StorMan::Config;
 use StorMan::Common;
 use StorMan::Hosts;
@@ -52,12 +51,13 @@ get '/login' => sub {
 };
 
 post '/login' => sub {
-    if ( authenticate_user(param('username'), param('password')) ) {
+    my ($authenticated, $realm) = authenticate_user( params->{username}, params->{password} );
+
+    if ( $authenticated ) {
+        session logged_in_user_realm => $realm;
         session logged_in_user       => param('username');
-        session logged_in_fullname   => Dancer::Plugin::Auth::Extensible::Provider::LDAPphys::_user_fullname(param('username'));
-        session logged_in_roles      => Dancer::Plugin::Auth::Extensible::Provider::LDAPphys::get_user_roles('',param('username'));
-        session logged_in_admin      => config->{admin_role} ~~ session('logged_in_roles') || '0';
-        session logged_in_user_realm => 'ldap';
+        session logged_in_fullname   => logged_in_user()->{'cn'};
+        session logged_in_admin      => user_has_role( param('username'), config->{admin_role} ) ? 1 : 0;
 
         if ( !session('logged_in_admin') && session('return_url') eq '/' ) {
             redirect '/restore';
