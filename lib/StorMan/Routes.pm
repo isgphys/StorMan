@@ -17,14 +17,14 @@ get_globalconfig();
 
 prefix undef;
 
-get '/' => require_role isg=> sub {
+get '/' => require_role config->{admin_role} => sub {
 
     template 'dashboard.tt', {
         section => 'dashboard',
     };
 };
 
-get '/fsinfo_report' => require_role isg => sub {
+get '/fsinfo_report' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
 
     template 'dashboard-fsinfo' => {
@@ -34,7 +34,7 @@ get '/fsinfo_report' => require_role isg => sub {
         layout => 0 };
 };
 
-get '/iscsi_session_report' => require_role isg => sub {
+get '/iscsi_session_report' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
 
     template 'dashboard-iscsi_sessions' => {
@@ -56,7 +56,7 @@ post '/login' => sub {
         session logged_in_user       => param('username');
         session logged_in_fullname   => Dancer::Plugin::Auth::Extensible::Provider::LDAPphys::_user_fullname(param('username'));
         session logged_in_roles      => Dancer::Plugin::Auth::Extensible::Provider::LDAPphys::get_user_roles('',param('username'));
-        session logged_in_admin      => 'isg' ~~ session('logged_in_roles') || '0';
+        session logged_in_admin      => config->{admin_role} ~~ session('logged_in_roles') || '0';
         session logged_in_user_realm => 'ldap';
 
         if ( !session('logged_in_admin') && session('return_url') eq '/' ) {

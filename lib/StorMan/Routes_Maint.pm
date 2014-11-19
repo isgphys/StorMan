@@ -23,7 +23,7 @@ get '/btrfs' => require_login sub {
     };
 };
 
-get '/balance_status' => require_role isg => sub {
+get '/balance_status' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
 
     template 'maintenance-balance_status' => {
@@ -32,7 +32,7 @@ get '/balance_status' => require_role isg => sub {
         layout => 0 };
 };
 
-get '/scrub_status' => require_role isg => sub {
+get '/scrub_status' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
 
     template 'maintenance-scrub_status' => {
@@ -41,7 +41,7 @@ get '/scrub_status' => require_role isg => sub {
         layout => 0 };
 };
 
-get '/snapshot_stats' => require_role isg => sub {
+get '/snapshot_stats' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
 
     template 'maintenance-snapshot_stats' => {
@@ -50,7 +50,7 @@ get '/snapshot_stats' => require_role isg => sub {
         layout => 0 };
 };
 
-get '/btrfs_fs-details' => require_role isg => sub {
+get '/btrfs_fs-details' => require_role config->{admin_role} => sub {
     my $mount = param('mount') || "";
     template 'maintenance-btrfs_fs-details' => {
         section      => 'maintenance',
@@ -64,7 +64,7 @@ get '/quota' => require_login sub {
     };
 };
 
-get '/quota_report' => require_role isg => sub {
+get '/quota_report' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
     my $mount = param('mount') || "/export/groupdata";
     my $server = param('server') || "phd-san-gw2";
@@ -77,7 +77,7 @@ get '/quota_report' => require_role isg => sub {
         layout => 0 };
 };
 
-get '/btrfs_mount_info' => require_role isg => sub {
+get '/btrfs_mount_info' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
     my $mount = param('mount');
     my ($code, $msg) = btrfs_worker("filesystem","df", $mount);
@@ -89,7 +89,7 @@ get '/btrfs_mount_info' => require_role isg => sub {
         layout => 0 };
 };
 
-get '/btrfs_device-list' => require_role isg => sub {
+get '/btrfs_device-list' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
     my $mount = param('mount') || "";
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
@@ -103,7 +103,7 @@ get '/btrfs_device-list' => require_role isg => sub {
         layout => $layout };
 };
 
-post '/events' => require_role isg => sub {
+post '/events' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
     my $tooltype  = param('tooltyp_arg');
     my $event     = param('event_arg');

@@ -14,12 +14,15 @@ logger:             'file'
 logger_format:      '%t [%L] %m'
 session:            'YAML'
 session_dir:        '/opt/StorMan/var/sessions'
+admin_role:         'isg'
+
 plugins:
   Auth::Extensible:
     no_default_pages: 1
     no_login_handler: 1
     realms:
       ldap:
-        provider:   'LDAPphys'
-        server:     'ldap.phys.ethz.ch'
-        base_dn:    'ou=Physik Departement,o=ethz,c=ch'
+        provider:     'LDAPphys'
+        server:       'ldap.phys.ethz.ch'
+        base_dn:      'ou=Physik Departement,o=ethz,c=ch'
+        group_filter: '(objectClass=dphysGroup)'
