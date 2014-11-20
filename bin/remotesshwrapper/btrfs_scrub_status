@@ -9,42 +9,56 @@ my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
-    my $output     = `/usr/local/bin/btrfs scrub status $mount`;
+    my @output     = `/usr/local/bin/btrfs scrub status $mount`;
     my $statustext = "unknown";
     my $status     = "0";
     my $stats      = "unknown";
     my $css_class  = "";
+    my $starttime;
+    my $runtime;
 
-    my ($statustext, $stats) = $output =~ m/\n\t(.*)\n\t(.*)$/;
-    chomp $statustext;
-    chomp $stats;
-    my ($starttime, $runtime) = $statustext =~ m/at (\w{3} \w{3}\s+\d+ \d+:\d+:\d+ \d{4}).* (\d+)/;
-    $starttime  = str2time($starttime);
-    my $minutes = $runtime / 60;
+    foreach my $line ( @output ) {
+        if ( $line =~ m/no stats available/ ) {
+            $statustext = "-";
+            $stats      = "";
+            $runtime    = "";
+        } elsif ( $line =~ qr{ at \s (?<starttime>\w{3} \s \w{3}\s+\d+ \s \d+:\d+:\d+ \s \d{4}) [^\d]* (?<runtime>\d+) }x ) {
+            $statustext = $line;
+            $starttime  = $+{starttime};
+            $runtime    = $+{runtime};
 
-    if ( $minutes < 60 ) {
-        if ($minutes < 1 ) {
-            $runtime = sprintf( "< 1 min", $minutes );
-        } else {
-            $runtime = sprintf( "%d min", $minutes );
+            $starttime  = str2time($starttime);
+            my $minutes = $runtime / 60;
+
+            if ( $minutes < 60 ) {
+                if ($minutes < 1 ) {
+                    $runtime = sprintf( "< 1 min", $minutes );
+                } else {
+                    $runtime = sprintf( "%d min", $minutes );
+                }
+            } else {
+                $runtime = sprintf( "\%dh\%02dmin", floor( $minutes / 60 ), $minutes % 60 );
+            }
+
+            if ($statustext =~ m/running/) {
+                $css_class = "running";
+                $status    = "3";
+            } elsif ($statustext =~ m/finished/) {
+                $css_class = "finished";
+                $status    = "1";
+            } elsif ($statustext =~ m/aborted/) {
+                $css_class = "aborted";
+                $status    = "2";
+            }
+        } elsif ( $line =~ m/total/ ) {
+            $stats = $line;
+        } elsif ( $line =~ m/error details/ ) {
+            $stats    .= $line;
+            $status    = "4";
+            $css_class = "error";
+        } elsif ( $line =~ m/corrected errors/ ) {
+            $stats .= $line;
         }
-    } else {
-        $runtime = sprintf( "\%dh\%02dmin", floor( $minutes / 60 ), $minutes % 60 );
-    }
-
-    if ( $statustext =~ m/no stats available/) {
-        $statustext = "-";
-        $stats      = "";
-        $runtime    = "";
-    } elsif ($output =~ m/running/) {
-        $css_class = "running";
-        $status    = "3";
-    } elsif ($output =~ m/finished/) {
-        $css_class = "finished";
-        $status    = "1";
-    } elsif ($output =~ m/aborted/) {
-        $css_class = "aborted";
-        $status    = "2";
     }
 
     $scrub_status{$mount} = {
