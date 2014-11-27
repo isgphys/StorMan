@@ -1,11 +1,18 @@
 <h3>Backup-Server Disk Usage</h3>
 <table class="border">
     <thead>
-        <th>Mount</th>
-        <th>FS-Type</th>
-        <th>Available</th>
-        <th title="Need a Balance!">Free >10%</th>
-        <th>%Used</th>
+        <tr>
+            <th rowspan="2">Mount</th>
+            <th rowspan="2">FS-Type</th>
+            <th colspan="2">Quota</th>
+            <th rowspan="2">Available</th>
+            <th rowspan="2" title="Need a Balance!">Free>10%</th>
+            <th rowspan="2">%Used</th>
+        </tr>
+        <tr>
+            <th>Usr</th>
+            <th>Grp</th>
+        </tr>
     </thead>
     <tbody>
       <%- FOREACH server IN fsinfo.keys.sort %>
@@ -17,6 +24,8 @@
         <tr>
             <td class="<%- IF fsinfo.$server.$mount.rwstatus %> <%- fsinfo.$server.$mount.rwstatus %><%- END %>"><% mount %></td>
             <td class="center"><% fsinfo.$server.$mount.fstyp %></td>
+            <td class="<% fsinfo.$server.$mount.usrquota %>"></td>
+            <td class="<% fsinfo.$server.$mount.grpquota %>"></td>
             <td class="center"><% fsinfo.$server.$mount.available %></td>
             <td class="center"><% fsinfo.$server.$mount.freediff %></td>
             <td class="center <%- IF fsinfo.$server.$mount.css_class %> <%- fsinfo.$server.$mount.css_class %><%- END %>"><% fsinfo.$server.$mount.used_per %></td>

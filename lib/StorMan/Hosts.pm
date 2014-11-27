@@ -40,6 +40,8 @@ sub get_fsinfo {
                 'available'  => num2human($+{available}*1024,1024),
                 'freediff'   => "",
                 'rwstatus'   => "",
+                'usrquota'   => "",
+                'grpquota'   => "",
                 'used_per'   => $+{usedper},
                 'css_class'  => check_fill_level($+{usedper}),
             };
@@ -52,7 +54,7 @@ sub get_fsinfo {
             ^(?<device>[\/\w\d-]+)
             \s+(?<mountpt>[\/\w\d-]+)
             \s+(?<fstyp>[\w\d]+)
-            \s+(?<mountopt>[\w\d\,\=]+)
+            \s+(?<mountopt>[\w\d\,\=\.]+)
             \s+(?<dump>[\d]+)
             \s+(?<pass>[\d]+)$
             }x;
@@ -60,8 +62,12 @@ sub get_fsinfo {
             my $mountpt  = $+{mountpt};
             my $mountopt = $+{mountopt};
             my $rwstatus = "check_red" if $mountopt =~ /ro/;
+            my $usrquota = "hook" if ( $mountopt =~ /usrquota/ || $mountopt =~ /usrjquota/ );
+            my $grpquota = "hook" if ( $mountopt =~ /grpquota/ || $mountopt =~ /grpjquota/ );
 
             $fsinfo{$server}{$mountpt}{rwstatus} = $rwstatus;
+            $fsinfo{$server}{$mountpt}{usrquota} = $usrquota;
+            $fsinfo{$server}{$mountpt}{grpquota} = $grpquota;
         }
 
         if ($server eq "phd-bkp-gw") {
