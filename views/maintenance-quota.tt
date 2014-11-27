@@ -9,7 +9,7 @@
 <script>
     $(window).load(function() {
         $.ajax({
-            url: '/maint/quota_report?mount=<% mount %>',
+            url: '/maint/quota_report?server=<% server %>;mount=<% mount %>;option=<% option %>',
             success: function(content) {
                 $('#quota_report').html(content);
                 initializeTablesorter();

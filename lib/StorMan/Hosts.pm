@@ -100,6 +100,8 @@ sub get_fsinfo {
 sub get_quotareport {
     my ($server, $mount, $option) = @_;
 
+    return unless $option =~ /-[ug]$/;
+
     my $data = {
         "mount"  => $mount,
         "option" => $option,
