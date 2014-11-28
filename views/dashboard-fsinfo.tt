@@ -2,12 +2,12 @@
 <table class="border">
     <thead>
         <tr>
-            <th rowspan="2">Mount</th>
-            <th rowspan="2">FS-Type</th>
+            <th rowspan="2" style="vertical-align: bottom;">Mount</th>
+            <th rowspan="2" style="vertical-align: bottom;" >FS-Type</th>
             <th colspan="2">Quota</th>
-            <th rowspan="2">Available</th>
-            <th rowspan="2" title="Need a Balance!">Free>10%</th>
-            <th rowspan="2">%Used</th>
+            <th rowspan="2" style="vertical-align: bottom;">Available</th>
+            <th rowspan="2" style="vertical-align: bottom;" title="Need a Balance!">Free>10%</th>
+            <th rowspan="2" style="vertical-align: bottom;">%Used</th>
         </tr>
         <tr>
             <th>Usr</th>
