@@ -14,15 +14,25 @@ logger:             'file'
 logger_format:      '%t [%L] %m'
 session:            'YAML'
 session_dir:        '/opt/StorMan/var/sessions'
-admin_role:         'isg'
-
+admin_role:         'StorMan-admin'
 plugins:
   Auth::Extensible:
     no_default_pages: 1
     no_login_handler: 1
     realms:
-      ldap:
-        provider:     'LDAPphys'
-        server:       'ldap.phys.ethz.ch'
-        base_dn:      'ou=Physik Departement,o=ethz,c=ch'
-        group_filter: '(objectClass=dphysGroup)'
+      config:
+        provider:   'Config'
+        users:
+          - user:   'admin'
+            pass:   'supersecret'
+            cn:     'Admin User'
+            roles:
+              -     'BaNG-admin'
+          - user:   'guest'
+            pass:   'guest'
+            cn:     'Guest User'
+      #ldap:
+      #  provider:     'LDAPphys'
+      #  server:       'ldap.example.com'
+      #  base_dn:      'ou=Company,o=example,c=com'
+      #  group_filter: '(objectClass=groupclass)'
