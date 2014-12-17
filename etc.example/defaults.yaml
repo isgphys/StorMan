@@ -1,0 +1,14 @@
+# ---------------
+# Global settings
+# ---------------
+
+path_serverconfig:  servers
+path_logs:          logs
+global_log_date:    "%Y-%m-%d"
+
+path_date:          /bin/date
+path_iscsiadm:      /usr/sbin/iscsiadm
+#
+debug:              0
+debuglevel:         2
+
