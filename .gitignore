@@ -4,3 +4,6 @@
 *.example
 debug.pl
 /lib/Dancer*
+config.yml
+/etc
+views/navbar-custom-items.tt
