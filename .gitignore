@@ -1,7 +1,6 @@
 /logs
 /var
 *.swp
-*.example
 debug.pl
 /lib/Dancer*
 config.yml
