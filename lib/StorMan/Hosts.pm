@@ -35,7 +35,7 @@ sub get_fsinfo {
                 'filesystem' => $+{filesystem},
                 'mount'      => $+{mountpt},
                 'fstyp'      => $+{fstyp},
-                'blocks'     => num2human($+{blocks}),
+                'blocks'     => num2human($+{blocks}*1024,1024),
                 'used'       => num2human($+{used}*1024,1024),
                 'available'  => num2human($+{available}*1024,1024),
                 'freediff'   => "",
