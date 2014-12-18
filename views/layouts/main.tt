@@ -22,33 +22,31 @@
             <% content %>
             <div style="clear: both;"></div>
         </div>
+
+        <script>
+            function initializeTablesorter() {
+                $('.quota').tablesorter({
+                    sortList: [[0,0]],
+                });
+                $('.scrub').tablesorter({
+                    sortList: [[0,1],[1,1]],
+                });
+                $(".hiddencolumn").hide();
+            };
+
+            function initializeEvents() {
+                $('[data-toggleoption]').click(function() {
+                    var toggleOption = $(this).data('toggleoption');
+                    var eventType = $(this).data('eventtype');
+                    var mountPoint = $(this).data('mountpt');
+
+                    alert( mountPoint + " " + eventType );
+                    $.post('/maint/events' , {
+                        tooltyp_arg: toggleOption,
+                        event_arg: eventType,
+                        mount_arg: mountPoint });
+                });
+            }
+        </script>
     </body>
 </html>
-
-<script>
-    function initializeTablesorter() {
-        $('.quota').tablesorter({
-            sortList: [[0,0]],
-        });
-        $('.scrub').tablesorter({
-            sortList: [[0,1],[1,1]],
-        });
-        $(".hiddencolumn").hide();
-    };
-
-    function initializeEvents() {
-        $('[data-toggleoption]').click(function() {
-            var toggleOption = $(this).data('toggleoption');
-            var eventType = $(this).data('eventtype');
-            var mountPoint = $(this).data('mountpt');
-
-            alert( mountPoint + " " + eventType );
-            $.post('/maint/events' , {
-                tooltyp_arg: toggleOption,
-                event_arg: eventType,
-                mount_arg: mountPoint });
-        });
-    }
-</script>
-
-

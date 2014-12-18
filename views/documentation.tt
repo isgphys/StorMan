@@ -16,14 +16,15 @@
         <% INCLUDE header.tt %>
         <% INCLUDE navbar.tt %>
         <div id="content"></div>
+
+        <script>
+            marked.setOptions({
+              highlight: function (code) {
+                return hljs.highlightAuto(code).value;
+              }
+            });
+            document.getElementById('content').innerHTML =
+            marked('<% content %>');
+        </script>
     </body>
 </html>
-<script>
-    marked.setOptions({
-      highlight: function (code) {
-        return hljs.highlightAuto(code).value;
-      }
-    });
-    document.getElementById('content').innerHTML =
-    marked('<% content %>');
-</script>
