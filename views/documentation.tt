@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>BaNG</title>
+        <title>StorMan</title>
         <meta charset="utf-8">
         <link rel="icon" type="image/ico" href="/favicon">
         <link rel="stylesheet" href="/css/isg-dancer-common.css">
-        <link rel="stylesheet" href="/css/bang.css">
+        <link rel="stylesheet" href="/css/storman.css">
         <link rel="stylesheet" href="/css/highlight.min.css">
+        <script src="/javascripts/jquery.min.js"></script>
         <script src="/javascripts/marked.min.js"></script>
         <script src="/javascripts/highlight.min.js"></script>
     </head>
@@ -14,15 +15,25 @@
         <% INCLUDE header.tt %>
         <% INCLUDE navbar.tt %>
         <div id="content"></div>
-
-        <script>
-            marked.setOptions({
-              highlight: function (code) {
-                return hljs.highlightAuto(code).value;
-              }
-            });
-            document.getElementById('content').innerHTML =
-            marked('<% content %>');
-        </script>
     </body>
 </html>
+<script>
+    $(window).load(function() {
+
+        updateTime();
+
+        function updateTime() {
+            var d = new Date();
+            document.getElementById("LastUpdate").firstChild.nodeValue =
+            d.toTimeString().substring(0, 8) + " " + d.toLocaleDateString();
+        }
+    });
+
+    marked.setOptions({
+      highlight: function (code) {
+        return hljs.highlightAuto(code).value;
+      }
+    });
+    document.getElementById('content').innerHTML =
+    marked('<% content %>');
+</script>
