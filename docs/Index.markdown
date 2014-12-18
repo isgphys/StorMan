@@ -1,4 +1,4 @@
   Storage Manager Documentation
 ================================
 
-  * [Readme](Readme) : General overview
+  * [Readme](Readme.markdown) : General overview
