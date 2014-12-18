@@ -1,4 +1,4 @@
-<h4>Report for <% mount %></h4>
+<h4>Report for <% mount %> (<% quotareport.size %>)</h4>
 <table class="quota border tablesorter">
     <thead>
         <th>ID</th>
