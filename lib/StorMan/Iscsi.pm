@@ -34,6 +34,7 @@ sub get_iscsi_nodes {
                 'host_ip'    => $+{host_ip},
                 'port'       => $+{port},
                 'nodesessnr' => $+{nodesessnr},
+                'login'      => "check_red",
             };
 
         }
