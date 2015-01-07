@@ -27,18 +27,18 @@ get '/fsinfo_report' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
 
     template 'dashboard-fsinfo' => {
-        fsinfo => get_fsinfo(),
+        fsinfo  => get_fsinfo(),
         servers => \%servers,
         },{
         layout => 0 };
 };
 
-get '/iscsi_session_report' => require_role config->{admin_role} => sub {
+get '/iscsi_nodes_report' => require_role config->{admin_role} => sub {
     get_serverconfig('*');
 
-    template 'dashboard-iscsi_sessions' => {
-        sessioninfo => get_iscsi_sessions(),
-        servers => \%servers,
+    template 'dashboard-iscsi_nodes' => {
+        nodesinfo => get_iscsi_nodes(),
+        servers   => \%servers,
         },{
         layout => 0 };
 };

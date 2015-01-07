@@ -1,0 +1,29 @@
+<h3>iSCSI Nodes</h3>
+<table class="border">
+    <thead>
+        <th title="iSCSI Qualified Name" class="left">IQN</th>
+        <th title="Node Session Number">NS-Nr</th>
+        <th>Host IP</th>
+        <th>Port</th>
+        <th title="Session Protocol">Prot</th>
+        <th title="Session ID">SessID</th>
+    </thead>
+    <tbody>
+      <%- FOREACH server IN nodesinfo.keys.sort %>
+        <tr>
+            <td colspan=2><b><% server %></b> (<% nodesinfo.$server.size %>)</td>
+            <td colspan=4><b><% servers.$server.serverconfig.description %></b></td>
+        </tr>
+        <%- FOREACH node IN nodesinfo.$server.keys.sort %>
+        <tr <% IF nodesinfo.$server.$node.login %> class="<% nodesinfo.$server.$node.login %>"<% END %>>
+            <td class="center"><% node %></td>
+            <td class="center"><% nodesinfo.$server.$node.nodesessnr %></td>
+            <td class="center"><% nodesinfo.$server.$node.host_ip %></td>
+            <td class="center"><% nodesinfo.$server.$node.port %></td>
+            <td class="center"><% nodesinfo.$server.$node.protocol %></td>
+            <td class="center"><% nodesinfo.$server.$node.session_id %></td>
+        </tr>
+        <%- END %>
+      <%- END %>
+    </tbody>
+</table>

@@ -8,16 +8,35 @@ use StorMan::Common;
 
 use Exporter 'import';
 our @EXPORT = qw(
-    get_iscsi_sessions
+    get_iscsi_nodes
 );
 
-sub get_iscsi_sessions {
+sub get_iscsi_nodes {
+    my @nodes;
+    my %nodesinfo;
     my @sessions;
     my %sessioninfo;
 
     foreach my $server ( keys %servers ) {
 
+        @nodes    = remotewrapper_command( $server, 'StorMan/iscsi_nodes' );
         @sessions = remotewrapper_command( $server, 'StorMan/iscsi_sessions' );
+
+        foreach my $node (@nodes) {
+            $node =~ qr{
+            ^(?<host_ip> [^:]*)
+            :(?<port> [^,]+)
+            ,(?<nodesessnr>[\d]+)
+            \s+(?<iqn> [^\$]+)
+            }x;
+
+            $nodesinfo{$server}{$+{iqn}} = {
+                'host_ip'    => $+{host_ip},
+                'port'       => $+{port},
+                'nodesessnr' => $+{nodesessnr},
+            };
+
+        }
 
         foreach my $session (@sessions) {
             $session =~ qr{
@@ -29,16 +48,13 @@ sub get_iscsi_sessions {
             \s+(?<iqn> [^\$]+)
             }x;
 
-            $sessioninfo{$server}{$+{session_id}} = {
-                'protocol' => $+{protocol},
-                'host_ip'  => $+{host_ip},
-                'port'     => $+{port},
-                'whatever' => $+{whatever},
-                'iqn'      => $+{iqn},
-            };
+            my $iqn = $+{iqn};
+            $nodesinfo{$server}{$iqn}{session_id} = $+{session_id};
+            $nodesinfo{$server}{$iqn}{protocol}   = $+{protocol};
+            $nodesinfo{$server}{$iqn}{login}      = "check_green";
         }
     }
-    return \%sessioninfo;
+    return \%nodesinfo;
 }
 
 1;

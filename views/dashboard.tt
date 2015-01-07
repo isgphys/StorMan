@@ -5,10 +5,10 @@
         Loading Filesystem Usage Report
     </div>
 </div>
-<div id="iscsisessioninfo" class="float-left">
+<div id="iscsinodesinfo" class="float-left">
     <div class="loading_message">
         <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading ISCSI Sessions Report
+        Loading ISCSI Node Report
     </div>
 </div>
 
@@ -24,12 +24,12 @@
             }
         });
         $.ajax({
-            url: '/iscsi_session_report',
+            url: '/iscsi_nodes_report',
             success: function(content) {
-                $('#iscsisessioninfo').html(content);
+                $('#iscsinodesinfo').html(content);
             },
             error: function() {
-                $('#iscsisessioninfo').html('An error occured while loading the ISCSI Sessions Report.');
+                $('#iscsinodesinfo').html('An error occured while loading the ISCSI Node Report.');
             }
         });
     });
