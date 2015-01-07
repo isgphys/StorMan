@@ -1,20 +1,20 @@
 <h2>Maintenance - ISCSI</h2>
-<div id="iscsisessioninfo" class="float-left">
+<div id="iscsinodesinfo" class="float-left">
     <div class="loading_message">
         <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading ISCSI Sessions Report
+        Loading ISCSI Nodes Report
     </div>
 </div>
 
 <script>
     $(window).load(function() {
         $.ajax({
-            url: '/iscsi_session_report',
+            url: '/iscsi_nodes_report',
             success: function(content) {
-                $('#iscsisessioninfo').html(content);
+                $('#iscsinodesinfo').html(content);
             },
             error: function() {
-                $('#iscsisessioninfo').html('An error occured while loading the ISCSI Sessions Report.');
+                $('#iscsinodesinfo').html('An error occured while loading the ISCSI Nodes Report.');
             }
         });
     });
