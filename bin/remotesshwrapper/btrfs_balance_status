@@ -1,13 +1,15 @@
 #!/usr/bin/env perl
 use JSON;
 
+my $BTRFS = "/usr/bin/btrfs";
+
 my %balance_status;
 my $mountpts_ref = decode_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
-    my $output    = `/usr/local/bin/btrfs balance status $mount`;
+    my $output    = `$BTRFS balance status $mount`;
     my $status    = "unknown";
     my $css_class = "";
 

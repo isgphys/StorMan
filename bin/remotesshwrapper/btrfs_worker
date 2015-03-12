@@ -17,12 +17,14 @@ my $event    = $data_ref->{'event'};
 my $mount    = $data_ref->{'mount'} || "";
 
 my $worker_status;
+my $BTRFS = "/usr/bin/btrfs";
 my $btrfs_args = "$tooltype $event $mount";
+
 exit unless $btrfs_args =~ m/^[a-zA-Z0-9_\-\/\s]+$/;
 
 if ( $tooltype eq "filesystem" ) {
     if ( $event eq "df" ){
-        my @outputs    = `/usr/local/bin/btrfs $btrfs_args`;
+        my @outputs    = `$BTRFS $btrfs_args`;
         my $df;
         my @df_result;
 
@@ -42,7 +44,7 @@ if ( $tooltype eq "filesystem" ) {
             'return_msg'  => \@df_result,
         };
     } elsif ( $event eq "show" ){
-        my @outputs    = `/usr/local/bin/btrfs $btrfs_args`;
+        my @outputs    = `$BTRFS $btrfs_args`;
         my %fs;
         my $label;
         my %deviceList;
@@ -92,7 +94,7 @@ if ( $tooltype eq "filesystem" ) {
     }
 
 } else {
-    system("nohup /usr/local/bin/btrfs $btrfs_args > /dev/null &");
+    system("nohup $BTRFS $btrfs_args > /dev/null &");
 
     $worker_status = {
         'return_code' => 1,

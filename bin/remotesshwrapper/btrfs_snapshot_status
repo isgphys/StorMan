@@ -1,14 +1,16 @@
 #!/usr/bin/env perl
 use JSON;
 
+my $BTRFS = "/usr/bin/btrfs";
+
 my %snapshot_stats;
 my $mountpts_ref = decode_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
-    my $quantity     = `/usr/local/bin/btrfs subvolume list -s $mount | wc -l`;
-    my $quantity_del = `/usr/local/bin/btrfs subvolume list -d $mount | wc -l`;
+    my $quantity     = `$BTRFS subvolume list -s $mount | wc -l`;
+    my $quantity_del = `$BTRFS subvolume list -d $mount | wc -l`;
 
     chomp $quantity;
     chomp $quantity_del;

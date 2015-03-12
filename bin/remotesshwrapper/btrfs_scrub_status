@@ -3,13 +3,15 @@ use JSON;
 use Date::Parse;
 use POSIX qw( floor );
 
+my $BTRFS = "/usr/bin/btrfs";
+
 my %scrub_status;
 my $mountpts_ref = decode_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
-    my @output     = `/usr/local/bin/btrfs scrub status $mount`;
+    my @output     = `$BTRFS scrub status $mount`;
     my $statustext = "unknown";
     my $status     = "0";
     my $stats      = "unknown";
