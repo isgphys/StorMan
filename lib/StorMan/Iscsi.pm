@@ -52,7 +52,9 @@ sub get_iscsi_nodes {
             my $iqn = $+{iqn};
             $nodesinfo{$server}{$iqn}{session_id} = $+{session_id};
             $nodesinfo{$server}{$iqn}{protocol}   = $+{protocol};
-            $nodesinfo{$server}{$iqn}{login}      = "check_green";
+
+            my $proto                        = $nodesinfo{$server}{$iqn}{protocol} eq "iser" ? "check_lightgreen" : "check_green";
+            $nodesinfo{$server}{$iqn}{login} = $proto;
         }
     }
     return \%nodesinfo;
