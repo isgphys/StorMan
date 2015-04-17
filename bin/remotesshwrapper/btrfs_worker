@@ -48,9 +48,11 @@ if ( $tooltype eq "filesystem" ) {
         my %fs;
         my $label;
         my %deviceList;
-        my @deviceList = glob("/dev/iscsi/*");  #get sdXY <-> bkpX-lun-Y mapping
+        my $PVpattern = '/dev/iscsi/\d?([\d\w.]+)-(.+)';
+        my @completeList = glob("/dev/iscsi/*");                        #get bkpX-lun-Y -> sdXY mapping
+        my @relevantList = grep { $_ =~ /$PVpattern/ } @completeList;
 
-        foreach my $device (@deviceList) {
+        foreach my $device (@relevantList) {
             my $link = readlink($device);
             $link =~ s#\.\./##;
             $deviceList{$link} = $device;
