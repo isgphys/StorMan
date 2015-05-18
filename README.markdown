@@ -10,9 +10,10 @@ Main Features
   * Perl Dancer web frontend
     * Dashboard with most important information
     * Documentation rendering markdown files
-    * show ISCSI sessions
+    * show ISCSI sessions, supported protocols (tcp/iser)
     * show BTRFS status of balancing and scrubbing
     * BTRFS remote control for balance and scrub
+    * show Quota status (ext4/xfs)
 
 
 Author
