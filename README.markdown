@@ -3,6 +3,14 @@ StorMan - Storage Manager (SAN)
 
 Storage Manager developed by the [IT Services Group](http://isg.phys.ethz.ch) of the Physics Department at ETH Zurich.
 
+Motivation
+----------
+
+Our storage environment has grown constantly. In order to keep the overview the "Storage Manager" was born.
+
+At first I used StorMan as pure monitoring, but there were more and more features added to also control the SAN.
+
+Since January 2014 I use it productively for monitoring our SAN environment. However, it may still contain bugs and is primarily meant for advanced users. Please refer to the [documentation](docs/) for more details.
 
 Main Features
 ---------------
