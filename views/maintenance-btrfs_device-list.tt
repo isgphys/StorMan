@@ -24,7 +24,7 @@
             <td width="60px"><% fs.$partition.devices.$device.devsize %></td>
             <td width="60px"><% fs.$partition.devices.$device.devused %></td>
             <td width="60px"><% fs.$partition.devices.$device.devpath %></td>
-            <td width="120px"><% fs.$partition.devices.$device.iscsipath %></td>
+            <td width="160px"><% fs.$partition.devices.$device.iscsipath %></td>
         </tr>
         <% END %>
       <% END %>
