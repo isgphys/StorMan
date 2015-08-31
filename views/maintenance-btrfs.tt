@@ -22,6 +22,12 @@
 
 <script>
     $(window).load(function() {
+        load_balance_status();
+        load_scrub_status();
+        load_snap_status();
+    });
+
+    function load_balance_status() {
         $.ajax({
             url: '/maint/balance_status',
             success: function(content) {
@@ -32,6 +38,9 @@
                 initializeEvents();
             }
         });
+    }
+
+    function load_scrub_status() {
         $.ajax({
             url: '/maint/scrub_status',
             success: function(content) {
@@ -43,6 +52,9 @@
                 $('#scrub_status').html('An error occured while loading the Scrub Status.');
             }
         });
+    }
+
+    function load_snap_status() {
         $.ajax({
             url: '/maint/snapshot_stats',
             success: function(content) {
@@ -54,5 +66,5 @@
                 $('#snapshot_stats').html('An error occured while loading the Scrub Status.');
             }
         });
-    });
+    }
 </script>
