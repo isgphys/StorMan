@@ -1,4 +1,4 @@
-<h3>Balance Status</h3>
+<h3>Balance Status <img id="balance_status_img" src="/images/reload.png" width="15" title="Force reload"></h3>
 <table class="border">
     <thead>
         <th>Mount (<% balancestatus.size %>)</th>
@@ -20,3 +20,10 @@
       <%- END %>
     </tbody>
 </table>
+
+<script>
+    $('#balance_status_img').click(function(){
+        $('#balance_status').html('<div class="loading_message"><img src="/images/spinner.gif" width=25 alt="Loading animation">Loading Balance Status</div>');
+        load_balance_status();
+    });
+</script>

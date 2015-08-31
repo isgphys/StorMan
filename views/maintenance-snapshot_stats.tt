@@ -1,4 +1,4 @@
-<h3>Snapshot Statistics</h3>
+<h3>Snapshot Statistics <img id="snapshot_stats_img" src="/images/reload.png" width="15" title="Force reload"></h3>
 <table class="border">
     <thead>
         <th>Mount (<% snapshotstats.size %>)</th>
@@ -21,3 +21,11 @@
     </tr>
     </tbody>
 </table>
+
+<script>
+    $('#snapshot_stats_img').click(function(){
+        $('#snapshot_stats').html('<div class="loading_message"><img src="/images/spinner.gif" width=25 alt="Loading animation">Loading Snapshot Statistics</div>');
+        load_balance_status();
+    });
+</script>
+
