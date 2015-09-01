@@ -1,4 +1,4 @@
-<h3>Scrub Status</h3>
+<h3>Scrub Status <img id="scrub_status_img" src="/images/reload.png" width="15" title="Force reload"></h3>
 <table class="scrub border tablesorter">
     <thead>
         <th class="hiddencolumn">Statusnr</th>
@@ -30,3 +30,10 @@
       <%- END %>
     </tbody>
 </table>
+
+<script>
+    $('#scrub_status_img').click(function(){
+        $('#scrub_status').html('<div class="loading_message"><img src="/images/spinner.gif" width=25 alt="Loading animation">Loading Scrub Status</div>');
+        load_scrub_status();
+    });
+</script>
