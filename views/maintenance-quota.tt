@@ -16,7 +16,6 @@
             },
             error: function() {
                 $('#quota_report').html('An error occured while loading the Quota Report.');
-                initializeEvents();
             }
         });
     });

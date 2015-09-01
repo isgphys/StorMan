@@ -67,4 +67,29 @@
             }
         });
     }
+
+function initializeEvents() {
+    $('[data-toggleoption]').click(function() {
+            var toggleOption = $(this).data('toggleoption');
+            var eventType = $(this).data('eventtype');
+            var mountPoint = $(this).data('mountpt');
+
+            alert( mountPoint + " " + eventType );
+            $.post('/maint/events' , {
+                tooltyp_arg: toggleOption,
+                event_arg: eventType,
+                mount_arg: mountPoint
+                });
+
+            switch ( toggleOption ) {
+                case 'scrub':
+                    load_scrub_status();
+                    break;
+                case 'balance':
+                    load_balance_status();
+                    break;
+            }
+    });
+}
+
 </script>

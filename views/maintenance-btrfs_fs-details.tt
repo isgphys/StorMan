@@ -24,7 +24,6 @@
             },
             error: function() {
                 $('#btrfs_device-list').html('An error occured while loading the Device List.');
-                initializeEvents();
             }
         });
         $.ajax({
@@ -34,7 +33,6 @@
             },
             error: function() {
                 $('#btrfs_mount_info').html('An error occured while loading the Mount Info.');
-                initializeEvents();
             }
         });
     });
