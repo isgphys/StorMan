@@ -54,7 +54,7 @@ sub get_fsinfo {
             ^(?<device>[\/\w\d-]+)
             \s+(?<mountpt>[\/\w\d-]+)
             \s+(?<fstyp>[\w\d]+)
-            \s+(?<mountopt>[\w\d\,\=\.]+)
+            \s+(?<mountopt>[\w\d\,\=\.\/]+)
             \s+(?<dump>[\d]+)
             \s+(?<pass>[\d]+)$
             }x;
