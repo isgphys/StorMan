@@ -32,18 +32,18 @@ sub get_fsinfo {
             }x;
 
             $fsinfo{$server}{$+{mountpt}} = {
-                'filesystem' => $+{filesystem},
-                'mount'      => $+{mountpt},
-                'fstyp'      => $+{fstyp},
-                'blocks'     => num2human($+{blocks}*1024,1024),
-                'used'       => num2human($+{used}*1024,1024),
-                'available'  => num2human($+{available}*1024,1024),
-                'freediff'   => "",
-                'rwstatus'   => "",
-                'usrquota'   => "",
-                'grpquota'   => "",
-                'used_per'   => $+{usedper},
-                'css_class'  => check_fill_level($+{usedper}),
+                filesystem => $+{filesystem},
+                mount      => $+{mountpt},
+                fstyp      => $+{fstyp},
+                blocks     => num2human($+{blocks}*1024,1024),
+                used       => num2human($+{used}*1024,1024),
+                available  => num2human($+{available}*1024,1024),
+                freediff   => "",
+                rwstatus   => "",
+                usrquota   => "",
+                grpquota   => "",
+                used_per   => $+{usedper},
+                css_class  => check_fill_level($+{usedper}),
             };
 
         }
