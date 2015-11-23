@@ -59,7 +59,7 @@ sub get_fsinfo {
             \s+(?<pass>[\d]+)$
             }x;
 
-            my $mountpt  = $+{mountpt}  || '';
+            my $mountpt  = $+{mountpt}  || next;
             my $mountopt = $+{mountopt} || '';
             my $rwstatus = "check_red" if $mountopt =~ /ro/;
             my $usrquota = "hook" if ( $mountopt =~ /usrquota/ || $mountopt =~ /usrjquota/ );
