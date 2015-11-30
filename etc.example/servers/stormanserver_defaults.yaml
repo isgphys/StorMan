@@ -1,3 +1,4 @@
 ---
-description: "Example Server"
-location:    "Example Room Number"
+description:    "Example Server"
+location:       "Example Room Number"
+iscsi_frontend: 0
