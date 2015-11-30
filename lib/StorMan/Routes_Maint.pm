@@ -33,11 +33,11 @@ get '/iscsi/?:errcode?' => require_role config->{admin_role} => sub {
 
 post '/iscsi/discovery' => require_role config->{admin_role} => sub {
     my $targetIP = param('discover');
-    my $bkpserver = param('bkpserver');
+    my $server = param('server');
 
-    info("Discover $targetIP on $bkpserver by ". session('logged_in_user'));
+    info("Discover $targetIP on $server by ". session('logged_in_user'));
 
-    my ($err_code, $return_msg) = discover_new_target( $targetIP, $bkpserver );
+    my ($err_code, $return_msg) = discover_new_target( $targetIP, $server );
     $msg = $return_msg;
 
     redirect "/maint/iscsi/$err_code";

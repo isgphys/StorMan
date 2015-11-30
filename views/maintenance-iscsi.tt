@@ -4,7 +4,7 @@
     <input name="discover" id="discover" value="" maxlength="15" size="15" type="text" placeholder="Target IP" autofocus onkeydown=
             "if (event.keyCode == 13){ $('#sendbtn').trigger('click'); return false; }">
     on
-    <select name="bkpserver" id="bkpserver">
+    <select name="server" id="server">
       <% FOREACH server in servers.keys.sort %>
         <% IF servers.$server.serverconfig.iscsi_frontend == 1 %>
         <option value="<% server %>"><% server %></option>
@@ -30,6 +30,11 @@
 <script>
     $(window).load(function() {
         $(".msg_error").delay(8000).fadeOut(2000);
+
+        if( $('#server :selected').length == 0 ) {
+            $("input#discover").attr('disabled', 'disabled');
+        };
+
         load_iscsi_nodes();
     });
 
