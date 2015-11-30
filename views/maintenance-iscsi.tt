@@ -6,8 +6,9 @@
     on
     <select name="bkpserver" id="bkpserver">
       <% FOREACH server in servers.keys.sort %>
-      <% NEXT IF servers.$server.serverconfig.iscsi_frontend == 0 %>
+        <% IF servers.$server.serverconfig.iscsi_frontend == 1 %>
         <option value="<% server %>"><% server %></option>
+        <% END %>
       <% END %>
     </select>
     <input id="sendbtn" class="submit" type="submit" value="Do it!" style="display:none;">
