@@ -7,15 +7,42 @@ use Dancer ':syntax';
 use Dancer::Plugin::Auth::Extensible;
 use StorMan::Config;
 use StorMan::BTRFS;
+use StorMan::Iscsi;
 use StorMan::Hosts;
+
+my $msg = '';
+my $err_code   = '';
 
 prefix '/maint';
 
-get '/iscsi' => require_login sub {
+get '/iscsi/?:errcode?' => require_role config->{admin_role} => sub {
+    my $errcode  = param('errcode') || '';
+    my $errmsg = '';
+
+    get_serverconfig('*');
+
+    if ( $errcode eq "1" ){
+        $errmsg = $msg;
+    }
     template 'maintenance-iscsi' => {
-        section      => 'maintenance',
+        section => 'maintenance',
+        errmsg  => $errmsg,
+        servers => \%servers,
     };
 };
+
+post '/iscsi/discovery' => require_role config->{admin_role} => sub {
+    my $targetIP = param('discover');
+    my $bkpserver = param('bkpserver');
+
+    info("Discover $targetIP on $bkpserver by ". session('logged_in_user'));
+
+    my ($err_code, $return_msg) = discover_new_target( $targetIP, $bkpserver );
+    $msg = $return_msg;
+
+    redirect "/maint/iscsi/$err_code";
+};
+
 
 get '/btrfs' => require_login sub {
     template 'maintenance-btrfs' => {

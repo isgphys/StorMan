@@ -1,4 +1,24 @@
 <h2>Maintenance - ISCSI</h2>
+<form id="discover-form" action="/maint/iscsi/discovery" method=post>
+    Discover new target host:
+    <input name="discover" id="discover" value="" maxlength="15" size="15" type="text" placeholder="Target IP" autofocus onkeydown=
+            "if (event.keyCode == 13){ $('#sendbtn').trigger('click'); return false; }">
+    on
+    <select name="bkpserver" id="bkpserver">
+      <% FOREACH server in servers.keys.sort %>
+      <% NEXT IF servers.$server.serverconfig.iscsi_frontend == 0 %>
+        <option value="<% server %>"><% server %></option>
+      <% END %>
+    </select>
+    <input id="sendbtn" class="submit" type="submit" value="Do it!" style="display:none;">
+</form>
+
+<% If errmsg %>
+<div class="msg_error">
+    <% errmsg %>
+</div>
+<% END %>
+
 <div id="iscsinodesinfo" class="float-left">
     <div class="loading_message">
         <img src="/images/spinner.gif" width=25 alt="Loading animation">
@@ -8,6 +28,11 @@
 
 <script>
     $(window).load(function() {
+        $(".msg_error").delay(8000).fadeOut(2000);
+        load_iscsi_nodes();
+    });
+
+    function load_iscsi_nodes() {
         $.ajax({
             url: '/iscsi_nodes_report',
             success: function(content) {
@@ -17,5 +42,5 @@
                 $('#iscsinodesinfo').html('An error occured while loading the ISCSI Nodes Report.');
             }
         });
-    });
+    }
 </script>

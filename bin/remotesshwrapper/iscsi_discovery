@@ -1,0 +1,4 @@
+#!/bin/bash
+
+iscsiadm -m discovery --type sendtargets -p $1
+

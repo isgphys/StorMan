@@ -3,12 +3,14 @@ package StorMan::Iscsi;
 use 5.010;
 use strict;
 use warnings;
+use Dancer ':syntax';
 use StorMan::Config;
 use StorMan::Common;
 
 use Exporter 'import';
 our @EXPORT = qw(
     get_iscsi_nodes
+    discover_new_target
 );
 
 sub get_iscsi_nodes {
@@ -58,6 +60,23 @@ sub get_iscsi_nodes {
         }
     }
     return \%nodesinfo;
+}
+
+sub discover_new_target {
+    my ($targetIP, $server) = @_;
+    my $return_msg = "Error";
+    my $err_code = 0;
+
+    my @tpgts = remotewrapper_command( $server, 'Dev-StorMan/iscsi_discovery', $targetIP );
+
+    foreach my $tpgt (@tpgts) {
+        $return_msg = "Found new TPGT on $targetIP - $tpgt";
+        $err_code = 1;
+    }
+
+    info("Discovery Err: $err_code  - $return_msg");
+
+    return ( $err_code, $return_msg );
 }
 
 1;
