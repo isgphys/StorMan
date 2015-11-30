@@ -67,7 +67,7 @@ sub discover_new_target {
     my $return_msg = "Error";
     my $err_code = 0;
 
-    my @tpgts = remotewrapper_command( $server, 'Dev-StorMan/iscsi_discovery', $targetIP );
+    my @tpgts = remotewrapper_command( $server, 'StorMan/iscsi_discovery', $targetIP );
 
     foreach my $tpgt (@tpgts) {
         $return_msg = "Found new TPGT on $targetIP - $tpgt";
