@@ -6,7 +6,7 @@
                 <li><a href="/maint/iscsi">ISCSI-Tools</a></li>
                 <li class="gosubmenu"><a href="/maint/btrfs">BTRFS-Tools</a>
                     <ul>
-                        <li><a href="/maint/btrfs_device-list">Device List</a>
+                        <li><a href="/maint/btrfs/btrfs_device-list">Device List</a>
                     </ul>
                 </li>
             </ul>

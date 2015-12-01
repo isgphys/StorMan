@@ -8,9 +8,10 @@ use Dancer::Plugin::Auth::Extensible;
 use StorMan::Config;
 use StorMan::Common;
 use StorMan::Hosts;
-use StorMan::Iscsi;
 use StorMan::Routes_Docs;
 use StorMan::Routes_Maint;
+use StorMan::Routes_Btrfs;
+use StorMan::Routes_Iscsi;
 
 get_globalconfig();
 
@@ -29,16 +30,6 @@ get '/fsinfo_report' => require_role config->{admin_role} => sub {
     template 'dashboard-fsinfo' => {
         fsinfo  => get_fsinfo(),
         servers => \%servers,
-        },{
-        layout => 0 };
-};
-
-get '/iscsi_nodes_report' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
-
-    template 'dashboard-iscsi_nodes' => {
-        nodesinfo => get_iscsi_nodes(),
-        servers   => \%servers,
         },{
         layout => 0 };
 };

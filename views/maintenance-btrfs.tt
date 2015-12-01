@@ -29,7 +29,7 @@
 
     function load_balance_status() {
         $.ajax({
-            url: '/maint/balance_status',
+            url: '/maint/btrfs/balance_status',
             success: function(content) {
                 $('#balance_status').html(content);
             },
@@ -42,7 +42,7 @@
 
     function load_scrub_status() {
         $.ajax({
-            url: '/maint/scrub_status',
+            url: '/maint/btrfs/scrub_status',
             success: function(content) {
                 $('#scrub_status').html(content);
                 initializeTablesorter();
@@ -56,7 +56,7 @@
 
     function load_snap_status() {
         $.ajax({
-            url: '/maint/snapshot_stats',
+            url: '/maint/btrfs/snapshot_stats',
             success: function(content) {
                 $('#snapshot_stats').html(content);
                 initializeTablesorter();
@@ -75,7 +75,7 @@ function initializeEvents() {
             var mountPoint = $(this).data('mountpt');
 
             alert( mountPoint + " " + eventType );
-            $.post('/maint/events' , {
+            $.post('/maint/btrfs/events' , {
                 tooltyp_arg: toggleOption,
                 event_arg: eventType,
                 mount_arg: mountPoint

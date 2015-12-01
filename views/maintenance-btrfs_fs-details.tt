@@ -18,7 +18,7 @@
 <script>
     $(window).load(function() {
         $.ajax({
-            url: '/maint/btrfs_device-list?mount=<% mount %>',
+            url: '/maint/btrfs/btrfs_device-list?mount=<% mount %>',
             success: function(content) {
                 $('#btrfs_device-list').html(content);
             },
@@ -27,7 +27,7 @@
             }
         });
         $.ajax({
-            url: '/maint/btrfs_mount_info?mount=<% mount %>',
+            url: '/maint/btrfs/btrfs_mount_info?mount=<% mount %>',
             success: function(content) {
                 $('#btrfs_mount_info').html(content);
             },
