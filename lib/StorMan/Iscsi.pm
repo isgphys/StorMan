@@ -91,7 +91,7 @@ sub login_on_node {
     my $json_text = to_json($data, { pretty => 0 });
     $json_text    =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-    my ( $feedback ) = remotewrapper_command( $server, 'Dev-StorMan/iscsi_login', $json_text );
+    my ( $feedback ) = remotewrapper_command( $server, 'StorMan/iscsi_login', $json_text );
 
     my $feedback_ref = from_json( $feedback );
     my $return_code = $feedback_ref->{'return_code'};
