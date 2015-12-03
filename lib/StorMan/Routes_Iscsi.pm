@@ -59,7 +59,7 @@ post '/login' => require_role config->{admin_role} => sub {
     my $targetIP = param('hostip_arg');
     my $server   = param('server_arg');
 
-    info("Iscsi-Login $targetIP - $iqn on $server by ". session('logged_in_user'));
+    info("iSCSI-Login $targetIP - $iqn on $server by ". session('logged_in_user'));
 
     my ($err_code, $return_msg) = login_on_node( $iqn, $targetIP, $server );
     $msg = $return_msg;
