@@ -10,7 +10,7 @@ use File::Glob ':glob';
 use Data::Dumper;
 
 my $data = $ARGV[0];
-my $data_ref = decode_json($data);
+my $data_ref = from_json($data);
 
 my $tooltype = $data_ref->{'tooltype'};
 my $event    = $data_ref->{'event'};
@@ -104,6 +104,4 @@ if ( $tooltype eq "filesystem" ) {
     };
 }
 
-my $json = JSON->new->allow_nonref;
-my $json_text = $json->encode($worker_status);
-print "$json_text";
+print to_json($worker_status);

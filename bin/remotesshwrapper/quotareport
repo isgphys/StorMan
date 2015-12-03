@@ -7,7 +7,7 @@ use JSON;
 use Data::Dumper;
 
 my $data = $ARGV[0];
-my $data_ref = decode_json($data);
+my $data_ref = from_json($data);
 
 my $mount  = $data_ref->{'mount'} || "";
 my $option = $data_ref->{'option'};
@@ -38,9 +38,7 @@ $worker_status = {
 	'return_msg'  => \@quotareport,
 };
 
-my $json = JSON->new->allow_nonref;
-my $json_text = $json->encode($worker_status);
-print "$json_text";
+print to_json($worker_status);
 
 sub num2human {
     # convert large numbers to K, M, G, T notation

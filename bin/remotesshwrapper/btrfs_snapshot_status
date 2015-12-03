@@ -1,10 +1,14 @@
 #!/usr/bin/env perl
+use 5.010;
+use strict;
+use warnings;
+
 use JSON;
 
 my $BTRFS = "/usr/bin/btrfs";
 
 my %snapshot_stats;
-my $mountpts_ref = decode_json($ARGV[0]);
+my $mountpts_ref = from_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
@@ -25,6 +29,4 @@ foreach my $mount ( @mountpts ) {
     };
 }
 
-my $json = JSON->new->allow_nonref;
-my $json_text = $json->encode(\%snapshot_stats);
-print "$json_text";
+print to_json(\%snapshot_stats);

@@ -4,7 +4,7 @@ use JSON;
 my $BTRFS = "/usr/bin/btrfs";
 
 my %balance_status;
-my $mountpts_ref = decode_json($ARGV[0]);
+my $mountpts_ref = from_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
 
 foreach my $mount ( @mountpts ) {
@@ -34,6 +34,4 @@ foreach my $mount ( @mountpts ) {
     };
 }
 
-my $json = JSON->new->allow_nonref;
-my $json_text = $json->encode(\%balance_status);
-print "$json_text";
+print to_json(\%balance_status);
