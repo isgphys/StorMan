@@ -9,7 +9,6 @@ use StorMan::Config;
 use StorMan::Iscsi;
 
 my $msg = '';
-my $err_code   = '';
 
 prefix '/maint/iscsi';
 
@@ -25,20 +24,29 @@ get '/iscsi_nodes_report' => require_role config->{admin_role} => sub {
 };
 
 get '/?:errcode?' => require_role config->{admin_role} => sub {
-    my $errcode = param('errcode') || '';
     my $errmsg  = '';
+    my $errstatus = "";
 
+    my $errcode = param('errcode');
+
+    if ( defined($errcode) ) {
+        if ( $errcode eq "0" ){
+            $errmsg    = $msg;
+            $errstatus = "success";
+            $msg       = '';
+        }else{
+            $errmsg    = $msg;
+            $errstatus = "error";
+            $msg       = '';
+        }
+    }
     get_serverconfig('*');
 
-    if ( $errcode eq "1" ){
-        $errmsg   = $msg;
-        $msg      = '';
-        $err_code = '';
-    }
     template 'maintenance-iscsi' => {
-        section => 'maintenance',
-        errmsg  => $errmsg,
-        servers => \%servers,
+        section   => 'maintenance',
+        errstatus => $errstatus,
+        errmsg    => $errmsg,
+        servers   => \%servers,
     };
 };
 
@@ -64,7 +72,7 @@ post '/login' => require_role config->{admin_role} => sub {
     my ($err_code, $return_msg) = login_on_node( $iqn, $targetIP, $server );
     $msg = $return_msg;
 
-    return $err_code,;
+    return $err_code;
 };
 
 1;

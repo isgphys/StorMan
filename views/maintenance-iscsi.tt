@@ -15,7 +15,7 @@
 </form>
 
 <% If errmsg %>
-<div class="msg_error">
+<div class="msg_<% errstatus %>">
     <% errmsg %>
 </div>
 <% END %>
