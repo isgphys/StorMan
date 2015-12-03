@@ -72,7 +72,7 @@ sub discover_new_target {
 
     foreach my $tpgt (@tpgts) {
         $return_msg = "Found new TPGT on $targetIP - $tpgt";
-        $err_code = 1;
+        $err_code = 0;
     }
 
     info("iSCSI-Discovery Err: $err_code  - $return_msg");
