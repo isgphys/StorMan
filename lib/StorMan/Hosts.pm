@@ -3,10 +3,10 @@ package StorMan::Hosts;
 use 5.010;
 use strict;
 use warnings;
+use Dancer ':syntax';
 use StorMan::Config;
 use StorMan::Common;
 use Net::Ping;
-use JSON;
 
 use Exporter 'import';
 our @EXPORT = qw(
@@ -107,13 +107,12 @@ sub get_quotareport {
         "option" => $option,
     };
 
-    my $json   = JSON->new->allow_nonref;
-    my $json_text = $json->encode($data);
-    $json_text =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
+    my $json_text = to_json($data, { pretty => 0});
+    $json_text    =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
     my ( $feedback ) = remotewrapper_command( $server, 'StorMan/quotareport', $json_text );
 
-    my $feedback_ref = decode_json( $feedback );
+    my $feedback_ref = from_json( $feedback );
     my $return_code = $feedback_ref->{'return_code'};
     my $return_msg  = $feedback_ref->{'return_msg'};
 
