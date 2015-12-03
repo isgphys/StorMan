@@ -74,7 +74,7 @@ sub discover_new_target {
         $err_code = 1;
     }
 
-    info("Discovery Err: $err_code  - $return_msg");
+    info("iSCSI-Discovery Err: $err_code  - $return_msg");
 
     return ( $err_code, $return_msg );
 }
