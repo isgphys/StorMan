@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+use 5.010;
+use strict;
+use warnings;
+use JSON;
+
+my $ISCSIADM = "/usr/bin/iscsiadm";
+
+my $return_code = 1;
+my $return_msg  = "Error";
+
+my $data_ref = from_json($ARGV[0]);
+
+my $iqn      = $data_ref->{'iqn'};
+my $targetIP = $data_ref->{'targetip'};
+
+my $output   = `$ISCSIADM -m node -T $iqn -p $targetIP -l`;
+
+if ( $output =~ m/successful/sg ) {
+    $return_code = 0;
+    $return_msg  = "Successful login on target: $iqn, portal: $targetIP";
+}
+
+my $worker_status = {
+    return_code => $return_code,
+    return_msg  => $return_msg
+};
+
+print to_json($worker_status);
