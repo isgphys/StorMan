@@ -25,6 +25,7 @@
         });
         $.ajax({
             url: '/maint/iscsi/iscsi_nodes_report',
+            data: {"section": "dashboard"},
             success: function(content) {
                 $('#iscsinodesinfo').html(content);
             },

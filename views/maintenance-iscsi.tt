@@ -43,6 +43,7 @@
             url: '/maint/iscsi/iscsi_nodes_report',
             success: function(content) {
                 $('#iscsinodesinfo').html(content);
+                initializeEvents();
             },
             error: function() {
                 $('#iscsinodesinfo').html('An error occured while loading the ISCSI Nodes Report.');

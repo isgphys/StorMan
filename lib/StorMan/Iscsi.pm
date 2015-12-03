@@ -11,6 +11,7 @@ use Exporter 'import';
 our @EXPORT = qw(
     get_iscsi_nodes
     discover_new_target
+    login_on_node
 );
 
 sub get_iscsi_nodes {
@@ -77,6 +78,28 @@ sub discover_new_target {
     info("iSCSI-Discovery Err: $err_code  - $return_msg");
 
     return ( $err_code, $return_msg );
+}
+
+sub login_on_node {
+    my ($iqn, $targetIP, $server) = @_;
+
+    my $data = {
+        iqn      => $iqn,
+        targetip => $targetIP
+    };
+
+    my $json_text = to_json($data, { pretty => 0 });
+    $json_text    =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
+
+    my ( $feedback ) = remotewrapper_command( $server, 'Dev-StorMan/iscsi_login', $json_text );
+
+    my $feedback_ref = from_json( $feedback );
+    my $return_code = $feedback_ref->{'return_code'};
+    my $return_msg  = $feedback_ref->{'return_msg'};
+
+    info("iSCSI-Login Err: $return_code  - $return_msg");
+
+    return ( $return_code, $return_msg );
 }
 
 1;

@@ -15,13 +15,21 @@
             <td colspan=4><b><% servers.$server.serverconfig.description %></b></td>
         </tr>
         <%- FOREACH node IN nodesinfo.$server.keys.sort %>
-        <tr <% IF nodesinfo.$server.$node.login %> class="<% nodesinfo.$server.$node.login %>"<% END %>>
-            <td class="center"><% node %></td>
-            <td class="center"><% nodesinfo.$server.$node.nodesessnr %></td>
-            <td class="center"><% nodesinfo.$server.$node.host_ip %></td>
-            <td class="center"><% nodesinfo.$server.$node.port %></td>
-            <td class="center"><% nodesinfo.$server.$node.protocol %></td>
-            <td class="center"><% nodesinfo.$server.$node.session_id %></td>
+        <tr>
+            <% IF nodesinfo.$server.$node.login %>
+                <% login_class = nodesinfo.${server}.$node.login %>
+            <% END %>
+            <td class="center <% login_class %>"><% node %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.nodesessnr %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.host_ip %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.port %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.protocol %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.session_id %></td>
+            <% IF section != 'dashboard' AND NOT nodesinfo.$server.$node.session_id %>
+            <td align="center" style="none;">
+                <img class="pointer" style="width: 20px; height: 20px;" title="Login on Node" src="/images/iscsi_mount.png" data-iqn="<% node %>" data-hostip="<% nodesinfo.$server.$node.host_ip %>" data-server="<% server %>">
+            </td>
+            <% END %>
         </tr>
         <%- END %>
       <%- END %>
