@@ -20,6 +20,7 @@ Main Features
   * show ISCSI sessions, supported protocols (tcp/iser)
   * show BTRFS status of balancing and scrubbing
   * BTRFS remote control for balance and scrub
+  * iSCSI remote control for Discovery and Login
   * show Quota status (ext/xfs)
   * Documentation rendering markdown files
 
