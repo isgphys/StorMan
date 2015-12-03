@@ -43,7 +43,7 @@ post '/discovery' => require_role config->{admin_role} => sub {
     my $targetIP = param('discover');
     my $server = param('server');
 
-    info("Discover $targetIP on $server by ". session('logged_in_user'));
+    info("iSCSI-Discovery $targetIP on $server by ". session('logged_in_user'));
 
     my ($err_code, $return_msg) = discover_new_target( $targetIP, $server );
     $msg = $return_msg;
