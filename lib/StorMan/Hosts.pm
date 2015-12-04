@@ -18,7 +18,7 @@ sub get_fsinfo {
     my %fsinfo;
     foreach my $server ( keys %servers ) {
         my @mounts;
-        @mounts = remotewrapper_command( $server, 'StorMan/bang_df' );
+        @mounts = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'bang_df' );
 
         foreach my $mount (@mounts) {
             $mount =~ qr{
@@ -48,7 +48,7 @@ sub get_fsinfo {
 
         }
 
-        @mounts = remotewrapper_command( $server, 'StorMan/procmounts' ) ;
+        @mounts = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'procmounts' ) ;
         foreach my $mount (@mounts) {
             $mount =~ qr{
             ^(?<device>[\/\w\d-]+)
@@ -71,7 +71,7 @@ sub get_fsinfo {
         }
 
         if ($server eq "phd-bkp-gw") {
-            @mounts = remotewrapper_command( $server, 'StorMan/bang_di' ) ;
+            @mounts = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'bang_di' ) ;
             foreach my $mount (@mounts) {
                 $mount =~ qr{
                 ^(?<filesystem> [\/\w\d-]+)
@@ -110,7 +110,7 @@ sub get_quotareport {
     my $json_text = to_json($data, { pretty => 0});
     $json_text    =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-    my ( $feedback ) = remotewrapper_command( $server, 'StorMan/quotareport', $json_text );
+    my ( $feedback ) = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'quotareport', $json_text );
 
     my $feedback_ref = from_json( $feedback );
     my $return_code = $feedback_ref->{'return_code'};

@@ -22,8 +22,8 @@ sub get_iscsi_nodes {
 
     foreach my $server ( keys %servers ) {
 
-        @nodes    = remotewrapper_command( $server, 'StorMan/iscsi_nodes' );
-        @sessions = remotewrapper_command( $server, 'StorMan/iscsi_sessions' );
+        @nodes    = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'iscsi_nodes' );
+        @sessions = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'iscsi_sessions' );
 
         foreach my $node (@nodes) {
             $node =~ qr{
@@ -68,7 +68,7 @@ sub discover_new_target {
     my $return_msg = "Error";
     my $err_code = 0;
 
-    my @tpgts = remotewrapper_command( $server, 'StorMan/iscsi_discovery', $targetIP );
+    my @tpgts = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'iscsi_discovery', $targetIP );
 
     foreach my $tpgt (@tpgts) {
         $return_msg = "Found new TPGT on $targetIP - $tpgt";
@@ -91,7 +91,7 @@ sub login_on_node {
     my $json_text = to_json($data, { pretty => 0 });
     $json_text    =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-    my ( $feedback ) = remotewrapper_command( $server, 'StorMan/iscsi_login', $json_text );
+    my ( $feedback ) = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'iscsi_login', $json_text );
 
     my $feedback_ref = from_json( $feedback );
     my $return_code = $feedback_ref->{'return_code'};

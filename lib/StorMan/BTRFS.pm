@@ -27,7 +27,7 @@ sub get_btrfs_status {
     my $json_text = to_json(\@mountpts, { pretty => 0 });
     $json_text    =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-    my ($status_info) = remotewrapper_command( $server, "StorMan/btrfs_${type}_status", $json_text );
+    my ($status_info) = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . "btrfs_${type}_status", $json_text );
     my $status_ref    = from_json( $status_info );
 
     return $status_ref;
@@ -46,7 +46,7 @@ sub btrfs_worker {
     my $json_text = to_json($data, { pretty => 0 });
     $json_text    =~ s/"/\\"/g; # needed for correct remotesshwrapper transfer
 
-    my ( $feedback ) = remotewrapper_command( $server, 'StorMan/btrfs_worker', $json_text );
+    my ( $feedback ) = remotewrapper_command( $server, $servers{$server}{serverconfig}{remotewrapper_folder} . 'btrfs_worker', $json_text );
 
     my $feedback_ref = from_json( $feedback );
     my $return_code = $feedback_ref->{'return_code'};
