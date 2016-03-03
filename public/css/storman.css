@@ -90,6 +90,15 @@ h3 {
 .finished  {
     background-color: #BCF5A9;
 }
+.finished_15 {
+    background-color: #CCFF33;
+}
+.finished_30 {
+    background-color: #ACE600;
+}
+.finished_45 {
+    background-color: #86B300;
+}
 .requested, .aborted  {
     background-color: #F2F5A9;
 }

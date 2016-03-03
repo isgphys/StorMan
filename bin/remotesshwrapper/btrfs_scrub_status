@@ -33,7 +33,18 @@ foreach my $mount ( @mountpts ) {
                 $css_class = "running";
                 $status    = "3";
             } elsif ($statustext =~ m/finished/) {
-                $css_class = "finished";
+                my $nowtime = time();
+                my $difftime = $nowtime - $starttime;
+
+                if ($difftime < 60*60*24*3 ){
+                    $css_class = "finished";
+                } elsif ($difftime < 60*60*24*15 ){
+                    $css_class = "finished_15";
+                } elsif ($difftime <= 60*60*24*30 ){
+                    $css_class = "finished_30";
+                } else {
+                    $css_class = "finished_45";
+                }
                 $status    = "1";
             } elsif ($statustext =~ m/aborted/) {
                 $css_class = "aborted";
