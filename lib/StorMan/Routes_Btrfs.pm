@@ -47,6 +47,15 @@ get '/snapshot_stats' => require_role config->{admin_role} => sub {
         layout => 0 };
 };
 
+get '/replace_status' => require_role config->{admin_role} => sub {
+    get_serverconfig('*');
+
+    template 'maintenance-replace_status' => {
+        replacestatus => get_btrfs_status("replace"),
+        },{
+        layout => 0 };
+};
+
 get '/btrfs_fs-details' => require_role config->{admin_role} => sub {
     my $mount = param('mount') || "";
     template 'maintenance-btrfs_fs-details' => {

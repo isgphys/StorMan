@@ -1,0 +1,26 @@
+#!/usr/bin/env perl
+use 5.010;
+use strict;
+use warnings;
+
+use JSON;
+
+my $BTRFS = "/usr/bin/btrfs";
+
+my %replace_stats;
+my $mountpts_ref = from_json($ARGV[0]);
+my @mountpts = @{ $mountpts_ref };
+
+foreach my $mount ( @mountpts ) {
+    next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
+    my $status     = `$BTRFS replace status -1 $mount`;
+
+    chomp $status;
+    next unless $status =~ m/\%/;
+
+    $replace_stats{$mount} = {
+        'status'     => $status,
+    };
+}
+
+print to_json(\%replace_stats);

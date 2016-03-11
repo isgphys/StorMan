@@ -1,0 +1,22 @@
+<h3>Replace Status <img id="replace_status_img" src="/images/reload.png" width="15" title="Force reload"></h3>
+<table class="border tablesorter">
+    <thead>
+        <th>Mount (<% replacestatus.size %>)</th>
+        <th>Status</th>
+    </thead>
+    <tbody>
+      <%- FOREACH mount IN replacestatus.keys.sort %>
+      <tr>
+          <td valign="top"><% mount %></td>
+          <td class="center"><% replacestatus.$mount.status %></td>
+      </tr>
+      <%- END %>
+    </tbody>
+</table>
+
+<script>
+    $('#replace_status_img').click(function(){
+        $('#replace_status').html('<div class="loading_message"><img src="/images/spinner.gif" width=25 alt="Loading animation">Loading Replace Status</div>');
+        load_replace_status();
+    });
+</script>

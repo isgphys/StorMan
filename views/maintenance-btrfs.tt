@@ -20,11 +20,19 @@
     </div>
 </div>
 
+<div id="replace_status" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading Replace Status
+    </div>
+</div>
+
 <script>
     $(window).load(function() {
         load_balance_status();
         load_scrub_status();
         load_snap_status();
+        load_replace_status();
     });
 
     function load_balance_status() {
@@ -64,6 +72,20 @@
             },
             error: function() {
                 $('#snapshot_stats').html('An error occured while loading the Scrub Status.');
+            }
+        });
+    }
+
+    function load_replace_status() {
+        $.ajax({
+            url: '/maint/btrfs/replace_status',
+            success: function(content) {
+                $('#replace_status').html(content);
+                initializeTablesorter();
+                initializeEvents();
+            },
+            error: function() {
+                $('#replace_status').html('An error occured while loading the Replace Status.');
             }
         });
     }
