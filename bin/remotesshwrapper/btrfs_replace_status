@@ -14,12 +14,13 @@ my @mountpts = @{ $mountpts_ref };
 foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
     my $status     = `$BTRFS replace status -1 $mount`;
-
     chomp $status;
     next unless $status =~ m/\%/;
+    my ($value) = $status =~ /^([0-9.\%]+)/;
 
     $replace_stats{$mount} = {
-        'status'     => $status,
+        'status'   => $status,
+        'progress' => $value,
     };
 }
 

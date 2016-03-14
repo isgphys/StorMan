@@ -6,18 +6,22 @@
         <th>Functions</th>
     </thead>
     <tbody>
-      <%- FOREACH mount IN balancestatus.keys.sort %>
-      <tr <% IF balancestatus.$mount.css_class %> class="<% balancestatus.$mount.css_class %>"<% END %>>
-          <td class="click" onClick="window.location='/maint/btrfs/btrfs_fs-details?mount=<% mount %>';"><% mount %></td>
-            <td class="center"><% balancestatus.$mount.output %></td>
-          <% IF balancestatus.$mount.css_class == 'running' %>
-            <td class="click" align="center" valign="top" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="pause">PAUSE</td>
-          <%- END %>
-          <% IF balancestatus.$mount.css_class == 'paused' %>
-            <td class="click" align="center" valign="top" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="resume">RESUME</td>
-          <%- END %>
-        </tr>
+    <%- FOREACH mount IN balancestatus.keys.sort %>
+    <tr >
+        <td class="click <% balancestatus.$mount.css_class %>" onClick="window.location='/maint/btrfs/btrfs_fs-details?mount=<% mount %>';"><% mount %></td>
+        <td class="center">
+          <% IF balancestatus.$mount.css_class %>
+            <div id="progress" class="graph"><div id="bar" style="width: <% balancestatus.$mount.progress %>"><p><% balancestatus.$mount.output %></p></div></div>
+          <% END %>
+        </td>
+      <% IF balancestatus.$mount.css_class == 'running' %>
+        <td class="click <% balancestatus.$mount.css_class %>" align="center" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="pause">PAUSE</td>
       <%- END %>
+      <% IF balancestatus.$mount.css_class == 'paused' %>
+        <td class="click <% balancestatus.$mount.css_class %>" align="center" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="resume">RESUME</td>
+      <%- END %>
+    </tr>
+    <%- END %>
     </tbody>
 </table>
 

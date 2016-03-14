@@ -11,6 +11,7 @@ foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
     my $output    = `$BTRFS balance status $mount`;
     my $status    = "unknown";
+    my $progress  = "";
     my $css_class = "";
 
     if ( $output  =~ m/No balance found/) {
@@ -30,8 +31,17 @@ foreach my $mount ( @mountpts ) {
     chomp $status;
     $balance_status{$mount} = {
         'output'    => $status,
+        'progress'  => _progress($status),
         'css_class' => $css_class,
     };
 }
 
 print to_json(\%balance_status);
+
+sub _progress {
+    my ($status) = @_;
+    return "" if $status eq "-";
+    my ($out_chunks, $tot_chunks) = $status =~ /([0-9]+) out of about ([0-9]+)/;
+    my $progress = 100 / $tot_chunks * $out_chunks ."%";
+    return ($progress);
+}

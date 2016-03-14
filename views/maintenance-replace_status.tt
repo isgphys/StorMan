@@ -7,8 +7,10 @@
     <tbody>
       <%- FOREACH mount IN replacestatus.keys.sort %>
       <tr>
-          <td valign="top"><% mount %></td>
-          <td class="center"><% replacestatus.$mount.status %></td>
+          <td valign="center"><% mount %></td>
+          <td>
+              <div id="progress" class="graph"><div id="bar" style="width: <% replacestatus.$mount.progress %>"><p><% replacestatus.$mount.status %></p></div></div>
+          </td>
       </tr>
       <%- END %>
     </tbody>
