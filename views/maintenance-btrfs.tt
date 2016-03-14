@@ -1,15 +1,15 @@
 <h2>Maintenance - BTRFS</h2>
-<div id="balance_status" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading Balance Status
-    </div>
-</div>
-
 <div id="scrub_status" class="float-left">
     <div class="loading_message">
         <img src="/images/spinner.gif" width=25 alt="Loading animation">
         Loading Scrub Status
+    </div>
+</div>
+
+<div id="balance_status" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading Balance Status
     </div>
 </div>
 
