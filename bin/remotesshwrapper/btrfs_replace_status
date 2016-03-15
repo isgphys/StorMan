@@ -16,7 +16,12 @@ foreach my $mount ( @mountpts ) {
     my $status     = `$BTRFS replace status -1 $mount`;
     chomp $status;
     next unless $status =~ m/\%/;
-    my ($value) = $status =~ /^([0-9.\%]+)/;
+    my ($value) = $status =~ /^([0-9.]+)/;
+
+    # fix wrong progress value, BUG in btrfs-progs?
+    $value = ($value / 2) ."%";
+    $status =~ s/^([0-9.\%]+)/$value/;
+    #
 
     $replace_stats{$mount} = {
         'status'   => $status,
