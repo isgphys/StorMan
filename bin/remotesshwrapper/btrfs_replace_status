@@ -19,7 +19,7 @@ foreach my $mount ( @mountpts ) {
     my ($value) = $status =~ /^([0-9.]+)/;
 
     # fix wrong progress value, BUG in btrfs-progs?
-    $value = ($value / 2) ."%";
+    $value = sprintf("%.2f\%",($value / 3.6));
     $status =~ s/^([0-9.\%]+)/$value/;
     #
 
