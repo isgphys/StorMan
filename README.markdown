@@ -16,12 +16,17 @@ Main Features
 ---------------
 
   * Perl Dancer web frontend
-  * Dashboard with most important information
-  * show ISCSI sessions, supported protocols (tcp/iser)
-  * show BTRFS status of balancing and scrubbing
-  * BTRFS remote control for balance and scrub
-  * iSCSI remote control for Discovery and Login
-  * show Quota status (ext/xfs)
+    * Dashboard with most important information
+    * show Quota status (ext/xfs)
+  * managing multible server
+  * BTRFS featurs:
+    * show status of balancing, scrubbing and replacing of disks
+    * show snapshot statistic
+    * control balance and scrub (currently only 'pause' and 'resume')
+  * ISCSI features:
+    * show sessions, supported protocols (tcp/iser)
+    * Discover targets
+    * Login on targets
   * Documentation rendering markdown files
 
 
@@ -36,7 +41,7 @@ License
 
 > StorMan - Storage Manager
 >
-> Copyright 2014 Patrick Schmid
+> Copyright 2016 Patrick Schmid
 >
 > This program is free software: you can redistribute it and/or modify
 > it under the terms of the GNU General Public License as published by
