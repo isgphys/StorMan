@@ -40,10 +40,10 @@
             url: '/maint/btrfs/balance_status',
             success: function(content) {
                 $('#balance_status').html(content);
+                initializeEvents();
             },
             error: function() {
                 $('#balance_status').html('An error occured while loading the Balance Status.');
-                initializeEvents();
             }
         });
     }
@@ -67,7 +67,6 @@
             url: '/maint/btrfs/snapshot_stats',
             success: function(content) {
                 $('#snapshot_stats').html(content);
-                initializeTablesorter();
                 initializeEvents();
             },
             error: function() {
@@ -81,7 +80,6 @@
             url: '/maint/btrfs/replace_status',
             success: function(content) {
                 $('#replace_status').html(content);
-                initializeTablesorter();
                 initializeEvents();
             },
             error: function() {
