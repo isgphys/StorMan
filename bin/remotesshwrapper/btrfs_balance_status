@@ -40,8 +40,9 @@ print to_json(\%balance_status);
 
 sub _progress {
     my ($status) = @_;
+    my $progress = 0;
     return "" if $status eq "-";
     my ($out_chunks, $tot_chunks) = $status =~ /([0-9]+) out of about ([0-9]+)/;
-    my $progress = 100 / $tot_chunks * $out_chunks ."%";
+    $progress = 100 / $tot_chunks * $out_chunks ."%" unless $tot_chunks == 0;
     return ($progress);
 }
