@@ -15,13 +15,17 @@ our @EXPORT = qw(
 );
 
 sub get_btrfs_status {
-    my ($type) = @_;
+    my ($type, $mount) = @_;
     my $fsinfo = get_fsinfo();
     my $server = "phd-bkp-gw";
     my @mountpts;
 
-    foreach my $mountpt ( keys %{$fsinfo->{$server}} ) {
-        push (@mountpts, $fsinfo->{$server}->{$mountpt}{mount});
+    if ( $mount ) {
+        push (@mountpts, $mount);
+    } else{
+        foreach my $mountpt ( keys %{$fsinfo->{$server}} ) {
+            push (@mountpts, $fsinfo->{$server}->{$mountpt}{mount});
+        }
     }
 
     my $json_text = to_json(\@mountpts, { pretty => 0 });
