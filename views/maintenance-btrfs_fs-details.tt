@@ -15,8 +15,34 @@
     </div>
 </div>
 
+<div id="balance_status" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading Balance Status
+    </div>
+</div>
+
 <script>
     $(window).load(function() {
+        load_balance_status();
+        load_device_list();
+        load_mount_info();
+    });
+
+    function load_balance_status() {
+        $.ajax({
+            url: '/maint/btrfs/balance_status?mount=<% mount %>',
+            success: function(content) {
+                $('#balance_status').html(content);
+                initializeEvents();
+            },
+            error: function() {
+                $('#balance_status').html('An error occured while loading the Balance Status.');
+            }
+        });
+    }
+
+    function load_device_list() {
         $.ajax({
             url: '/maint/btrfs/btrfs_device-list?mount=<% mount %>',
             success: function(content) {
@@ -26,6 +52,9 @@
                 $('#btrfs_device-list').html('An error occured while loading the Device List.');
             }
         });
+    }
+
+    function load_mount_info() {
         $.ajax({
             url: '/maint/btrfs/btrfs_mount_info?mount=<% mount %>',
             success: function(content) {
@@ -35,5 +64,26 @@
                 $('#btrfs_mount_info').html('An error occured while loading the Mount Info.');
             }
         });
+    }
+
+function initializeEvents() {
+    $('[data-toggleoption]').click(function() {
+            var toggleOption = $(this).data('toggleoption');
+            var eventType = $(this).data('eventtype');
+            var mountPoint = $(this).data('mountpt');
+
+            alert( mountPoint + " " + eventType );
+            $.post('/maint/btrfs/events' , {
+                tooltyp_arg: toggleOption,
+                event_arg: eventType,
+                mount_arg: mountPoint
+                });
+
+            switch ( toggleOption ) {
+                case 'balance':
+                    load_balance_status();
+                    break;
+            }
     });
+}
 </script>
