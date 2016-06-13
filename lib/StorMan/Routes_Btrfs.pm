@@ -21,10 +21,11 @@ get '/' => require_login sub {
 };
 
 get '/balance_status' => require_role config->{admin_role} => sub {
+    my $mount = param('mount') || "";
     get_serverconfig('*');
 
     template 'maintenance-balance_status' => {
-        balancestatus => get_btrfs_status("balance"),
+        balancestatus => get_btrfs_status("balance", $mount),
         },{
         layout => 0 };
 };
