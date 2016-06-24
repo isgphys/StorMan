@@ -1,0 +1,20 @@
+# ---------------
+# Global settings
+# ---------------
+path_logs:           "logs"
+global_log_date:     "%Y-%m-%d"
+#
+path_date:          /bin/date
+path_iscsiadm:      /usr/sbin/iscsiadm
+path_btrfs:         /usr/bin/btrfs
+#
+iscsi_frontend:     0
+#
+remote_app:
+remote_app_path:
+remote_app_folder:  "Dev-StorMan"
+remote_ssh_key:
+#
+verbose:            0
+verboselevel:       2
+dryrun:             0

@@ -1,5 +1,3 @@
 ---
 description:    "Example Server"
 location:       "Example Room Number"
-iscsi_frontend: 0
-remotewrapper_folder: "StorMan/"
