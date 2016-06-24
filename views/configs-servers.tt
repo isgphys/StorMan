@@ -1,0 +1,29 @@
+<h2>Server configs</h2>
+<table class="configslist default-table border tablesorter tablefilter">
+    <thead>
+        <tr>
+            <th>Server</th>
+            <th>Config-Files</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% FOREACH server IN servers.keys.sort %>
+      <tr <% IF servers.$server.css_class %> class="<% servers.$server.css_class %>"<% END %>>
+          <td><% server %></td>
+          <td class="expander">
+              <% servers.$server.configfile %>
+              <div class="collapse">
+                  <table class="default-table">
+                      <% FOREACH serverconf IN servers.$server.serverconfig.keys.sort %>
+                      <tr <% IF servers.$server.confighelper.$serverconf %>class="<% servers.$server.confighelper.$serverconf %>Config"<% END %>>
+                          <td title="<% servers.$server.serverconfig.HELP.$serverconf %>"><% serverconf %></td>
+                          <td><% servers.$server.serverconfig.$serverconf %></td>
+                      </tr>
+                      <% END %>
+                  </table>
+              </div>
+          </td>
+        </tr>
+      <% END %>
+    </tbody>
+</table>

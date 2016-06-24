@@ -16,6 +16,14 @@
         <script src="/javascripts/jquery.tablesorter.widgets.min.js"></script>
         <script>
             function initializeTablesorter() {
+                $('.configslist').tablesorter({
+                    sortList: [[0,0]],
+                    widgets: [ 'zebra', 'stickyHeaders' ],
+                    widgetOptions: {
+                    zebra : ['even','odd'],
+                    stickyHeaders : 'tablesorter-stickyHeader',
+                    }
+                });
                 $('.quota').tablesorter({
                     sortList: [[0,0]],
                 });
@@ -53,9 +61,18 @@
                 });
             }
 
+            function collapseDetails() {
+                $("div.collapse").hide();
+                $("div.collapse").parent().click(function(){
+                        $(this).find("div.collapse").toggle();
+                        $(this).find(".arrow").toggleClass("up");
+                        });
+            }
+
             function initializeAll() {
                 initializeEvents();
                 initializeTablesorter();
+                collapseDetails();
             }
 
             $(document).ready(function(){
@@ -66,7 +83,7 @@
     </head>
     <body>
         <% INCLUDE header.tt %>
-        <% INCLUDE navbar.tt %>
+        <% IF session.logged_in_user %><% INCLUDE navbar.tt %><% END %>
         <div id="content">
             <% content %>
             <div style="clear: both;"></div>

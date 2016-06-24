@@ -1,0 +1,62 @@
+<h2>Default Configs</h2>
+<h3>Static Vars</h3>
+<table>
+    <tr>
+        <td>Servername:</td>
+        <td><% servername %></td>
+    </tr>
+    <tr>
+        <td>Environment:</td>
+        <td><% webDancerEnv %></td>
+    </tr>
+    <tr>
+        <td>App-Dir:</td>
+        <td><% prefix_path %></td>
+    </tr>
+    <tr>
+        <td>Config-Dir:</td>
+        <td><% serverconfig.path_configs %></td>
+    </tr>
+    <tr>
+        <td>Remote App Folder:</td>
+        <td><% serverconfig.remote_app_path _ '/' _ serverconfig.remote_app_folder %></td>
+    </tr>
+    <tr>
+        <td>Build Version:</td>
+        <td><% serverconfig.build_version %></td>
+    </tr>
+</table>
+
+<div class="float-left">
+    <h3>Server Defaults Configfile:<% serverconfig.config_defaults_servers %></h3>
+    <table class="config default-table tablesorter">
+        <thead>
+            <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+                <th>Help</th>
+            </tr>
+        </thead>
+        <tbody>
+          <% FOREACH config IN serverdefaults.keys.sort %>
+            <tr>
+                <td>
+                    <% config %>
+                </td>
+                <td>
+                  <% IF config != "HELP" %>
+                    <% IF config == "defaults_hosts" %>
+                        Look at "Hosts Defaults Configfile"
+                    <% ELSE %>
+                        <% serverdefaults.$config %>
+                    <% END %>
+                  <% END %>
+                </td>
+                <td>
+                  <% serverdefaults.HELP.$config FILTER html_line_break %>
+                </td>
+            </tr>
+          <% END %>
+        </tbody>
+    </table>
+</div>

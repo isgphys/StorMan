@@ -15,6 +15,14 @@
           <% INCLUDE 'navbar-custom-items.tt' %>
       <% CATCH %>
       <% END %>
+        <% IF session.logged_in_admin %>
+        <li><a href="#" <% IF section == 'configs' %>class="activetab"<% END %>>Configs</a>
+            <ul>
+                <li><a href="/config/allservers">Server Configs</a></li>
+                <li><a href="/config/defaults">Default Configs</a></li>
+            </ul>
+        </li>
+        <% END %>
         <li><a href="/docs" <% IF section == 'documentation' %>class="activetab"<% END %>>Documentation</a></li>
     </ul>
     <ul class="username">

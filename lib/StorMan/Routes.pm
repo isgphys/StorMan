@@ -9,11 +9,12 @@ use StorMan::Config;
 use StorMan::Common;
 use StorMan::Hosts;
 use StorMan::Routes_Docs;
+use StorMan::Routes_Config;
 use StorMan::Routes_Maint;
 use StorMan::Routes_Btrfs;
 use StorMan::Routes_Iscsi;
 
-get_globalconfig();
+get_serverconfig();
 
 prefix undef;
 
