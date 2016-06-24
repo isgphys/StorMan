@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Dancer ':syntax';
 use StorMan::Config;
-use StorMan::Common;
+use StorMan::Converter;
 use Net::Ping;
 
 use Exporter 'import';
