@@ -6,7 +6,6 @@ use warnings;
 use Dancer ':syntax';
 use Dancer::Plugin::Auth::Extensible;
 use StorMan::Config;
-use StorMan::Common;
 use StorMan::Hosts;
 use StorMan::Routes_Docs;
 use StorMan::Routes_Config;
