@@ -18,6 +18,10 @@
         <td><% serverconfig.path_configs %></td>
     </tr>
     <tr>
+        <td>Log-Dir:</td>
+        <td><% serverconfig.path_logs %></td>
+    </tr>
+    <tr>
         <td>Remote App Folder:</td>
         <td><% serverconfig.remote_app_path _ '/' _ serverconfig.remote_app_folder %></td>
     </tr>
