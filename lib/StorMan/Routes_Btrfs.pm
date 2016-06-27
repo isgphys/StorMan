@@ -22,7 +22,7 @@ get '/' => require_login sub {
 
 get '/balance_status' => require_role config->{admin_role} => sub {
     my $mount = param('mount') || "";
-    get_serverconfig('*');
+    get_serverconfig();
 
     template 'maintenance-balance_status' => {
         balancestatus => get_btrfs_status("balance", $mount),
@@ -31,7 +31,7 @@ get '/balance_status' => require_role config->{admin_role} => sub {
 };
 
 get '/scrub_status' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
 
     template 'maintenance-scrub_status' => {
         scrubstatus => get_btrfs_status("scrub"),
@@ -40,7 +40,7 @@ get '/scrub_status' => require_role config->{admin_role} => sub {
 };
 
 get '/snapshot_stats' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
 
     template 'maintenance-snapshot_stats' => {
         snapshotstats => get_btrfs_status("snapshot"),
@@ -49,7 +49,7 @@ get '/snapshot_stats' => require_role config->{admin_role} => sub {
 };
 
 get '/replace_status' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
 
     template 'maintenance-replace_status' => {
         replacestatus => get_btrfs_status("replace"),
@@ -66,7 +66,7 @@ get '/btrfs_fs-details' => require_role config->{admin_role} => sub {
 };
 
 get '/btrfs_mount_info' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
     my $mount = param('mount');
     my ($code, $msg) = btrfs_worker("filesystem","df", $mount);
 
@@ -78,7 +78,7 @@ get '/btrfs_mount_info' => require_role config->{admin_role} => sub {
 };
 
 get '/btrfs_device-list' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
     my $mount = param('mount') || "";
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
     my $layout = $mount  ? "0" : "main";
@@ -92,7 +92,7 @@ get '/btrfs_device-list' => require_role config->{admin_role} => sub {
 };
 
 post '/events' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
     my $tooltype  = param('tooltyp_arg');
     my $event     = param('event_arg');
     my $mount     = param('mount_arg');

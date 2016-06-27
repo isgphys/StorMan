@@ -13,7 +13,7 @@ my $msg = '';
 prefix '/maint/iscsi';
 
 get '/iscsi_nodes_report' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
 
     template 'dashboard-iscsi_nodes' => {
         section   => param('section'),
@@ -40,7 +40,7 @@ get '/?:errcode?' => require_role config->{admin_role} => sub {
             $msg       = '';
         }
     }
-    get_serverconfig('*');
+    get_serverconfig();
 
     template 'maintenance-iscsi' => {
         section   => 'maintenance',

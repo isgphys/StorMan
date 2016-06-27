@@ -27,7 +27,7 @@ get '/quota' => require_login sub {
 };
 
 get '/quota_report' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
     my $mount  = param('mount') || "/export/groupdata";
     my $server = param('server') || "phd-san-gw2";
     my $option = param('option') || "-g";

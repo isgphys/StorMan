@@ -13,11 +13,11 @@ use StorMan::Routes_Maint;
 use StorMan::Routes_Btrfs;
 use StorMan::Routes_Iscsi;
 
-get_serverconfig();
 
 prefix undef;
 
 get '/' => require_role config->{admin_role} => sub {
+    get_serverconfig();
 
     template 'dashboard.tt', {
         section => 'dashboard',
@@ -25,7 +25,7 @@ get '/' => require_role config->{admin_role} => sub {
 };
 
 get '/fsinfo_report' => require_role config->{admin_role} => sub {
-    get_serverconfig('*');
+    get_serverconfig();
 
     template 'dashboard-fsinfo' => {
         fsinfo  => get_fsinfo(),
