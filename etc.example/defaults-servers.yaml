@@ -10,9 +10,11 @@ path_btrfs:         /usr/bin/btrfs
 #
 iscsi_frontend:     0
 #
+perf_mon_url:       ""
+#
 remote_app:
 remote_app_path:
-remote_app_folder:  "Dev-StorMan"
+remote_app_folder:  "StorMan"
 remote_ssh_key:
 #
 verbose:            0
