@@ -17,6 +17,7 @@ prefix '/maint/btrfs';
 get '/' => require_login sub {
     template 'maintenance-btrfs' => {
         section      => 'maintenance',
+        servername   => $servername,
         perf_mon_url => $serverconfig{perf_mon_url},
     };
 };

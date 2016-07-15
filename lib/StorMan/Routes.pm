@@ -21,6 +21,7 @@ get '/' => require_role config->{admin_role} => sub {
 
     template 'dashboard.tt', {
         section => 'dashboard',
+        servername   => $servername,
         perf_mon_url => $serverconfig{perf_mon_url},
     };
 };
