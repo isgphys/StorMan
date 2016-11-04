@@ -33,12 +33,24 @@ sub get_iscsi_nodes {
             \s+(?<iqn> [^\$]+)
             }x;
 
-            $nodesinfo{$server}{$+{iqn}} = {
-                'host_ip'    => $+{host_ip},
-                'port'       => $+{port},
-                'nodesessnr' => $+{nodesessnr},
-                'login'      => "check_red",
-            };
+            my $iqn = $+{iqn};
+            $nodesinfo{$server}{$iqn}{host_ip}    = $+{host_ip};
+            $nodesinfo{$server}{$iqn}{port}       = $+{port};
+            $nodesinfo{$server}{$iqn}{nodesessnr} = $+{nodesessnr};
+            $nodesinfo{$server}{$iqn}{login}      = "check_red";
+
+            my @node_details = remote_command( $server, "Dev-StorMan/iscsi_node_details" , "$iqn" );
+
+            foreach my $node_detail (@node_details) {
+                next if $node_detail =~ /^#/;
+
+                my @fields = split " = ", $node_detail;
+                $fields[0] =~ s/\./\_/g;
+                $fields[0] =~ s/\[//g;
+                $fields[0] =~ s/\]//g;
+                $nodesinfo{$server}{$iqn}{$fields[0]} = $fields[1];
+            }
+
 
         }
 
@@ -53,10 +65,10 @@ sub get_iscsi_nodes {
             }x;
 
             my $iqn = $+{iqn};
-            $nodesinfo{$server}{$iqn}{session_id} = $+{session_id};
-            $nodesinfo{$server}{$iqn}{protocol}   = $+{protocol};
+            $nodesinfo{$server}{$iqn}{session_id}       = $+{session_id};
+            $nodesinfo{$server}{$iqn}{session_protocol} = $+{protocol};
 
-            my $proto                        = $nodesinfo{$server}{$iqn}{protocol} eq "iser" ? "check_lightgreen" : "check_green";
+            my $proto = $nodesinfo{$server}{$iqn}{session_protocol} eq "iser" ? "check_lightgreen" : "check_green";
             $nodesinfo{$server}{$iqn}{login} = $proto;
         }
     }

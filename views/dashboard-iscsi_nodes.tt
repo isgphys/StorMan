@@ -3,6 +3,7 @@
     <thead>
         <th title="iSCSI Qualified Name" class="left">IQN</th>
         <th title="Node Session Number">NS-Nr</th>
+        <th title="StartUp">StartUp</th>
         <th>Host IP</th>
         <th>Port</th>
         <th title="Session Protocol">Prot</th>
@@ -11,8 +12,8 @@
     <tbody>
       <%- FOREACH server IN nodesinfo.keys.sort %>
         <tr>
-            <td colspan=2><b><% server %></b> (<% nodesinfo.$server.size %>)</td>
-            <td colspan=4><b><% servers.$server.serverconfig.description %></b></td>
+            <td colspan=1><b><% server %></b> (<% nodesinfo.$server.size %>)</td>
+            <td colspan=6><b><% servers.$server.serverconfig.description %></b></td>
         </tr>
         <%- FOREACH node IN nodesinfo.$server.keys.sort %>
         <tr>
@@ -21,9 +22,10 @@
             <% END %>
             <td class="center <% login_class %>"><% node %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.nodesessnr %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_conn0_startup %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.host_ip %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.port %></td>
-            <td class="center <% login_class %>"><% nodesinfo.$server.$node.protocol %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.session_protocol %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.session_id %></td>
             <% IF section != 'dashboard' AND NOT nodesinfo.$server.$node.session_id %>
             <td align="center" style="none;">
