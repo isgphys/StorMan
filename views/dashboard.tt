@@ -5,10 +5,16 @@
 <% CATCH %>
 <% END %>
 
-<div id="fsinfo" class="float-left">
+<div id="fsinfo-storage" class="float-left">
     <div class="loading_message">
         <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading Filesystem Usage Report
+        Loading Filesystem Usage Report of Storage Server
+    </div>
+</div>
+<div id="fsinfo-backup" class="float-left">
+    <div class="loading_message">
+        <img src="/images/spinner.gif" width=25 alt="Loading animation">
+        Loading Filesystem Usage Report of Backup Servers
     </div>
 </div>
 <div id="iscsinodesinfo" class="float-left">
@@ -21,12 +27,21 @@
 <script>
     $(window).load(function() {
         $.ajax({
-            url: '/fsinfo_report',
+            url: '/fsinfo_report/Backup',
             success: function(content) {
-                $('#fsinfo').html(content);
+                $('#fsinfo-backup').html(content);
             },
             error: function() {
-                $('#fsinfo').html('An error occured while loading the Filesystem Usage Report.');
+                $('#fsinfo-backup').html('An error occured while loading the Filesystem Usage Report.');
+            }
+        });
+        $.ajax({
+            url: '/fsinfo_report/Storage',
+            success: function(content) {
+                $('#fsinfo-storage').html(content);
+            },
+            error: function() {
+                $('#fsinfo-storage').html('An error occured while loading the Filesystem Usage Report.');
             }
         });
         $.ajax({

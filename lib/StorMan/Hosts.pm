@@ -16,83 +16,86 @@ our @EXPORT = qw(
 );
 
 sub get_fsinfo {
+    my ($group) = @_;
     my %fsinfo;
     foreach my $server ( keys %servers ) {
-        my @mounts;
-        @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/bang_df" );
+        if ( $servers{$server}{serverconfig}{group} eq $group  || $group eq '') {
+            my @mounts;
+            @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/bang_df" );
 
-        foreach my $mount (@mounts) {
-            $mount =~ qr{
-                        ^(?<filesystem> [\/\w\d-]+)
-                        \s+(?<fstyp> [\w\d]+)
-                        \s+(?<blocks> [\d]+)
-                        \s+(?<used> [\d]+)
-                        \s+(?<available>[\d]+)
-                        \s+(?<usedper> [\d]+)
-                        .\s+(?<mountpt> [\/\w\d-]+)
-            }x;
-
-            $fsinfo{$server}{$+{mountpt}} = {
-                filesystem => $+{filesystem},
-                mount      => $+{mountpt},
-                fstyp      => $+{fstyp},
-                blocks     => num2human($+{blocks}*1024,1024),
-                used       => num2human($+{used}*1024,1024),
-                available  => num2human($+{available}*1024,1024),
-                freediff   => "",
-                rwstatus   => "",
-                usrquota   => "",
-                grpquota   => "",
-                used_per   => $+{usedper},
-                css_class  => check_fill_level($+{usedper}),
-            };
-
-        }
-
-        @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/procmounts" ) ;
-        foreach my $mount (@mounts) {
-            $mount =~ qr{
-            ^(?<device>[\/\w\d-]+)
-            \s+(?<mountpt>[\/\w\d-]+)
-            \s+(?<fstyp>[\w\d]+)
-            \s+(?<mountopt>[\w\d\,\=\.\/]+)
-            \s+(?<dump>[\d]+)
-            \s+(?<pass>[\d]+)$
-            }x;
-
-            my $mountpt  = $+{mountpt}  || next;
-            my $mountopt = $+{mountopt} || '';
-            my $rwstatus = "check_red" if $mountopt =~ /ro/;
-            my $usrquota = "hook" if ( $mountopt =~ /usrquota/ || $mountopt =~ /usrjquota/ );
-            my $grpquota = "hook" if ( $mountopt =~ /grpquota/ || $mountopt =~ /grpjquota/ );
-
-            $fsinfo{$server}{$mountpt}{rwstatus} = $rwstatus;
-            $fsinfo{$server}{$mountpt}{usrquota} = $usrquota;
-            $fsinfo{$server}{$mountpt}{grpquota} = $grpquota;
-        }
-
-        if ($server eq "phd-bkp-gw") {
-            @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/bang_di" ) ;
             foreach my $mount (@mounts) {
                 $mount =~ qr{
                 ^(?<filesystem> [\/\w\d-]+)
-                \s+(?<fstyp>[\w\d]+)
-                \s+(?<blocks>[\d]+)
-                \s+(?<used>[\d]+)
+                \s+(?<fstyp> [\w\d]+)
+                \s+(?<blocks> [\d]+)
+                \s+(?<used> [\d]+)
                 \s+(?<available>[\d]+)
-                \s+(?<free>[\d]+)
-                \s+(?<usedper>[\d]+)
-                .\s+(?<mountpt>[\/\w\d-]+)
+                \s+(?<usedper> [\d]+)
+                .\s+(?<mountpt> [\/\w\d-]+)
                 }x;
 
-                my $freediff    = $+{free} - $+{available};
-                my $freediffper = 100 / $+{free} * $freediff;
+                $fsinfo{$server}{$+{mountpt}} = {
+                    filesystem => $+{filesystem},
+                    mount      => $+{mountpt},
+                    fstyp      => $+{fstyp},
+                    blocks     => num2human($+{blocks}*1024,1024),
+                    used       => num2human($+{used}*1024,1024),
+                    available  => num2human($+{available}*1024,1024),
+                    freediff   => "",
+                    rwstatus   => "",
+                    usrquota   => "",
+                    grpquota   => "",
+                    used_per   => $+{usedper},
+                    css_class  => check_fill_level($+{usedper}),
+                };
 
-                $fsinfo{$server}{$+{mountpt}}{freediff} = ( $freediffper > 10 ) ? num2human($freediff*1024,1024) : "" ;
+            }
+
+            @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/procmounts" ) ;
+            foreach my $mount (@mounts) {
+                $mount =~ qr{
+                ^(?<device>[\/\w\d-]+)
+                \s+(?<mountpt>[\/\w\d-]+)
+                \s+(?<fstyp>[\w\d]+)
+                \s+(?<mountopt>[\w\d\,\=\.\/]+)
+                \s+(?<dump>[\d]+)
+                \s+(?<pass>[\d]+)$
+                }x;
+
+                my $mountpt  = $+{mountpt}  || next;
+                my $mountopt = $+{mountopt} || '';
+                my $rwstatus = "check_red" if $mountopt =~ /ro/;
+                my $usrquota = "hook" if ( $mountopt =~ /usrquota/ || $mountopt =~ /usrjquota/ );
+                my $grpquota = "hook" if ( $mountopt =~ /grpquota/ || $mountopt =~ /grpjquota/ );
+
+                $fsinfo{$server}{$mountpt}{rwstatus} = $rwstatus;
+                $fsinfo{$server}{$mountpt}{usrquota} = $usrquota;
+                $fsinfo{$server}{$mountpt}{grpquota} = $grpquota;
+            }
+
+            if ($server eq "phd-bkp-gw") {
+                @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/bang_di" ) ;
+                foreach my $mount (@mounts) {
+                    $mount =~ qr{
+                    ^(?<filesystem> [\/\w\d-]+)
+                    \s+(?<fstyp>[\w\d]+)
+                    \s+(?<blocks>[\d]+)
+                    \s+(?<used>[\d]+)
+                    \s+(?<available>[\d]+)
+                    \s+(?<free>[\d]+)
+                    \s+(?<usedper>[\d]+)
+                    .\s+(?<mountpt>[\/\w\d-]+)
+                    }x;
+
+                    my $freediff    = $+{free} - $+{available};
+                    my $freediffper = 100 / $+{free} * $freediff;
+
+                    $fsinfo{$server}{$+{mountpt}}{freediff} = ( $freediffper > 10 ) ? num2human($freediff*1024,1024) : "" ;
+                }
+
             }
 
         }
-
     }
 
     return \%fsinfo;
