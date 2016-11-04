@@ -26,13 +26,13 @@ get '/' => require_role config->{admin_role} => sub {
     };
 };
 
-get '/fsinfo_report/?:group?' => require_role config->{admin_role} => sub {
-    my $group = param("group") || "";
+get '/fsinfo_report/?:servergroup?' => require_role config->{admin_role} => sub {
+    my $servergroup = param("servergroup") || "";
     get_serverconfig();
 
     template 'dashboard-fsinfo' => {
-        fsinfo  => get_fsinfo($group),
-        Group   => $group,
+        fsinfo  => get_fsinfo($servergroup),
+        servergroup   => $servergroup,
         servers => \%servers,
         },{
         layout => 0 };

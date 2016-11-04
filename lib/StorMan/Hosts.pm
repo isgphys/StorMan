@@ -16,10 +16,10 @@ our @EXPORT = qw(
 );
 
 sub get_fsinfo {
-    my ($group) = @_;
+    my ($servergroup) = @_;
     my %fsinfo;
     foreach my $server ( keys %servers ) {
-        if ( $servers{$server}{serverconfig}{group} eq $group  || $group eq '') {
+        if ( $servers{$server}{serverconfig}{servergroup} eq $servergroup  || $servergroup eq '') {
             my @mounts;
             @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/bang_df" );
 
