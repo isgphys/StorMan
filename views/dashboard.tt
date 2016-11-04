@@ -1,8 +1,9 @@
 <h2>Dashboard</h2>
-
-<% TRY %>
-    <% INCLUDE 'perf-mon.tt' %>
-<% CATCH %>
+<% IF perf_mon_url %>
+    <% TRY %>
+        <% INCLUDE 'perf-mon.tt' %>
+    <% CATCH %>
+    <% END %>
 <% END %>
 
 <div id="fsinfo-storage" class="float-left">
