@@ -1,4 +1,4 @@
-<h3><% Group %> Server Disk Usage</h3>
+<h3><% servergroup %> Server Disk Usage</h3>
 <table class="border">
     <thead>
         <tr>
