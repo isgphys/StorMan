@@ -8,6 +8,7 @@ path_date:          /bin/date
 path_iscsiadm:      /usr/sbin/iscsiadm
 path_btrfs:         /usr/bin/btrfs
 #
+servergroup:        ''
 iscsi_frontend:     0
 #
 perf_mon_url:       ""
