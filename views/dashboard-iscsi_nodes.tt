@@ -22,7 +22,7 @@
             <% END %>
             <td class="center <% login_class %>"><% node %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.nodesessnr %></td>
-            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_conn0_startup %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_startup %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.host_ip %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.port %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.session_protocol %></td>
