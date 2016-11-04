@@ -39,7 +39,7 @@ sub get_iscsi_nodes {
             $nodesinfo{$server}{$iqn}{nodesessnr} = $+{nodesessnr};
             $nodesinfo{$server}{$iqn}{login}      = "check_red";
 
-            my @node_details = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/scsi_node_details", "$iqn" );
+            my @node_details = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/iscsi_node_details", "$iqn" );
 
             foreach my $node_detail (@node_details) {
                 next if $node_detail =~ /^#/;
