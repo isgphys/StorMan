@@ -17,6 +17,7 @@ our @EXPORT = qw(
 
 sub get_fsinfo {
     my ($servergroup) = @_;
+    $servergroup ||= "";
     my %fsinfo;
     foreach my $server ( keys %servers ) {
         if ( $servers{$server}{serverconfig}{servergroup} eq $servergroup  || $servergroup eq '') {
