@@ -1,4 +1,13 @@
 <h2>Dashboard</h2>
+
+<form action="">
+    <table>
+        <tr>
+            <td width=180><div><input id="showperf" type="checkbox" value="1" style="vertical-align: middle;">Enable Performance Monitoring</div></td>
+        </tr>
+    </table>
+</form>
+
 <% IF perf_mon_url %>
     <% TRY %>
         <% INCLUDE 'perf-mon.tt' %>
@@ -27,6 +36,15 @@
 
 <script>
     $(window).load(function() {
+        var showperf_state = localStorage.getItem('showperf') || "true";
+        showperf_state = (showperf_state === "true"); // convert to boolean
+        $('#showperf').prop('checked', showperf_state);
+        PerfMon();
+
+        $('#showperf').change(function (e) {
+            localStorage.setItem('showperf', e.target.checked);
+        });
+
         $.ajax({
             url: '/fsinfo_report/Backup',
             success: function(content) {
