@@ -15,15 +15,28 @@ our @EXPORT = qw(
 );
 
 sub get_iscsi_nodes {
-    my @nodes;
     my %nodesinfo;
-    my @sessions;
-    my %sessioninfo;
 
     foreach my $server ( keys %servers ) {
 
-        @nodes    = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/iscsi_nodes" );
-        @sessions = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/iscsi_sessions" );
+        my @nodes        = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/iscsi_nodes" );
+        my @node_details = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/iscsi_nodes_details" );
+        my @sessions     = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/iscsi_sessions" );
+
+        my $line_iqn;
+        foreach my $line (@node_details){
+            next if $line =~ /^#/ ;
+
+            if ( $line =~ /^node.name/ ){
+                ($line_iqn) = $line =~ /^node.name = (.*)$/;
+            } else {
+                my @fields = split " = ", $line;
+                $fields[0] =~ s/\./\_/g;
+                $fields[0] =~ s/\[//g;
+                $fields[0] =~ s/\]//g;
+                $nodesinfo{$server}{$line_iqn}{$fields[0]} = $fields[1];
+            }
+        }
 
         foreach my $node (@nodes) {
             $node =~ qr{
@@ -38,20 +51,6 @@ sub get_iscsi_nodes {
             $nodesinfo{$server}{$iqn}{port}       = $+{port};
             $nodesinfo{$server}{$iqn}{nodesessnr} = $+{nodesessnr};
             $nodesinfo{$server}{$iqn}{login}      = "check_red";
-
-            my @node_details = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/iscsi_node_details", "$iqn" );
-
-            foreach my $node_detail (@node_details) {
-                next if $node_detail =~ /^#/;
-
-                my @fields = split " = ", $node_detail;
-                $fields[0] =~ s/\./\_/g;
-                $fields[0] =~ s/\[//g;
-                $fields[0] =~ s/\]//g;
-                $nodesinfo{$server}{$iqn}{$fields[0]} = $fields[1];
-            }
-
-
         }
 
         foreach my $session (@sessions) {
