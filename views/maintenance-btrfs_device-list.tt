@@ -1,5 +1,5 @@
 <h3>Device List</h3>
-<table class="border">
+<table class="confgilist default-table border tablefilter">
     <thead>
         <th>Label / UUID</th>
         <th>DevID</th>
@@ -24,7 +24,20 @@
             <td width="60px"><% fs.$partition.devices.$device.devsize %></td>
             <td width="60px"><% fs.$partition.devices.$device.devused %></td>
             <td width="60px"><% fs.$partition.devices.$device.devpath %></td>
-            <td width="160px"><% fs.$partition.devices.$device.iscsipath %></td>
+            <td width="160px" class="expander">
+                <% fs.$partition.devices.$device.iscsipath %>
+                <div class="collapse">
+                    <table class="default-table">
+                        <tr><td colspan=2><b>Scrub Statistics</b></td></tr>
+                        <% FOREACH pair IN fs.$partition.scrubstats.devices.$device.pairs  %>
+                        <tr>
+                            <td><% pair.key %></td>
+                            <td ><% pair.value %></td>
+                        </tr>
+                        <% END %>
+                    </table>
+                </div>
+            </td>
         </tr>
         <% END %>
       <% END %>

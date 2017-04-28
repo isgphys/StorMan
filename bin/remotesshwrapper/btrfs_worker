@@ -66,6 +66,32 @@ if ( $tooltype eq "filesystem" ) {
                 my $uuid = $+{uuid};
                 $label   = $+{label};
                 $fs{$label}{uuid} = $uuid;
+
+                my $scrubstats = "/var/lib/btrfs/scrub.status.$uuid";
+
+                if ( -e $scrubstats ){
+                    open( FH, "<", "$scrubstats")or die ("Can't open $scrubstats: $!");
+
+                    while (<FH>){
+                        chomp $_;
+                        my ($line) = $_;
+                        if ( $line =~ /^scrub status/ ){
+                            ($fs{$label}{scrubstats}{status}) = $line =~ /^scrub status:(.*)$/;
+                        } else {
+                            my @fields = split(/\|/, $line);
+                            my $scrub_devid;
+                            foreach my $field (@fields) {
+                                if ( $field =~ /^[0-9a-z]{8}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12}:([0-9]*)$/ ){
+                                    $scrub_devid = $1;
+                                }else{
+                                    my ($key, $value) = split(/:/, $field);
+                                    $fs{$label}{scrubstats}{devices}{$scrub_devid}{$key} = $value;
+                                }
+                            }
+                        }
+                    }
+                    close FH;
+                }
             } elsif ( $line =~ qr{ Total \s devices \s+ (?<devcount>[0-9]*) \s+
                                    FS \s bytes \s used \s+ (?<totsize>[0-9.]*[a-zA-Z]{0,3}).* \s
                                    }x

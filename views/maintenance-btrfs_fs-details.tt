@@ -47,6 +47,7 @@
             url: '/maint/btrfs/btrfs_device-list?mount=<% mount %>',
             success: function(content) {
                 $('#btrfs_device-list').html(content);
+                collapseDetails();
             },
             error: function() {
                 $('#btrfs_device-list').html('An error occured while loading the Device List.');
