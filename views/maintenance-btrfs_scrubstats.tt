@@ -1,0 +1,53 @@
+<h3>BTRFS Scrub Statistics</h3>
+<table class="border">
+    <thead>
+        <th>Label / UUID</th>
+        <th>DevID</th>
+        <th>Size</th>
+        <th>Used</th>
+        <th>Path</th>
+        <th>canceled</th>
+        <th>corr. errors</th>
+        <th>csum discards</th>
+        <th>csum errors</th>
+        <th>data bytes scrub</th>
+        <th>data extents scrub</th>
+        <th>duration</th>
+        <th>finished</th>
+        <th>last physical</th>
+        <th>malloc errors</th>
+        <th>no csum</th>
+        <th>read errors</th>
+        <th>super errors</th>
+        <th>t resumed</th>
+        <th>t start</th>
+        <th>tree bytes scrub</th>
+        <th>tree extents scrub</th>
+        <th>uncorr. errors</th>
+        <th>verify errors</th>
+    </thead>
+    <tbody>
+      <% FOREACH partition IN fs.keys.sort %>
+        <tr valign="top">
+            <td width="210px" rowspan="<% fs.$partition.devcount %>"><b><% partition %></b></br>
+                <b><% fs.$partition.uuid %></b></br>
+                Total devices <% fs.$partition.devcount %> FS bytes used <% fs.$partition.totsize %>
+            </td>
+              <% FOREACH device IN fs.$partition.devices.keys.nsort  %>
+                    <td height="12px" align="center"><% device %></td>
+                    <td align="center" width="50px"><% fs.$partition.devices.$device.devsize %></td>
+                    <td align="center" width="50px"><% fs.$partition.devices.$device.devused %></td>
+                    <td width="140px"><% fs.$partition.devices.$device.iscsipath %></td>
+                  <% IF fs.$partition.scrubstats %>
+                    <% FOREACH pair IN fs.$partition.scrubstats.devices.$device.pairs  %>
+                    <td align="center" style="padding: 0 5px 0 5px;"><% pair.value %></td>
+                    <% END %>
+                  <% ELSE %>
+                  <td colspan=18><b>Scrub never run...</td>
+                  <% END %>
+                </tr>
+              <% END %>
+              <tr><td height="2px" colspan=24 style="border-bottom:1pt solid #cdcdcd; "></td></tr>
+      <% END %>
+    </tbody>
+</table>

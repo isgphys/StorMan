@@ -7,6 +7,7 @@
                 <li class="gosubmenu"><a href="/maint/btrfs">BTRFS-Tools</a>
                     <ul>
                         <li><a href="/maint/btrfs/btrfs_device-list">Device List</a>
+                        <li><a href="/maint/btrfs/btrfs_scrubstats">Scrub Statistics</a>
                     </ul>
                 </li>
             </ul>

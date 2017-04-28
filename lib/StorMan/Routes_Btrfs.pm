@@ -93,6 +93,20 @@ get '/btrfs_device-list' => require_role config->{admin_role} => sub {
         layout => $layout };
 };
 
+get '/btrfs_scrubstats' => require_role config->{admin_role} => sub {
+    get_serverconfig();
+    my $mount = param('mount') || "";
+    my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
+    my $layout = $mount  ? "0" : "main";
+
+    template 'maintenance-btrfs_scrubstats' => {
+        section => 'maintenance',
+        mount   => $mount,
+        fs      => $msg,
+        },{
+        layout => $layout };
+};
+
 post '/events' => require_role config->{admin_role} => sub {
     get_serverconfig();
     my $tooltype  = param('tooltyp_arg');
