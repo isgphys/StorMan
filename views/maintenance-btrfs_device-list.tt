@@ -1,5 +1,5 @@
 <h3>Device List</h3>
-<table class="confgilist default-table border tablefilter">
+<table class="default-table border">
     <thead>
         <th>Label / UUID</th>
         <th>DevID</th>
