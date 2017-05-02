@@ -20,12 +20,7 @@
 </div>
 <% END %>
 
-<div id="iscsinodesinfo" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading ISCSI Nodes Report
-    </div>
-</div>
+<div id="iscsinodesinfo" class="float-left"></div>
 
 <script>
     $(window).load(function() {
@@ -41,6 +36,11 @@
     function load_iscsi_nodes() {
         $.ajax({
             url: '/maint/iscsi/iscsi_nodes_report',
+            beforeSend:function (content){
+                $('#iscsinodesinfo').html('<div class="loading_message">' +
+                    '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                    'Loading ISCSI Nodes Report</div>');
+            },
             success: function(content) {
                 $('#iscsinodesinfo').html(content);
                 initializeEvents();

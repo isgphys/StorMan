@@ -15,24 +15,11 @@
     <% END %>
 <% END %>
 
-<div id="fsinfo-storage" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading Filesystem Usage Report of Storage Server
-    </div>
-</div>
-<div id="fsinfo-backup" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading Filesystem Usage Report of Backup Servers
-    </div>
-</div>
-<div id="iscsinodesinfo" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading ISCSI Node Report
-    </div>
-</div>
+<div id="fsinfo-storage" class="float-left"></div>
+
+<div id="fsinfo-backup" class="float-left"></div>
+
+<div id="iscsinodesinfo" class="float-left"></div>
 
 <script>
     $(window).load(function() {
@@ -47,6 +34,11 @@
 
         $.ajax({
             url: '/fsinfo_report/Backup',
+            beforeSend:function (content){
+                $('#fsinfo-backup').html('<div class="loading_message">' +
+                    '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                    'Loading Filesystem Usage Report of Backup Servers</div>');
+            },
             success: function(content) {
                 $('#fsinfo-backup').html(content);
             },
@@ -56,6 +48,11 @@
         });
         $.ajax({
             url: '/fsinfo_report/Storage',
+            beforeSend:function (content){
+                $('#fsinfo-storage').html('<div class="loading_message">' +
+                    '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                    'Loading Filesystem Usage Report of Storage Server</div>');
+            },
             success: function(content) {
                 $('#fsinfo-storage').html(content);
             },
@@ -65,6 +62,11 @@
         });
         $.ajax({
             url: '/maint/iscsi/iscsi_nodes_report',
+            beforeSend:function (content){
+                $('#iscsinodesinfo').html('<div class="loading_message">' +
+                    '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                    'Loading ISCSI Node Report</div>');
+            },
             data: {"section": "dashboard"},
             success: function(content) {
                 $('#iscsinodesinfo').html(content);

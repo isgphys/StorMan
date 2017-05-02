@@ -1,26 +1,11 @@
 <h3>Filesystem Details</h3>
 <h4><% mount %></h4>
 
-<div id="btrfs_mount_info" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading Mount Info
-    </div>
-</div>
+<div id="btrfs_mount_info" class="float-left"></div>
 
-<div id="btrfs_device-list" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading Device List
-    </div>
-</div>
+<div id="btrfs_device-list" class="float-left"></div>
 
-<div id="balance_status" class="float-left">
-    <div class="loading_message">
-        <img src="/images/spinner.gif" width=25 alt="Loading animation">
-        Loading Balance Status
-    </div>
-</div>
+<div id="balance_status" class="float-left"></div>
 
 <script>
     $(window).load(function() {
@@ -32,6 +17,11 @@
     function load_balance_status() {
         $.ajax({
             url: '/maint/btrfs/balance_status?mount=<% mount %>',
+            beforeSend:function (content){
+                $('#balance_status').html('<div class="loading_message">' +
+                    '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                    'Loading Balance Status</div>');
+            },
             success: function(content) {
                 $('#balance_status').html(content);
                 initializeEvents();
@@ -45,6 +35,11 @@
     function load_device_list() {
         $.ajax({
             url: '/maint/btrfs/btrfs_device-list?mount=<% mount %>',
+            beforeSend:function (content){
+                $('#btrfs_device-list').html('<div class="loading_message">' +
+                    '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                    'Loading Device List</div>');
+            },
             success: function(content) {
                 $('#btrfs_device-list').html(content);
                 collapseDetails();
@@ -58,6 +53,11 @@
     function load_mount_info() {
         $.ajax({
             url: '/maint/btrfs/btrfs_mount_info?mount=<% mount %>',
+            beforeSend:function (content){
+                $('#btrfs_mount_info').html('<div class="loading_message">' +
+                    '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                    'Loading Mount Info</div>');
+            },
             success: function(content) {
                 $('#btrfs_mount_info').html(content);
             },
