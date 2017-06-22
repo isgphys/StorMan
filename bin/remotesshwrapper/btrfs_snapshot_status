@@ -5,7 +5,7 @@ use warnings;
 
 use JSON;
 
-my $BTRFS = "/usr/bin/btrfs";
+my $BTRFS = "/bin/btrfs";
 
 my %snapshot_stats;
 my $mountpts_ref = from_json($ARGV[0]);

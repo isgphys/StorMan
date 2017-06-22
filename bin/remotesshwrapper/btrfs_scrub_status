@@ -3,7 +3,7 @@ use JSON;
 use Date::Parse;
 use POSIX qw( floor );
 
-my $BTRFS = "/usr/bin/btrfs";
+my $BTRFS = "/bin/btrfs";
 
 my %scrub_status;
 my $mountpts_ref = from_json($ARGV[0]);

@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use JSON;
 
-my $BTRFS = "/usr/bin/btrfs";
+my $BTRFS = "/bin/btrfs";
 
 my %balance_status;
 my $mountpts_ref = from_json($ARGV[0]);
