@@ -1,0 +1,14 @@
+[Unit]
+Description=Storman web service
+After=syslog.target
+
+[Service]
+Type=forking
+User=www-data
+Group=www-data
+
+ExecStart=/usr/bin/starman -D --listen 127.0.0.1:8033 --error-log /opt/StorMan/logs/production.log -E production /opt/StorMan/StorMan-Web
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
