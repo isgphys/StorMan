@@ -8,6 +8,10 @@
         <th>Port</th>
         <th title="Session Protocol">Prot</th>
         <th title="Session ID">SessID</th>
+        <% IF section != 'dashboard' %>
+        <th title="Session cmds_max">CmdsMax</th>
+        <th title="Session queue_depth">Qdepth</th>
+        <% END %>
     </thead>
     <tbody>
       <%- FOREACH server IN nodesinfo.keys.sort %>
@@ -27,10 +31,14 @@
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.port %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.session_protocol %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.session_id %></td>
-            <% IF section != 'dashboard' AND NOT nodesinfo.$server.$node.session_id %>
+			<% IF section != 'dashboard' %>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_session_cmds_max %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_session_queue_depth %></td>
+                <% IF NOT nodesinfo.$server.$node.session_id %>
             <td align="center" style="none;">
                 <img class="pointer" style="width: 20px; height: 20px;" title="Login on Node" src="/images/iscsi_mount.png" data-iqn="<% node %>" data-hostip="<% nodesinfo.$server.$node.host_ip %>" data-server="<% server %>">
             </td>
+			    <% END %>
             <% END %>
         </tr>
         <%- END %>
