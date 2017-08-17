@@ -29,9 +29,12 @@ foreach my $mount ( @mountpts ) {
 
             $starttime  = str2time($starttime);
 
-            if ($statustext =~ m/running/) {
+            if ($statustext =~ m/running for/) {
                 $css_class = "running";
                 $status    = "3";
+            } elsif ($statustext =~ m/not running/) {
+                $css_class = "aborted";
+                $status    = "2";
             } elsif ($statustext =~ m/finished/) {
                 my $nowtime = time();
                 my $difftime = $nowtime - $starttime;
