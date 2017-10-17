@@ -17,7 +17,7 @@ my $event    = $data_ref->{'event'};
 my $mount    = $data_ref->{'mount'} || "";
 
 my $worker_status;
-my $BTRFS = "/bin/btrfs";
+my $BTRFS = "/usr/local/bin/btrfs";
 my $btrfs_args = "$tooltype $event $mount";
 
 exit unless $btrfs_args =~ m/^[a-zA-Z0-9_\-\/\s]+$/;
