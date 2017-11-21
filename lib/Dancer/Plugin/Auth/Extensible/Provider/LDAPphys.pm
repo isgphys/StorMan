@@ -49,7 +49,7 @@ sub get_user_details {
     my $bind = $ldap->bind();
 
     my $ldap_result = $ldap->search(
-       base   => $config->{base_dn},
+       base   => "ou=people,".$config->{base_dn},
        scope  => "sub",
        filter => "(uid=$username)",
        attrs  => ['cn'],
@@ -95,7 +95,7 @@ sub _user_groups {
     my $bind = $ldap->bind();
 
     my $ldap_result = $ldap->search(
-        base   => $config->{base_dn},
+        base   => "ou=groups,".$config->{base_dn},
         scope  => 'sub',
         filter => $config->{group_filter},
         attrs  => ['cn', 'memberUid'],
@@ -123,9 +123,9 @@ sub _group_members {
     my $bind = $ldap->bind();
 
     my $ldap_result = $ldap->search(
-        base   => $config->{base_dn},
+        base   => "ou=groups,".$config->{base_dn},
         scope  => 'sub',
-        filter => "(name=$group)",
+        filter => "(cn=$group)",
         attrs  => ['memberUid'],
     );
     $ldap->unbind;
