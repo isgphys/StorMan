@@ -3,7 +3,7 @@
     <thead>
         <th>Mount (<% balancestatus.size %>)</th>
         <th>Status</th>
-        <th>Functions</th>
+        <th colspan=2>Functions</th>
     </thead>
     <tbody>
     <%- FOREACH mount IN balancestatus.keys.sort %>
@@ -16,9 +16,11 @@
         </td>
       <% IF balancestatus.$mount.css_class == 'running' %>
         <td class="click <% balancestatus.$mount.css_class %>" align="center" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="pause">PAUSE</td>
+        <td class="click <% balancestatus.$mount.css_class %>" align="center" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="cancel">CANCEL</td>
       <%- END %>
       <% IF balancestatus.$mount.css_class == 'paused' %>
         <td class="click <% balancestatus.$mount.css_class %>" align="center" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="resume">RESUME</td>
+        <td class="click <% balancestatus.$mount.css_class %>" align="center" data-toggleoption="balance" data-mountpt='<% mount %>' data-eventtype="cancel">CANCEL</td>
       <%- END %>
     </tr>
     <%- END %>
