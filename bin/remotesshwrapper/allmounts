@@ -1,0 +1,65 @@
+#!/usr/bin/env perl
+use 5.010;
+use strict;
+use warnings;
+
+use JSON;
+use Data::Dumper;
+use File::Find::Rule;
+
+my $debug = 0;
+
+my @mountfiles;
+my @allmounts;
+my $mountinfo;
+my ( $what_key, $where_key, $type_key, $opt_key );
+
+my $searchquery = "export-*.mount";
+my $searchpath  = "/etc/systemd/system";
+
+
+my $ffr_obj = File::Find::Rule->file()
+    ->name($searchquery)
+    ->relative
+    ->maxdepth(1)
+    ->start($searchpath);
+
+while ( my $file = $ffr_obj->match() ) {
+    push( @mountfiles, $file );
+}
+
+print "Amount of Mounts: ". scalar(@mountfiles) ."\n" if $debug;
+
+foreach my $mountfile ( @mountfiles ) {
+    open FILE, "$searchpath/$mountfile" or die $!;
+    while (my $line = <FILE>) {
+        chomp($line);
+        if ($line =~ /What/) {
+            ($what_key) = $line =~ /= (.*)$/;
+        }
+        if ($line =~ /Where/) {
+            ($where_key) = $line =~ /= (.*)$/;
+        }
+        if ($line =~ /Type/) {
+            ($type_key) = $line =~ /= (.*)$/;
+        }
+        if ($line =~ /Options/) {
+            ($opt_key) = $line =~ /= (.*)$/;
+        }
+    }
+    close FILE;
+
+    $mountinfo = {
+        'mountfile' => $mountfile,
+        'What'      => $what_key,
+        'Where'     => $where_key,
+        'Type'      => $type_key,
+        'Options'   => $opt_key,
+     };
+
+	push ( @allmounts, $mountinfo );
+}
+
+#print Dumper($worker_status) if $debug;
+print to_json(\@allmounts) unless $debug;
+

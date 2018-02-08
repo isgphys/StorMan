@@ -21,6 +21,34 @@ sub get_fsinfo {
     my %fsinfo;
     foreach my $server ( keys %servers ) {
         if ( $servers{$server}{serverconfig}{servergroup} eq $servergroup  || $servergroup eq '') {
+
+            my ( $feedback ) = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/allmounts" );
+
+            my $allmounts = from_json( $feedback );
+
+            my $mountpath;
+            foreach my $entry ( @{$allmounts} ){
+                $mountpath = $entry->{Where};
+                chomp($mountpath);
+
+                $fsinfo{$server}{$mountpath} = {
+                    filesystem  => $entry->{What},
+                    mount       => $entry->{Where},
+                    fstyp       => $entry->{Type},
+                    options     => $entry->{Options},
+                    mountstatus => "not_mounted",
+                    blocks      => '',
+                    used        => '',
+                    available   => '',
+                    freediff    => '',
+                    rwstatus    => '',
+                    usrquota    => '',
+                    grpquota    => '',
+                    used_per    => '',
+                    css_class   => '',
+                };
+            }
+
             my @mounts;
             @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/bang_df" );
 
@@ -35,21 +63,13 @@ sub get_fsinfo {
                 .\s+(?<mountpt> [\/\w\d-]+)
                 }x;
 
-                $fsinfo{$server}{$+{mountpt}} = {
-                    filesystem => $+{filesystem},
-                    mount      => $+{mountpt},
-                    fstyp      => $+{fstyp},
-                    blocks     => num2human($+{blocks}*1024,1024),
-                    used       => num2human($+{used}*1024,1024),
-                    available  => num2human($+{available}*1024,1024),
-                    freediff   => "",
-                    rwstatus   => "",
-                    usrquota   => "",
-                    grpquota   => "",
-                    used_per   => $+{usedper},
-                    css_class  => check_fill_level($+{usedper}),
-                };
-
+                $fsinfo{$server}{$+{mountpt}}{mountstatus} = 'mounted';
+                $fsinfo{$server}{$+{mountpt}}{filesystem}  = $+{filesystem};
+                $fsinfo{$server}{$+{mountpt}}{blocks}      = num2human($+{blocks}*1024,1024);
+                $fsinfo{$server}{$+{mountpt}}{used}        = num2human($+{used}*1024,1024);
+                $fsinfo{$server}{$+{mountpt}}{available}   = num2human($+{available}*1024,1024);
+                $fsinfo{$server}{$+{mountpt}}{used_per}    = $+{usedper};
+                $fsinfo{$server}{$+{mountpt}}{used_per}    = check_fill_level($+{usedper});
             }
 
             @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/procmounts" ) ;
