@@ -31,7 +31,6 @@
             <td class="center"><% fsinfo.$server.$mount.available %></td>
             <td class="center"><% fsinfo.$server.$mount.blocks %></td>
             <td class="center <%- IF fsinfo.$server.$mount.css_class %> <%- fsinfo.$server.$mount.css_class %><%- END %>"><% fsinfo.$server.$mount.used_per %></td>
-            <td class="center"><% fsinfo.$server.$mount.mounted %></td>
             <%- IF fsinfo.$server.$mount.rwstatus %><td class="center">READ-ONLY</td><%- END %>
             <%- IF fsinfo.$server.$mount.freediff %><td class="center"><% fsinfo.$server.$mount.freediff %></td><% END %>
         </tr>
