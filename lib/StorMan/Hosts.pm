@@ -69,7 +69,7 @@ sub get_fsinfo {
                 $fsinfo{$server}{$+{mountpt}}{used}        = num2human($+{used}*1024,1024);
                 $fsinfo{$server}{$+{mountpt}}{available}   = num2human($+{available}*1024,1024);
                 $fsinfo{$server}{$+{mountpt}}{used_per}    = $+{usedper};
-                $fsinfo{$server}{$+{mountpt}}{used_per}    = check_fill_level($+{usedper});
+                $fsinfo{$server}{$+{mountpt}}{css_class}   = check_fill_level($+{usedper});
             }
 
             @mounts = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/procmounts" ) ;
