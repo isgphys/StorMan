@@ -36,9 +36,8 @@ h3 {
     color: #D8000C;
     background-color: #FFBABA;
 }
-
 .not_mounted {
-    background-color: lightgrey;
+    background-color: #ffbaba;
 }
 .alert_red {
     background-color: red;

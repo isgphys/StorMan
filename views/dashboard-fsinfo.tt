@@ -24,6 +24,9 @@
         <tr class="<%- IF fsinfo.$server.$mount.mountstatus %> <%- fsinfo.$server.$mount.mountstatus %><%- END %>">
             <td class="<%- IF fsinfo.$server.$mount.rwstatus %> <%- fsinfo.$server.$mount.rwstatus %><%- END %>"><% mount %></td>
             <td class="center"><% fsinfo.$server.$mount.fstyp %></td>
+            <%- IF fsinfo.$server.$mount.mountstatus == "not_mounted" %>
+            <td class="center" colspan=5 >NOT MOUNTED</td>
+            <%- ELSE %>
             <td <%- IF fsinfo.$server.$mount.usrquota %>
                 class="click <% fsinfo.$server.$mount.usrquota %>" onClick="window.location='/maint/quota?server=<% server %>;mount=<% mount %>;option=-u';"<%- END %>></td>
             <td <%- IF fsinfo.$server.$mount.grpquota %>
@@ -33,6 +36,7 @@
             <td class="center <%- IF fsinfo.$server.$mount.css_class %> <%- fsinfo.$server.$mount.css_class %><%- END %>"><% fsinfo.$server.$mount.used_per %></td>
             <%- IF fsinfo.$server.$mount.rwstatus %><td class="center">READ-ONLY</td><%- END %>
             <%- IF fsinfo.$server.$mount.freediff %><td class="center"><% fsinfo.$server.$mount.freediff %></td><% END %>
+            <%- END %>
         </tr>
         <%- END %>
       <%- END %>
