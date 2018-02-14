@@ -23,7 +23,7 @@ sub get_fsinfo {
         if ( $servers{$server}{serverconfig}{servergroup} eq $servergroup  || $servergroup eq '') {
 
             my ( $feedback ) = remote_command( $server, "$servers{$server}{serverconfig}{remote_app_folder}/allmounts" );
-
+            next unless $feedback;
             my $allmounts = from_json( $feedback );
 
             my $mountpath;
