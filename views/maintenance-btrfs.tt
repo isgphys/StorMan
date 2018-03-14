@@ -1,4 +1,13 @@
 <h2>Maintenance - BTRFS</h2>
+<form action="">
+    <table>
+        <tr>
+            <td width=150><div><input id="showsnap" type="checkbox" value="1" style="vertical-align: middle;">Show Snapshot Statistics</div></td>
+            <td width=180><div><input id="showperf" type="checkbox" value="1" style="vertical-align: middle;">Enable Performance Monitoring</div></td>
+            <td width=150></td>
+        </tr>
+    </table>
+</form>
 
 <% TRY %>
     <% INCLUDE 'perf-mon.tt' %>
@@ -17,9 +26,57 @@
     $(window).load(function() {
         load_balance_status();
         load_scrub_status();
-        load_snap_status();
         load_replace_status();
+
+        var showperf_state = localStorage.getItem('showperf') || "true";
+        showperf_state = (showperf_state === "true"); // convert to boolean
+        $('#showperf').prop('checked', showperf_state);
+        PerfMon();
+
+        $('#showperf').change(function (e) {
+            localStorage.setItem('showperf', e.target.checked);
+        });
+
+        var showsnap_state = localStorage.getItem('showsnap') || "true";
+        showsnap = (showsnap === "true"); // convert to boolean
+        $('#showsnap').prop('checked', showsnap);
+        ToggleSnap();
+
+        $('#showsnap').change(function (e) {
+            localStorage.setItem('showsnap', e.target.checked);
+            ToggleSnap();
+        });
     });
+
+    function ToggleSnap(){
+        if ( $('#showsnap').is(':checked') ) {
+            if ( $('#snapshot_stats').is(':empty') ) {
+                $('#snapshot_stats').append("<div class='loading_message'>");
+                $('#snapshot_stats').append("<img src='/images/spinner.gif' width=25 alt='Loading animation'> ");
+                $('#snapshot_stats').append("Loading Snapshot Statistics</div>");
+            };
+            $.ajax({
+                url: '/maint/btrfs/snapshot_stats',
+                beforeSend:function (content){
+                    $('#snapshot_stats').html('<div class="loading_message">' +
+                            '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                            'Loading Snapshot Statistics</div>');
+                },
+                timeout: 45000,
+                success: function(content) {
+                    $('#snapshot_stats').html(content);
+                    initializeEvents();
+                },
+                error: function() {
+                    $('#snapshot_stats').html('An error occured while loading the Snapshot Statistics.');
+                    $('#showsnap').prop('checked', false);
+                    localStorage.setItem('showsnap', "false");
+                }
+            });
+        } else {
+            $('#snapshot_stats').html('');
+        };
+    }
 
     function load_balance_status() {
         $.ajax({
@@ -54,24 +111,6 @@
             },
             error: function() {
                 $('#scrub_status').html('An error occured while loading the Scrub Status.');
-            }
-        });
-    }
-
-    function load_snap_status() {
-        $.ajax({
-            url: '/maint/btrfs/snapshot_stats',
-            beforeSend:function (content){
-                $('#snapshot_stats').html('<div class="loading_message">' +
-                        '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
-                        'Loading Snapshot Statistics</div>');
-            },
-            success: function(content) {
-                $('#snapshot_stats').html(content);
-                initializeEvents();
-            },
-            error: function() {
-                $('#snapshot_stats').html('An error occured while loading the Scrub Status.');
             }
         });
     }
