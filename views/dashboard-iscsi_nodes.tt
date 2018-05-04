@@ -11,6 +11,10 @@
         <% IF section != 'dashboard' %>
         <th title="Session cmds_max">CmdsMax</th>
         <th title="Session queue_depth">Qdepth</th>
+        <th title="node.conn[0].timeo.noop_out_interval">NOOPint</th>
+        <th title="node.conn[0].timeo.noop_out_timeout">NOOPto</th>
+        <th title="node.session.timeo.replacement_timeout">ReplTo</th>
+        <th title="node.conn[0].startup">NodeConn0StartUp</th>
         <% END %>
     </thead>
     <tbody>
@@ -34,6 +38,10 @@
 			<% IF section != 'dashboard' %>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_session_cmds_max %></td>
             <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_session_queue_depth %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_conn0_timeo_noop_out_interval %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_conn0_timeo_noop_out_timeout %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_session_timeo_replacement_timeout %></td>
+            <td class="center <% login_class %>"><% nodesinfo.$server.$node.node_conn0_startup%></td>
                 <% IF NOT nodesinfo.$server.$node.session_id %>
             <td align="center" style="none;">
                 <img class="pointer" style="width: 20px; height: 20px;" title="Login on Node" src="/images/iscsi_mount.png" data-iqn="<% node %>" data-hostip="<% nodesinfo.$server.$node.host_ip %>" data-server="<% server %>">
