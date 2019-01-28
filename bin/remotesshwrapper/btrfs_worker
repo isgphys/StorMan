@@ -47,15 +47,23 @@ if ( $tooltype eq "filesystem" ) {
         my @outputs    = `$BTRFS $btrfs_args`;
         my %fs;
         my $label;
-        my %deviceList;
+        my %deviceIscsiList;
+        my %devicePathList;
         my $PVpattern = '/dev/iscsi/\d?([\d\w.]+)-(.+)';
-        my @completeList = glob("/dev/iscsi/*");                        #get bkpX-lun-Y -> sdXY mapping
-        my @relevantList = grep { $_ =~ /$PVpattern/ } @completeList;
+        my @completeIscsiList = glob("/dev/iscsi/*");                        #get bkpX-lun-Y -> sdXY mapping
+        my @completePathList = glob("/dev/disk/by-path/*");                  #get pci-0000:18:00.0-scsi-0:0:1:0 -> sdXY mapping
+        my @relevantList = grep { $_ =~ /$PVpattern/ } @completeIscsiList;
 
         foreach my $device (@relevantList) {
             my $link = readlink($device);
             $link =~ s#\.\./##;
-            $deviceList{$link} = $device;
+            $deviceIscsiList{$link} = $device;
+        }
+
+        foreach my $device (@completePathList) {
+            my $link = readlink($device);
+            $link =~ s#\.\./\.\./##;
+            $devicePathList{$link} = $device;
         }
 
         foreach my $line ( @outputs ) {
@@ -109,8 +117,9 @@ if ( $tooltype eq "filesystem" ) {
                 $fs{$label}{devices}{$devid}{devsize} = $+{devsize};
                 $fs{$label}{devices}{$devid}{devused} = $+{devused};
                 $fs{$label}{devices}{$devid}{devpath} = $devpath;
-                if (my ($bd) = $devpath =~ m#/dev/(sd\w+)#) {                   #BTRFS shows us /dev/sdX, but we want iSCSI devices
-                    $fs{$label}{devices}{$devid}{iscsipath} = $deviceList{$bd};
+                if (my ($bd) = $devpath =~ m#/dev/(sd\w+)#) {                       # BTRFS shows us /dev/sdX, ...
+                    $fs{$label}{devices}{$devid}{iscsipath} = $deviceIscsiList{$bd};    # but we want /dev/iscsi/ devices
+                    $fs{$label}{devices}{$devid}{bypath}    = $devicePathList{$bd}      # but we want /dev/disk/by-path/ devices
                 }
             }
         }

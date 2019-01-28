@@ -5,7 +5,7 @@
         <th>DevID</th>
         <th>Size</th>
         <th>Used</th>
-        <th colspan="2">Path</th>
+        <th colspan="3">Path</th>
     </thead>
     <tbody>
       <% FOREACH partition IN fs.keys.sort %>
@@ -24,6 +24,7 @@
             <td width="60px"><% fs.$partition.devices.$device.devsize %></td>
             <td width="60px"><% fs.$partition.devices.$device.devused %></td>
             <td width="60px"><% fs.$partition.devices.$device.devpath %></td>
+            <td width="220px"><% fs.$partition.devices.$device.bypath %></td>
             <td width="160px" class="expander">
                 <% fs.$partition.devices.$device.iscsipath %>
                 <div class="collapse">
