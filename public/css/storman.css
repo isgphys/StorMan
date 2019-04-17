@@ -233,8 +233,9 @@ nav ul.updated li:hover {
     line-height: 15px;
 }
 .graph {
-    width: 400px; /* width and height are arbitrary, just make sure the #bar styles are changed accordingly */
+    width: 390px; /* width and height are arbitrary, just make sure the #bar styles are changed accordingly */
     height: 15px;
+    float: right;
     border: 1px solid #888;
     background: rgb(168,168,168);
     background: -moz-linear-gradient(top, rgba(168,168,168,1) 0%, rgba(204,204,204,1) 23%);
