@@ -11,7 +11,9 @@
         <td class="click <% balancestatus.$mount.css_class %>" onClick="window.location='/maint/btrfs/btrfs_fs-details?mount=<% mount %>';"><% mount %></td>
         <td class="center" width='410px'>
             <% IF balancestatus.$mount.css_class %>
-            <img src="/images/running.gif" width=10 style="padding-top:3px">
+                <% IF balancestatus.$mount.css_class == 'running' %>
+                    <img src="/images/running.gif" width=10 style="padding-top:3px">
+                <% END %>
             <div id="progress" class="graph"><div id="bar" style="width: <% balancestatus.$mount.progress %>"><p><% balancestatus.$mount.output %></p></div></div>
           <% END %>
         </td>
