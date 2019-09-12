@@ -13,7 +13,10 @@
           <td valign="top" class="hiddencolumn"><% scrubstatus.$mount.status %></td>
           <td valign="top" class="hiddencolumn"><% scrubstatus.$mount.starttime %></td>
           <td valign="top"><% mount %></td>
-          <td class="center"><% scrubstatus.$mount.statustext %><br><% scrubstatus.$mount.stats %></td>
+          <td class="center"><b><% scrubstatus.$mount.statustext %></b>
+            <% IF scrubstatus.$mount.status == 1 %> (<% USE date; date.format(scrubstatus.$mount.starttime, '%Y-%m-%d') %>)<% END %>
+            <br><% scrubstatus.$mount.stats %>
+          </td>
         <% IF scrubstatus.$mount.status == 3 %>
           <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="cancel">CANCEL</td>
         <%- END %>
@@ -21,7 +24,7 @@
           <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="resume">RESUME</td>
         <%- END %>
         <% IF scrubstatus.$mount.status == 1 %>
-          <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="start">START</td>
+          <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="start"><b>START</b></td>
         <%- END %>
         <% IF scrubstatus.$mount.status == 0 %>
           <td class="click" align="center" valign="top" data-toggleoption="scrub" data-mountpt='<% mount %>' data-eventtype="start">Start</td>
