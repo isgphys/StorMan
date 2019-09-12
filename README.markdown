@@ -22,7 +22,8 @@ Main Features
   * BTRFS featurs:
     * show status of balancing, scrubbing and replacing of disks
     * show snapshot statistic
-    * control balance and scrub (currently only 'pause' and 'resume')
+    * control balance (currently only 'pause' and 'resume')
+    * control scrubbing (start, cancel, resume)
   * ISCSI features:
     * show sessions, supported protocols (tcp/iser)
     * Discover targets
@@ -41,7 +42,7 @@ License
 
 > StorMan - Storage Manager
 >
-> Copyright 2016 Patrick Schmid
+> Copyright 2019 Patrick Schmid
 >
 > This program is free software: you can redistribute it and/or modify
 > it under the terms of the GNU General Public License as published by
