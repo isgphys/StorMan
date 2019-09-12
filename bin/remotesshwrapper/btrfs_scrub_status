@@ -1,65 +1,72 @@
 #!/usr/bin/env perl
 use JSON;
 use Date::Parse;
+use File::Which qw(which);
 use POSIX qw( floor );
 
-my $BTRFS = "/usr/local/bin/btrfs";
-
-my %scrub_status;
+my $BTRFS = which 'btrfs';
 my $mountpts_ref = from_json($ARGV[0]);
 my @mountpts = @{ $mountpts_ref };
+
+my %scrub_status;
 
 foreach my $mount ( @mountpts ) {
     next unless $mount =~ m/^[a-zA-Z0-9_\-\/]+$/;
     my @output     = `$BTRFS scrub status $mount`;
-    my $statustext = "unknown";
-    my $status     = "0";
-    my $stats      = "unknown";
-    my $css_class  = "";
-    my $starttime;
+    my ($uuid, $css_class, $starttime, $timeleft) = "";
+    my ($status, $rate) = "0";
+    my ($statustext, $stats) = "unknown";
 
     foreach my $line ( @output ) {
-        if ( $line =~ m/no stats available/ ) {
+        if ( $line =~ m/^UUID/ ) {
+            ($uuid) = $line =~ m/UUID:\s+([0-9a-z-]+)/;
+        } elsif ( $line =~ m/no stats available/ ) {
             $statustext = "-";
             $stats      = "";
-            $runtime    = "";
-        } elsif ( $line =~ qr{ at \s (?<starttime>\w{3} \s \w{3}\s+\d+ \s \d+:\d+:\d+ \s \d{4}) }x ) {
-            $statustext = $line;
-            $starttime  = $+{starttime};
+        } elsif ( $line =~ m/^Scrub started/) {
+            ($scrubstarttime) = $line =~ m/Scrub started:\s+(.*)$/;
+        } elsif ( $line =~ m/^Time left/) {
+            ($timeleft) = $line =~ m/^Time left:\s+ (.*)$/;
+        } elsif ( $line =~ m/^Duration/) {
+            ($duration) = $line =~ m/^Duration:\s+(.*)$/;
+        } elsif ( $line =~ m/^Rate/) {
+            ($rate) = $line =~ m/^Rate:\s+(.*)$/;
+        } elsif ( $line =~ m/Status:/) {
+            ($statustext) = $line =~ m/Status:\s+(.*)$/;
+        }
+        
+        if ($statustext =~ m/running/) {
+            $css_class = "running";
+            $status    = "3";
+            $stats     = "Time left: $timeleft / $rate";
+        } elsif ($statustext =~ m/not running/) {
+            $css_class = "aborted";
+            $status    = "2";
+        } elsif ($statustext =~ m/finished/) {
+            $status     = "1";
+            $stats      = "Duration: $duration / $rate";
+            $starttime  = str2time($scrubstarttime);
 
-            $starttime  = str2time($starttime);
+            my $nowtime = time();
+            my $difftime = $nowtime - $starttime;
 
-            if ($statustext =~ m/running for/) {
-                $css_class = "running";
-                $status    = "3";
-            } elsif ($statustext =~ m/not running/) {
-                $css_class = "aborted";
-                $status    = "2";
-            } elsif ($statustext =~ m/finished/) {
-                my $nowtime = time();
-                my $difftime = $nowtime - $starttime;
-
-                if ($difftime < 60*60*24*3 ){
-                    $css_class = "finished";
-                } elsif ($difftime < 60*60*24*15 ){
-                    $css_class = "finished_15";
-                } elsif ($difftime <= 60*60*24*30 ){
-                    $css_class = "finished_30";
-                } else {
-                    $css_class = "finished_45";
-                }
-                $status    = "1";
-            } elsif ($statustext =~ m/aborted/) {
-                $css_class = "aborted";
-                $status    = "2";
+            if ($difftime < 60*60*24*3 ){
+                $css_class = "finished";
+            } elsif ($difftime < 60*60*24*15 ){
+                $css_class = "finished_15";
+            } elsif ($difftime <= 60*60*24*30 ){
+                $css_class = "finished_30";
+            } else {
+                $css_class = "finished_45";
             }
-        } elsif ( $line =~ m/total/ ) {
-            $stats = $line;
-        } elsif ( $line =~ m/error details/ ) {
-            $stats    .= "<br>$line";
-            $css_class = "error";
-        } elsif ( $line =~ m/corrected errors/ ) {
-            $stats .= "<br>$line";
+        } elsif ($statustext =~ m/aborted/) {
+            $css_class = "aborted";
+            $status    = "2";
+            $stats      = "Duration: $duration / $rate";
+        } elsif ($statustext =~ m/interrupted/) {
+            $css_class = "aborted";
+            $status    = "2";
+            $stats      = "Duration: $duration / $rate";
         }
     }
 
