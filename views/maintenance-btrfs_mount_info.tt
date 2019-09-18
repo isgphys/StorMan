@@ -1,5 +1,9 @@
+<% IF perf_mon_url %>
+<script type="text/javascript" src="https://storman.phys.ethz.ch/graphs/dashboard.js"></script>
+<script>var netdataNoBootstrap = true;</script>
+<% END %>
 <h3>Mount Info</h3>
-<table class="border">
+<table class="border" width="300px">
     <thead>
         <th>Type</th>
         <th>Profile</th>
@@ -13,6 +17,17 @@
             <td align="center"><% line.profile %></td>
             <td align="right"><% line.total %></td>
             <td align="right"><% line.used %></td>
+        </tr>
+      <% END %>
+      <% IF perf_mon_url %>
+        <tr>
+          <td colspan=4 style="border: 1px solid #cdcdcd;">
+            <div data-netdata="disk_space.<% mount.replace('/','_') %>"
+                data-host=<% perf_mon_url %>
+                data-height="120px"
+                data-title=" "
+            </div>
+          </td>
         </tr>
       <% END %>
     </tbody>
