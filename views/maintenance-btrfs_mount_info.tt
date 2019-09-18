@@ -1,5 +1,5 @@
 <% IF perf_mon_url %>
-<script type="text/javascript" src="https://storman.phys.ethz.ch/graphs/dashboard.js"></script>
+<script type="text/javascript" src="https://realtimemon.phys.ethz.ch/dashboard.js"></script>
 <script>var netdataNoBootstrap = true;</script>
 <% END %>
 <h3>Mount Info</h3>
@@ -32,3 +32,4 @@
       <% END %>
     </tbody>
 </table>
+
