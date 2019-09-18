@@ -62,42 +62,43 @@ get '/replace_status' => require_role config->{admin_role} => sub {
 get '/btrfs_fs-details' => require_role config->{admin_role} => sub {
     my $mount = param('mount') || "";
     template 'maintenance-btrfs_fs-details' => {
-        section      => 'maintenance',
-        mount => $mount,
+        section => 'maintenance',
+        mount   => $mount,
     };
 };
 
 get '/btrfs_mount_info' => require_role config->{admin_role} => sub {
     get_serverconfig();
-    my $mount = param('mount');
+    my $mount        = param('mount');
     my ($code, $msg) = btrfs_worker("filesystem","df", $mount);
 
     template 'maintenance-btrfs_mount_info' => {
-        mount => $mount,
-        df    => $msg,
+        mount        => $mount,
+        df           => $msg,
+        perf_mon_url => $serverconfig{perf_mon_url},
         },{
         layout => 0 };
 };
 
 get '/btrfs_device-list' => require_role config->{admin_role} => sub {
     get_serverconfig();
-    my $mount = param('mount') || "";
+    my $mount        = param('mount') || "";
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
-    my $layout = $mount  ? "0" : "main";
+    my $layout       = $mount  ? "0" : "main";
 
     template 'maintenance-btrfs_device-list' => {
         section => 'maintenance',
         mount   => $mount,
         fs      => $msg,
         },{
-        layout => $layout };
+        layout  => $layout };
 };
 
 get '/btrfs_scrubstats' => require_role config->{admin_role} => sub {
     get_serverconfig();
-    my $mount = param('mount') || "";
+    my $mount        = param('mount') || "";
     my ($code, $msg) = btrfs_worker("filesystem","show", $mount);
-    my $layout = $mount  ? "0" : "main";
+    my $layout       = $mount  ? "0" : "main";
 
     template 'maintenance-btrfs_scrubstats' => {
         section => 'maintenance',
