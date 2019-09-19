@@ -1,5 +1,5 @@
 <% IF perf_mon_url %>
-<script type="text/javascript" src="https://realtimemon.phys.ethz.ch/dashboard.js"></script>
+<script type="text/javascript" src="<%perf_mon_url%>/dashboard.js"></script>
 <script>var netdataNoBootstrap = true;</script>
 <% END %>
 <h3>Mount Info</h3>
@@ -23,9 +23,12 @@
         <tr>
           <td colspan=4 style="border: 1px solid #cdcdcd;">
             <div data-netdata="disk_space.<% mount.replace('/','_') %>"
-                data-host=<% perf_mon_url %>
+                data-host="<% perf_mon_url %>/host/<% servername %>"
                 data-height="120px"
                 data-title=" "
+                data-points="8640"   // refresh every 5s (data-after / data-points = refresh-rate)
+                data-after="-43200"  // show last 12h
+                data-before="0"
             </div>
           </td>
         </tr>
