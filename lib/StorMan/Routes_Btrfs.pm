@@ -73,6 +73,7 @@ get '/btrfs_mount_info' => require_role config->{admin_role} => sub {
     my ($code, $msg) = btrfs_worker("filesystem","df", $mount);
 
     template 'maintenance-btrfs_mount_info' => {
+        servername   => $servername,
         mount        => $mount,
         df           => $msg,
         perf_mon_url => $serverconfig{perf_mon_url},
