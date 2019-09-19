@@ -9,10 +9,7 @@
     </table>
 </form>
 
-<% TRY %>
-    <% INCLUDE 'perf-mon.tt' %>
-<% CATCH %>
-<% END %>
+<div id="performance" style="float: right;"></div>
 
 <div id="scrub_status" class="float-left"></div>
 
@@ -28,6 +25,7 @@
         load_scrub_status();
         load_replace_status();
 
+<% IF perf_mon_url %>
         var showperf_state = localStorage.getItem('showperf') || "true";
         showperf_state = (showperf_state === "true"); // convert to boolean
         $('#showperf').prop('checked', showperf_state);
@@ -35,7 +33,31 @@
 
         $('#showperf').change(function (e) {
             localStorage.setItem('showperf', e.target.checked);
+            PerfMon();
         });
+
+    function PerfMon() {
+        if ( $('#showperf').is(':checked') ) {
+            $.ajax({
+                url: '/perf_mon',
+                beforeSend:function (content){
+                    $('#performance').html('<div class="loading_message">' +
+                        '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                        'Loading Perfomance Monitoring</div>');
+                },
+                success: function(content) {
+                    $('#performance').html(content);
+                },
+                error: function() {
+                    $('#performance').html('An error occured while loading the Performance Monitoring.');
+                }
+            });
+            $('#performance').show();
+        }else{
+            $('#performance').hide();
+            };
+    };
+<% END %>
 
         var showsnap_state = localStorage.getItem('showsnap') || "true";
         showsnap = (showsnap === "true"); // convert to boolean

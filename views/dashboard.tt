@@ -1,5 +1,5 @@
 <h2>Dashboard</h2>
-
+<% IF perf_mon_url %>
 <form action="">
     <table>
         <tr>
@@ -8,11 +8,7 @@
     </table>
 </form>
 
-<% IF perf_mon_url %>
-    <% TRY %>
-        <% INCLUDE 'perf-mon.tt' %>
-    <% CATCH %>
-    <% END %>
+<div id="performance" style="float: right;"></div>
 <% END %>
 
 <div id="fsinfo-storage" class="float-left"></div>
@@ -23,6 +19,7 @@
 
 <script>
     $(window).load(function() {
+    <% IF perf_mon_url %>
         var showperf_state = localStorage.getItem('showperf') || "true";
         showperf_state = (showperf_state === "true"); // convert to boolean
         $('#showperf').prop('checked', showperf_state);
@@ -30,8 +27,31 @@
 
         $('#showperf').change(function (e) {
             localStorage.setItem('showperf', e.target.checked);
+            PerfMon();
         });
 
+        function PerfMon() {
+            if ( $('#showperf').is(':checked') ) {
+                netdata_update_every = 1;
+                $.ajax({
+                    url: '/perf_mon',
+                    beforeSend:function (content){
+                        $('#performance').html('<div class="loading_message">' +
+                            '<img src="/images/spinner.gif" width=25 alt="Loading animation">'+
+                            'Loading Perfomance Monitoring</div>');
+                    },
+                    success: function(content) {
+                        $('#performance').html(content);
+                    },
+                    error: function() {
+                        $('#performance').html('An error occured while loading the Performance Monitoring.');
+                    }
+                });
+        }else{
+            $('#performance').html('');
+            };
+    };
+    <% END %>
         $.ajax({
             url: '/fsinfo_report/Backup',
             beforeSend:function (content){
